@@ -1,0 +1,24 @@
+<!--
+  Generated template for the HomePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color='primary'>
+    <ion-title >Home</ion-title>
+    <ion-buttons end >
+      <button color='primary' (click)='logout()'>
+      Logout <ion-icon name="log-out"> </ion-icon>
+      </button>
+     </ion-buttons> 
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-tabs color='primary'>
+  <ion-tab tabIcon="book" tabTitle="Timeline" [root]="page1"></ion-tab>
+  <ion-tab tabIcon="home" tabTitle="Monitor"     [root]="page2"></ion-tab>
+</ion-tabs>
