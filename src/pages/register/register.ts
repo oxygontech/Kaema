@@ -4,7 +4,6 @@ import { Page1 } from '../page1/page1';
 
 
 import {AngularFireAuth} from 'angularfire2/auth';
-import { ToastController } from 'ionic-angular';
 import { InterfaceProvider } from '../../providers/interface/interface';
 /**
  * Generated class for the RegisterPage page.

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { LoginPage } from '../login/login';
+
 import {AngularFireAuth} from 'angularfire2/auth';
 import { NavController } from 'ionic-angular';
 import { InterfaceProvider } from '../../providers/interface/interface';
