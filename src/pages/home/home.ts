@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {AngularFireAuth} from 'angularfire2/auth'
-import { Page1 } from '../page1/page1';
-import { Page2 } from '../page2/page2';
+import { MonitorPage } from '../monitor/monitor';
+import { TimelinePage } from '../timeline/timeline';
+import { MorePage } from '../more/more';
 import { LoginPage } from '../login/login';
 import { Storage } from '@ionic/storage';
 /**
@@ -19,9 +20,10 @@ import { Storage } from '@ionic/storage';
 })
 export class HomePage {
 
-  page1=Page1;
-  page2=Page2;
-  
+  timeline=TimelinePage;
+  monitor=MonitorPage;
+  more=MorePage;
+
   constructor(public navCtrl: NavController, public navParams: NavParams,private afAuth:AngularFireAuth,private storage: Storage) {
   }
 

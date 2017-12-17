@@ -9,16 +9,29 @@
   <ion-navbar color='primary'>
     <ion-title >Home</ion-title>
     <ion-buttons end >
-      <button color='primary' (click)='logout()'>
-      Logout <ion-icon name="log-out"> </ion-icon>
+
+        <button ion-button icon-only>
+            <ion-icon name="person" (click)='logout()'></ion-icon>
+        </button>
+
+        
+
+      <button ion-button icon-only>
+          <ion-icon name="log-out" (click)='logout()'></ion-icon>
       </button>
+
      </ion-buttons> 
   </ion-navbar>
 
 </ion-header>
 
+<ion-fab  right bottom >
+    <button ion-fab ><ion-icon name="add"></ion-icon></button>
+</ion-fab>
 
-<ion-tabs color='primary'>
-  <ion-tab tabIcon="book" tabTitle="Timeline" [root]="page1"></ion-tab>
-  <ion-tab tabIcon="home" tabTitle="Monitor"     [root]="page2"></ion-tab>
+
+<ion-tabs >
+  <ion-tab tabIcon="list-box" tabTitle="Timeline" [root]="timeline"></ion-tab>
+  <ion-tab tabIcon="beaker" tabTitle="Monitor"  [root]="monitor"></ion-tab>
+  <ion-tab tabIcon="apps" tabTitle="More"     [root]="more"></ion-tab>
 </ion-tabs>

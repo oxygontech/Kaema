@@ -11,6 +11,9 @@ import { Page2 } from '../pages/page2/page2';
 import { LoginPage } from '../pages/login/login';
 import { RegisterPage } from '../pages/register/register';
 import { HomePage } from '../pages/home/home';
+import {TimelinePage} from '../pages/timeline/timeline';
+import {MonitorPage} from '../pages/monitor/monitor';
+import {MorePage} from '../pages/more/more';
 
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -24,7 +27,10 @@ import { InterfaceProvider } from '../providers/interface/interface';
     Page2,
     LoginPage,
     RegisterPage,
-    HomePage
+    HomePage,
+    TimelinePage,
+    MonitorPage,
+    MorePage
   ],
   imports: [
     BrowserModule,
@@ -40,7 +46,10 @@ import { InterfaceProvider } from '../providers/interface/interface';
     Page2,
     LoginPage,
     RegisterPage,
-    HomePage
+    HomePage,
+    TimelinePage,
+    MonitorPage,
+    MorePage
   ],
   providers: [
     StatusBar,
