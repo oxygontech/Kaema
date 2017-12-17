@@ -20,6 +20,8 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import {FIREBASE_CONFIG} from './app.firebase.config';
 import { InterfaceProvider } from '../providers/interface/interface';
+
+
 @NgModule({
   declarations: [
     MyApp,

@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { MorePage } from '../more/more';
+import { MonitorPage } from '../monitor/monitor';
+
 
 /**
  * Generated class for the TimelinePage page.
@@ -13,9 +16,19 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   selector: 'page-timeline',
   templateUrl: 'timeline.html',
 })
+
+
+
 export class TimelinePage {
 
+
+  monitor=MonitorPage;
+  more=MorePage;
+  timeline :String; 
+
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+
+    this.timeline="blog";
   }
 
   ionViewDidLoad() {

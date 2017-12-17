@@ -10,9 +10,34 @@
     <ion-title>Timeline</ion-title>
   </ion-navbar>
 
+
+  <ion-toolbar no-border-top>
+      <ion-segment [(ngModel)]="timeline">
+        <ion-segment-button value="blog">
+          Blog
+        </ion-segment-button>
+        <ion-segment-button value="post">
+          Post's
+        </ion-segment-button>
+        <ion-segment-button value="notification">
+             Notifications <ion-badge color="primary">4</ion-badge>
+        </ion-segment-button>
+      </ion-segment>
+    </ion-toolbar>
+  
+
 </ion-header>
 
-
 <ion-content padding>
- <div align='center'><h1>Timeline</h1></div>
+   
+    <div [ngSwitch]="timeline">
+
+        <div  *ngSwitchCase="'blog'"><h1>  BLOG </h1></div>
+
+        <div  *ngSwitchCase="'post'"><h1> POST</h1></div>
+
+        <div  *ngSwitchCase="'notification'"><h1> NOTIFICATIONS</h1></div>
+    </div>
+
+
 </ion-content>
