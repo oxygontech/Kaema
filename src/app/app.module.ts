@@ -14,12 +14,16 @@ import { HomePage } from '../pages/home/home';
 import {TimelinePage} from '../pages/timeline/timeline';
 import {MonitorPage} from '../pages/monitor/monitor';
 import {MorePage} from '../pages/more/more';
+import {BlogPage  } from "../pages/blog/blog";
+import {PostPage  } from "../pages/post/post";
+import {NotificationPage} from "../pages/notification/notification";
 
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import {FIREBASE_CONFIG} from './app.firebase.config';
 import { InterfaceProvider } from '../providers/interface/interface';
+import { SuperTabsModule } from "ionic2-super-tabs";
 
 
 @NgModule({
@@ -32,14 +36,18 @@ import { InterfaceProvider } from '../providers/interface/interface';
     HomePage,
     TimelinePage,
     MonitorPage,
-    MorePage
+    MorePage,
+    BlogPage,
+    PostPage,
+    NotificationPage
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp, {}, { links: [] }),
     IonicStorageModule.forRoot(),
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    SuperTabsModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -51,7 +59,10 @@ import { InterfaceProvider } from '../providers/interface/interface';
     HomePage,
     TimelinePage,
     MonitorPage,
-    MorePage
+    MorePage,
+    BlogPage,
+    PostPage,
+    NotificationPage
   ],
   providers: [
     StatusBar,

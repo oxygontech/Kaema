@@ -39,14 +39,14 @@ export class LoginPage {
              public interfac: InterfaceProvider,public menuCtrl: MenuController,private storage: Storage ) {
   }
 
-  ionViewWillEnter() {
+ /* ionViewWillEnter() {
        this.menuCtrl.swipeEnable( false );
       // this.login();
        }
     
        ionViewDidLeave() {
          this.menuCtrl.swipeEnable( true )
-       }
+       }*/
 
 
   register(){this.navCtrl.push(RegisterPage); }
@@ -63,10 +63,10 @@ async social_login(socialType){
   }
 
 
-
+  //console.log('Reached here after redirect');
   
  this.afAuth.auth.signInWithRedirect(this.provider).then(()=>{
-
+  console.log('Reached here after redirect');
   this.afAuth.auth.getRedirectResult().then(result =>{
     // This gives you a Google Access Token. You can use it to access the Google API.
    // var token = result.credential.accessToken;

@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { MorePage } from '../more/more';
 import { MonitorPage } from '../monitor/monitor';
+
+import {BlogPage  } from "../blog/blog";
+import {PostPage  } from "../post/post";
+import {NotificationPage} from "../notification/notification";
 
 
 /**
@@ -21,14 +24,13 @@ import { MonitorPage } from '../monitor/monitor';
 
 export class TimelinePage {
 
-
-  monitor=MonitorPage;
-  more=MorePage;
-  timeline :String; 
+  blog=BlogPage;
+  post=PostPage;
+  notify =NotificationPage; 
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
 
-    this.timeline="blog";
+    
   }
 
   ionViewDidLoad() {
