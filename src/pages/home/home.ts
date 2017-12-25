@@ -1,10 +1,13 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import {AngularFireAuth} from 'angularfire2/auth'
+import {AngularFireAuth} from 'angularfire2/auth';
+
 import { MonitorPage } from '../monitor/monitor';
 import { TimelinePage } from '../timeline/timeline';
 import { MorePage } from '../more/more';
 import { LoginPage } from '../login/login';
+import { ProfilePage } from '../profile/profile';
+
 import { Storage } from '@ionic/storage';
 /**
  * Generated class for the HomePage page.
@@ -51,4 +54,12 @@ export class HomePage {
    this.navCtrl.setRoot(LoginPage);
  }
 
+
+ viewProfile(){
+  
+  this.navCtrl.push(ProfilePage);
+
+  }
+
 }
+

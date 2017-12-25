@@ -4,6 +4,7 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import {AngularFireModule} from 'angularfire2';
 import {AngularFireAuthModule} from 'angularfire2/auth';
+import {AngularFireDatabaseModule} from 'angularfire2/database-deprecated';
 import { IonicStorageModule } from '@ionic/storage';
 
 import { Page1 } from '../pages/page1/page1';
@@ -17,7 +18,7 @@ import {MorePage} from '../pages/more/more';
 import {BlogPage  } from "../pages/blog/blog";
 import {PostPage  } from "../pages/post/post";
 import {NotificationPage} from "../pages/notification/notification";
-
+import {ProfilePage} from "../pages/profile/profile";
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -39,7 +40,8 @@ import { SuperTabsModule } from "ionic2-super-tabs";
     MorePage,
     BlogPage,
     PostPage,
-    NotificationPage
+    NotificationPage,
+    ProfilePage
   ],
   imports: [
     BrowserModule,
@@ -47,6 +49,7 @@ import { SuperTabsModule } from "ionic2-super-tabs";
     IonicStorageModule.forRoot(),
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
     AngularFireAuthModule,
+    AngularFireDatabaseModule,
     SuperTabsModule.forRoot()
   ],
   bootstrap: [IonicApp],
@@ -62,7 +65,8 @@ import { SuperTabsModule } from "ionic2-super-tabs";
     MorePage,
     BlogPage,
     PostPage,
-    NotificationPage
+    NotificationPage,
+    ProfilePage
   ],
   providers: [
     StatusBar,

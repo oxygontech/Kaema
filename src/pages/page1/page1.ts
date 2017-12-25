@@ -5,6 +5,7 @@ import {AngularFireAuth} from 'angularfire2/auth';
 import { NavController } from 'ionic-angular';
 import { InterfaceProvider } from '../../providers/interface/interface';
 import { User } from '../../models/user';
+import { Profile } from '../../models/profile';
 
 
 @Component({
@@ -22,6 +23,7 @@ export class Page1 {
  Uphoto=null;
 
 user ={} as User;
+profile ={} as Profile;
 
 
   constructor(private afAuth:AngularFireAuth,public navCtrl: NavController,
@@ -32,16 +34,16 @@ user ={} as User;
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginPage');
-    this.user.userPhotoURL='../../assets/icon/avatar.svg';
+    this.profile.userPhotoURL='../../assets/icon/avatar.svg';
     this.afAuth.authState.subscribe(result=>{
   
       if(result.uid){
-          this.user.uId=result.uid;
-          this.user.username=result.displayName;
-          this.user.userEmail=result.email;
+         // this.user.uId=result.uid;
+          this.profile.username=result.displayName;
+          this.profile.email=result.email;
           
           if(result.photoURL!=null){
-          this.user.userPhotoURL=result.photoURL;
+          this.profile.userPhotoURL=result.photoURL;
           }
          
            console.log(this.user);

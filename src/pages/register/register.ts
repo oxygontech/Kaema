@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { Page1 } from '../page1/page1';
-
+import { HomePage } from '../home/home';
+import { Profile } from '../../models/profile';
 
 import {AngularFireAuth} from 'angularfire2/auth';
+import {AngularFireDatabase} from 'angularfire2/database';
 import { InterfaceProvider } from '../../providers/interface/interface';
+
 /**
  * Generated class for the RegisterPage page.
  *
@@ -23,7 +25,10 @@ export class RegisterPage {
  password="";
  loader=null;
 
-  constructor(private afAuth:AngularFireAuth,public navCtrl: NavController, public navParams: NavParams,public interfac: InterfaceProvider ) {
+ profile = {} as Profile;
+
+  constructor(private afAuth:AngularFireAuth,public navCtrl: NavController, 
+    public navParams: NavParams,public interfac: InterfaceProvider,private afDatabase:AngularFireDatabase ) {
   }
 
   ionViewDidLoad() {
@@ -33,21 +38,42 @@ export class RegisterPage {
   async register(){
     
     this.loader=await this.interfac.presentLoadingDefault();
- 	this.loader.present();
+   	this.loader.present();
 
  try{
 
   	const result= await this.afAuth.auth.createUserWithEmailAndPassword(this.email,this.password);
      if(result){
+
+      this.profile.firstName=this.email;
+      this.profile.email=this.email;
+      this.profile.bio='';
+      this.profile.website='';
+      this.profile.userPhotoURL='../../assets/icon/avatar.svg';
+      
 		            try{
 					  const loginResult=this.afAuth.auth.signInWithEmailAndPassword(this.email,this.password);
 					  if(loginResult){
 
-					       this.navCtrl.push(Page1);
-					       this.loader.dismiss();
+              this.afAuth.authState.subscribe(result=>{
+                    if(result.uid){
+                      
+                      this.afDatabase.object(`profile/${result.uid}`).set(this.profile)
+                      .then(()=>
+                    
+                      this.navCtrl.push(HomePage),
+                      this.loader.dismiss()
+                    
+                       );
+                    }
+                });
+
+
+
+					       
 					    }
 					  }catch(e){
-                        this.loader.dismiss();
+              this.loader.dismiss();
 					    console.error(e);
 					  }
       }
