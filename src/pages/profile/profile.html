@@ -17,7 +17,7 @@
  <ion-grid>
    <ion-row>
      <ion-col col-12 align='center'>
-       <img src= {{this.profile?.userPhotoURL}} class='profileImg'>
+       <img  (click)="editProfileImage()" src= {{this.profile?.userPhotoURL}} class='profileImg'>
      </ion-col>
    </ion-row>
 
@@ -34,9 +34,84 @@
       </ion-row>
 
  </ion-grid>
+ <!--Displaying Profile Image Upload options if selected to Edit-->
+<div *ngIf="!viewImage">
+  <div style="display:flex; flex-direction:column;justify-content:center">
+    
+<!--Displaying Captured Image if an Image is Captured-->
+    <img [src]="captureDataUrl"  *ngIf="captureDataUrl"/>
+
+    <!--Showing Save Button when image has been Selected-->
+<div *ngIf="captureDataUrl">   
+    <ion-grid>
+        <ion-row>
+
+            <ion-col col-2 ></ion-col>
+            
+            <ion-col col-2 >
+                <button  (click)="captureImage()" ion-button icon-only>
+                     
+                    <ion-icon name="camera"></ion-icon>
+                </button>
+            </ion-col>
+
+            <ion-col col-1 ></ion-col>
+
+            <ion-col col-2 >
+                <button     ion-button icon-only>
+                    
+                    <ion-icon name="md-cloud-upload"></ion-icon>
+                </button>
+            </ion-col>
+
+            <ion-col col-1 ></ion-col>
+
+            <ion-col col-2 >
+                <button  (click)="uploadImage()"   ion-button icon-only>
+                    <ion-icon name="checkmark"></ion-icon>
+                </button>
+            </ion-col>
+
+            <ion-col col-2 ></ion-col>
+        </ion-row>
+
+    </ion-grid>
+  </div>
+
+<!--Only Capture button is displayed if Image has not been uploaded-->
+   <div *ngIf="!captureDataUrl">
+
+        <ion-grid>
+                <ion-row>
+                    <ion-col col-1 align='center'></ion-col>
+                    <ion-col col-4 align='center'>
+                            <button  (click)="captureImage()" ion-button icon-right>
+                            Capture 
+                            <ion-icon name="camera"></ion-icon>
+                        </button>
+                    </ion-col>
+
+                    <ion-col col-2 align='center'></ion-col>
+
+                    <ion-col col-4 align='center'>
+                            <button    ion-button icon-right>
+                                Upload
+                                <ion-icon name="md-cloud-upload"></ion-icon>
+                            </button>
+                    </ion-col>
+
+
+                    <ion-col col-1 align='center'></ion-col>
+              </ion-row>
+       </ion-grid>
+
+     </div>
+
+  </div>
+</div>
 
  <br/>
-
+<!--User Stats Sections-->
  <ion-grid>
     <ion-row>
       <ion-col col-4 align='center'>
@@ -63,10 +138,10 @@
         </ion-col>
 
         <ion-col col-4 align='right'>
-            
+         <!--Changing Displayed button for edit or view Options-->   
             <button ion-button icon-only clear (click)='editProfile()'>
-                <ion-icon  *ngIf=view name="create" class='editIcon' ></ion-icon>
-                <ion-icon  *ngIf=!view name="checkmark" class='editIcon' ></ion-icon>
+                <ion-icon  *ngIf=view name="create" class='editIcon' ></ion-icon><!--if view displaying create Icon-->
+                <ion-icon  *ngIf=!view name="checkmark" class='editIcon' ></ion-icon><!--if  not view displaying checkmark Icon-->
             </button>
 
         </ion-col>
@@ -75,7 +150,7 @@
   </ion-grid>
 
 <br/>
-
+<!--View option displays labels with imformation-->
   <ion-grid *ngIf=view>
       <ion-row>
         <ion-col col-3 align='left'>
@@ -127,9 +202,12 @@
   </ion-grid>
 
 
-
+<!--Edit option displays Inputs fields with imformation allowing edit-->
       <ion-list *ngIf=!view>
           
+          
+
+
             <ion-item>
               <ion-label stacked>Name</ion-label>
               <ion-input type="text" [(ngModel)]="this.profile.firstName"></ion-input>

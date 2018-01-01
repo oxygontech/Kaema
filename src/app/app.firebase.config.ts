@@ -4,6 +4,6 @@ export const FIREBASE_CONFIG ={
     authDomain: "kaema-159c6.firebaseapp.com",
     databaseURL: "https://kaema-159c6.firebaseio.com",
     projectId: "kaema-159c6",
-    storageBucket: "",
+    storageBucket: "gs://kaema-159c6.appspot.com",
     messagingSenderId: "704413697067"
 }

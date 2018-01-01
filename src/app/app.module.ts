@@ -22,6 +22,7 @@ import {ProfilePage} from "../pages/profile/profile";
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { Camera } from '@ionic-native/camera';
 import {FIREBASE_CONFIG} from './app.firebase.config';
 import { InterfaceProvider } from '../providers/interface/interface';
 import { SuperTabsModule } from "ionic2-super-tabs";
@@ -71,6 +72,7 @@ import { SuperTabsModule } from "ionic2-super-tabs";
   providers: [
     StatusBar,
     SplashScreen,
+    Camera,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     InterfaceProvider
   ]
