@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>profile</ion-title>
+    <ion-title>Profile</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -34,83 +34,9 @@
       </ion-row>
 
  </ion-grid>
- <!--Displaying Profile Image Upload options if selected to Edit-->
-<div *ngIf="!viewImage">
-  <div style="display:flex; flex-direction:column;justify-content:center">
-    
-<!--Displaying Captured Image if an Image is Captured-->
-    <img [src]="captureDataUrl"  *ngIf="captureDataUrl"/>
-
-    <!--Showing Save Button when image has been Selected-->
-<div *ngIf="captureDataUrl">   
-    <ion-grid>
-        <ion-row>
-
-            <ion-col col-2 ></ion-col>
-            
-            <ion-col col-2 >
-                <button  (click)="captureImage()" ion-button icon-only>
-                     
-                    <ion-icon name="camera"></ion-icon>
-                </button>
-            </ion-col>
-
-            <ion-col col-1 ></ion-col>
-
-            <ion-col col-2 >
-                <button     ion-button icon-only>
-                    
-                    <ion-icon name="md-cloud-upload"></ion-icon>
-                </button>
-            </ion-col>
-
-            <ion-col col-1 ></ion-col>
-
-            <ion-col col-2 >
-                <button  (click)="uploadImage()"   ion-button icon-only>
-                    <ion-icon name="checkmark"></ion-icon>
-                </button>
-            </ion-col>
-
-            <ion-col col-2 ></ion-col>
-        </ion-row>
-
-    </ion-grid>
-  </div>
-
-<!--Only Capture button is displayed if Image has not been uploaded-->
-   <div *ngIf="!captureDataUrl">
-
-        <ion-grid>
-                <ion-row>
-                    <ion-col col-1 align='center'></ion-col>
-                    <ion-col col-4 align='center'>
-                            <button  (click)="captureImage()" ion-button icon-right>
-                            Capture 
-                            <ion-icon name="camera"></ion-icon>
-                        </button>
-                    </ion-col>
-
-                    <ion-col col-2 align='center'></ion-col>
-
-                    <ion-col col-4 align='center'>
-                            <button    ion-button icon-right>
-                                Upload
-                                <ion-icon name="md-cloud-upload"></ion-icon>
-                            </button>
-                    </ion-col>
-
-
-                    <ion-col col-1 align='center'></ion-col>
-              </ion-row>
-       </ion-grid>
-
-     </div>
-
-  </div>
-</div>
-
  <br/>
+
+
 <!--User Stats Sections-->
  <ion-grid>
     <ion-row>

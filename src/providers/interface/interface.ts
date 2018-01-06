@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
-import { ToastController ,LoadingController } from 'ionic-angular';
+import { ToastController ,LoadingController,ActionSheetController } from 'ionic-angular';
 
 /*
   Generated class for the InterfaceProvider provider.
@@ -11,10 +11,12 @@ import { ToastController ,LoadingController } from 'ionic-angular';
 @Injectable()
 export class InterfaceProvider {
 
-  constructor(public toastCtrl: ToastController,public loadingCtrl: LoadingController) {
-    console.log('Hello InterfaceProvider Provider');
+  constructor(public toastCtrl: ToastController,public loadingCtrl: LoadingController,
+              public actionSheetCtrl: ActionSheetController) {
+   
   }
 
+  //Toast's Go Here
 
   presentToast(msg) {
     let toast = this.toastCtrl.create({
@@ -28,9 +30,25 @@ export class InterfaceProvider {
   presentLoadingDefault() {
   let loading = this.loadingCtrl.create({
     spinner:"crescent",
-    content: 'Please wait...'
+    content: 'Please wait...',
+    duration:15000
   });
 
    return loading;
+   }
+
+
+   //Action Sheets Go Here
+
+
+   presentActionSheet(titleSet,buttonsList){
+
+    let actionSheet = this.actionSheetCtrl.create({
+      title: titleSet,
+      buttons: buttonsList
+    });
+
+    return actionSheet;
+
    }
 }

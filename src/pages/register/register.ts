@@ -49,7 +49,7 @@ export class RegisterPage {
       this.profile.email=this.email;
       this.profile.bio='';
       this.profile.website='';
-      this.profile.userPhotoURL='../../assets/icon/avatar.svg';
+      this.profile.userPhotoURL='../../assets/icon/avatar.png';
       
 		            try{
 					  const loginResult=this.afAuth.auth.signInWithEmailAndPassword(this.email,this.password);

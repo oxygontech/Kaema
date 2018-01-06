@@ -6,7 +6,8 @@ import { LoginPage } from '../login/login';
 import { Profile } from '../../models/profile';
 import { User } from '../../models/user';
 import { InterfaceProvider } from '../../providers/interface/interface';
-import firebase from 'firebase';
+import {ImageViewPage} from '../image-view/image-view';
+
 
 import { Camera,CameraOptions } from '@ionic-native/camera';
 
@@ -37,8 +38,35 @@ export class ProfilePage {
   view=true;
   viewImage=true;
   loader=null;
-  tempUrl='../../assets/icon/avatar.svg';
+  tempUrl='../../assets/icon/avatar.png';
   captureDataUrl: string;
+
+  uploadImageOptions = [
+                          {
+                            text: 'Capture Photo',
+                            icon : 'camera',
+                            handler: () => {
+                              this.captureImage('capture');
+                            }
+                          }, {
+                            text: 'Upload from Gallery',
+                            icon : 'md-cloud-upload',
+                            handler: () => {
+                              this.captureImage('select');
+                            }
+                          }, {
+                            text: 'View Image',
+                            icon:'images',
+                            handler: () => {
+                             this.viewProfileImage();
+                            }
+                          },{
+                            text: 'Cancel',
+                            role: 'cancel',
+                            icon : 'arrow-down',
+                           
+                          }
+                        ];
 
  
 
@@ -104,21 +132,35 @@ export class ProfilePage {
  
 }
 
-editProfileImage(){
 
-  if(this.viewImage){
+async editProfileImage(){
+
+ /* if(this.viewImage){
     this.viewImage=false;
     console.log(this.view);
   }else{
 
     this.viewImage=true;
-  }
+  }*/
+
+  let actionSheet=await this.interfac.presentActionSheet('Profile Picture',this.uploadImageOptions,);
+  actionSheet.present();
+
 
 }
 
 
 
-captureImage(){
+captureImage(imageOption){
+
+  let imageType=1;
+
+  if(imageOption=='select'){
+    imageType=this.camera.PictureSourceType.PHOTOLIBRARY;
+  }else{
+    imageType=this.camera.PictureSourceType.CAMERA;
+  }
+
 
    if(this.captureDataUrl!=null){
     this.captureDataUrl=null;
@@ -127,68 +169,31 @@ captureImage(){
    
   const cameraOptions: CameraOptions = {
     quality: 50,
+    sourceType: imageType,
     destinationType:  this.camera.DestinationType.DATA_URL,
     encodingType:  this.camera.EncodingType.JPEG,
     mediaType:  this.camera.MediaType.PICTURE,
     correctOrientation :true,
+    allowEdit:true,
   };
 
   this.camera.getPicture(cameraOptions).then((imageData) => {
     // imageData is either a base64 encoded string or a file URI
     // If it's base64:
     this.captureDataUrl = 'data:image/jpeg;base64,' + imageData;
+    this.navCtrl.push(ImageViewPage,{imageUrl:this.captureDataUrl,uploadCheck:true,user:this.user});
   }, (err) => {
     // Handle error
   });
 }
 
-uploadImage() {
-  this.loader= this.interfac.presentLoadingDefault();
-  this.loader.present();
-
-  let storageRef = firebase.storage().ref();
-  // Create a timestamp as filename
-  const filename = this.user.uId;
-
-  // Create a reference to 'images/todays-date.jpg'
-  const imageRef = storageRef.child(`profile_images/${filename}.jpg`);
-
-  imageRef.putString(this.captureDataUrl, firebase.storage.StringFormat.DATA_URL).then((snapshot)=> {
-   // Do something here when the data is succesfully uploaded!
-    this.displayImage(`profile_images/${filename}.jpg`).then((result)=>{
-    this.profile.userPhotoURL=result;
-    this.saveProfile();
-    this.captureDataUrl=null;
-    this.loader.dismiss();
-  });
 
 
-   
-  });
 
+viewProfileImage(){
+this.navCtrl.push(ImageViewPage,{imageUrl:this.profile.userPhotoURL,
+                                 uploadCheck:false,user:this.user});
 }
-
-async displayImage(imageUrl){
-
-  let storageRef = firebase.storage().ref();
-  let photoUrl='';
-
-
-  // Create a reference to 'images/todays-date.jpg'
-  const imageRef = storageRef.child(imageUrl);
-
-  await imageRef.getDownloadURL().then((snapshot)=> {
-   // Do something here when the data is succesfully uploaded!
-   photoUrl=snapshot;
-  },(err)=>{
-    
-    console.log(err);
-    photoUrl=this.tempUrl;
-  });
-  return photoUrl;
-}
-
-
 saveProfile(){
   this.view=true;
   this.viewImage=true;

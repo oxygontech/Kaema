@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { MonitorPage } from '../monitor/monitor';
+
 
 import {BlogPage  } from "../blog/blog";
 import {PostPage  } from "../post/post";
