@@ -26,6 +26,7 @@ export class HomePage {
   timeline=TimelinePage;
   monitor=MonitorPage;
   more=MorePage;
+  profile=ProfilePage;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,private afAuth:AngularFireAuth,private storage: Storage) {
   }

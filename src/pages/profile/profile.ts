@@ -38,7 +38,7 @@ export class ProfilePage {
   view=true;
   viewImage=true;
   loader=null;
-  tempUrl='../../assets/icon/avatar.png';
+  tempUrl='assets/icon/avatar.png';
   captureDataUrl: string;
 
   uploadImageOptions = [
