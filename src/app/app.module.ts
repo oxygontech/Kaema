@@ -20,6 +20,7 @@ import {PostPage  } from "../pages/post/post";
 import {NotificationPage} from "../pages/notification/notification";
 import {ProfilePage} from "../pages/profile/profile";
 import {ImageViewPage} from "../pages/image-view/image-view";
+import { AddPostPage } from '../pages/add-post/add-post';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -44,7 +45,8 @@ import { SuperTabsModule } from "ionic2-super-tabs";
     PostPage,
     NotificationPage,
     ProfilePage,
-    ImageViewPage
+    ImageViewPage,
+    AddPostPage
   ],
   imports: [
     BrowserModule,
@@ -70,7 +72,8 @@ import { SuperTabsModule } from "ionic2-super-tabs";
     PostPage,
     NotificationPage,
     ProfilePage,
-    ImageViewPage
+    ImageViewPage,
+    AddPostPage
   ],
   providers: [
     StatusBar,

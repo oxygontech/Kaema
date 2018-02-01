@@ -10,6 +10,7 @@ import { LoginPage } from '../pages/login/login';
 import { HomePage } from '../pages/home/home';
 
 
+
 @Component({
   templateUrl: 'app.html'
 })
@@ -34,10 +35,7 @@ export class MyApp {
     });
 
     
-    this.pages = [
-      { title: 'Page One', component: Page1 },
-      { title: 'Page Two', component: Page2 }
-    ];
+    
 
   }
 

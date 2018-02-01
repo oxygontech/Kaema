@@ -194,6 +194,9 @@ viewProfileImage(){
 this.navCtrl.push(ImageViewPage,{imageUrl:this.profile.userPhotoURL,
                                  uploadCheck:false,user:this.user});
 }
+
+
+
 saveProfile(){
   this.view=true;
   this.viewImage=true;
