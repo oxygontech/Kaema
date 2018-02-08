@@ -7,6 +7,7 @@ import { TimelinePage } from '../timeline/timeline';
 import { MorePage } from '../more/more';
 import { LoginPage } from '../login/login';
 import { ProfilePage } from '../profile/profile';
+import { AddPostPage } from '../add-post/add-post';
 
 import { Storage } from '@ionic/storage';
 /**
@@ -60,6 +61,12 @@ export class HomePage {
   
   this.navCtrl.push(ProfilePage);
 
+  }
+
+addPost(){
+
+  this.navCtrl.push(AddPostPage);
+  
   }
 
 }

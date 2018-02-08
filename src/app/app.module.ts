@@ -20,6 +20,8 @@ import {PostPage  } from "../pages/post/post";
 import {NotificationPage} from "../pages/notification/notification";
 import {ProfilePage} from "../pages/profile/profile";
 import {ImageViewPage} from "../pages/image-view/image-view";
+import { AddPostPage } from '../pages/add-post/add-post';
+import { MapViewPage } from '../pages/map-view/map-view';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -27,6 +29,9 @@ import { Camera } from '@ionic-native/camera';
 import {FIREBASE_CONFIG} from './app.firebase.config';
 import { InterfaceProvider } from '../providers/interface/interface';
 import { SuperTabsModule } from "ionic2-super-tabs";
+import { FirebaseImageServiceProvider } from '../providers/firebase-image-service/firebase-image-service';
+import { LocationServiceProvider } from '../providers/location-service/location-service';
+import { Geolocation } from '@ionic-native/geolocation';
 
 
 @NgModule({
@@ -44,7 +49,9 @@ import { SuperTabsModule } from "ionic2-super-tabs";
     PostPage,
     NotificationPage,
     ProfilePage,
-    ImageViewPage
+    ImageViewPage,
+    AddPostPage,
+    MapViewPage
   ],
   imports: [
     BrowserModule,
@@ -70,14 +77,19 @@ import { SuperTabsModule } from "ionic2-super-tabs";
     PostPage,
     NotificationPage,
     ProfilePage,
-    ImageViewPage
+    ImageViewPage,
+    AddPostPage,
+    MapViewPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     Camera,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
-    InterfaceProvider
+    InterfaceProvider,
+    FirebaseImageServiceProvider,
+    LocationServiceProvider,
+    Geolocation
   ]
 })
 export class AppModule { }

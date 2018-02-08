@@ -17,8 +17,8 @@ import firebase from 'firebase';
 })
 export class ImageViewPage {
 
-  imageUrl ='../../assets/icon/avatar.png';
-  tempUrl  ='../../assets/icon/avatar.png';
+  imageUrl ='assets/icon/avatar.png';
+  tempUrl  ='assets/icon/avatar.png';
   uploadImage=false;
   user ={} as User;
 

@@ -4,7 +4,7 @@ import { HomePage } from '../home/home';
 import { Profile } from '../../models/profile';
 
 import {AngularFireAuth} from 'angularfire2/auth';
-import {AngularFireDatabase} from 'angularfire2/database';
+import {AngularFireDatabase} from 'angularfire2/database-deprecated';
 import { InterfaceProvider } from '../../providers/interface/interface';
 
 /**
