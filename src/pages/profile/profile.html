@@ -6,7 +6,7 @@
 -->
 <ion-header>
 
-  <ion-navbar>
+  <ion-navbar color='primary'>
     <ion-title>Profile</ion-title>
   </ion-navbar>
 
@@ -16,40 +16,41 @@
 <ion-content padding>
  <ion-grid>
    <ion-row>
-     <ion-col col-12 align='center'>
+     <ion-col col-4 align='center'>
        <img  (click)="editProfileImage()" src= {{this.profile?.userPhotoURL}} class='profileImg'>
-     </ion-col>
-   </ion-row>
+    </ion-col>
 
-   <ion-row>
-      <ion-col col-12 align='center'>
+   
+      <ion-col col-8 align='left'>
         {{this.profile?.firstName}}
-      </ion-col>
+
+        <br/>
+
+        {{this.profile?.email}}
+        </ion-col>
     </ion-row>
 
-    <ion-row>
-        <ion-col col-12 align='center'>
-            {{this.profile?.email}}
-        </ion-col>
-      </ion-row>
-
  </ion-grid>
- <br/>
+ 
 
 
 <!--User Stats Sections-->
  <ion-grid>
     <ion-row>
-      <ion-col col-4 align='center'>
-        <h2>25</h2> Post's
+        <ion-col col-3 align='center'>
+         </ion-col>
+
+
+      <ion-col col-3 align='center'>
+        <h4>{{this.post?.length}}</h4> Post's
       </ion-col>
 
-      <ion-col col-4 align='center'>
-          <h2>25</h2> Shared
+      <ion-col col-3 align='center'>
+          <h4>25</h4> Shared
         </ion-col>
 
-        <ion-col col-4 align='center'>
-            <h3>25</h3>Receipts
+         <ion-col col-3 align='center'>
+            <h4>25</h4>Receipts
           </ion-col>
     </ion-row>
 
@@ -57,7 +58,62 @@
 
   <br/>
  
-  <ion-grid>
+
+   <div padding>
+      <ion-segment [(ngModel)]="profileDetails">
+        <ion-segment-button value="post">
+          Post's
+        </ion-segment-button>
+        <ion-segment-button value="about">
+          About
+        </ion-segment-button>
+      </ion-segment>
+    </div>
+
+<div [ngSwitch]="profileDetails">
+
+  <div *ngSwitchCase="'post'" >
+    <ion-grid>
+        <ion-row>
+          <ion-col col-8 align='left'>
+              <h1>POST</h1>
+          </ion-col>
+    </ion-row>
+</ion-grid>
+
+
+
+<ion-list>
+    <ion-item  *ngFor='let item of post'>
+      <ion-grid>
+         <ion-row>
+             <ion-col col-12><b><h2>{{item.subject}}</h2></b></ion-col>
+        </ion-row>
+
+        <ion-row>
+            <ion-col col-12> <img  src= '{{item.imageURL}}' class='postImg'></ion-col>
+       </ion-row>
+
+       <ion-row>
+          <ion-col col-6 align='left'><ion-badge>Likes 1</ion-badge></ion-col>
+          <ion-col col-6 align='right'><ion-badge>Comments 1</ion-badge></ion-col>
+          
+      </ion-row>
+
+       <ion-row>
+          <ion-col col-12>{{item.description}}</ion-col>
+      </ion-row>
+
+
+      </ion-grid>
+    </ion-item>
+  </ion-list>
+
+</div>
+
+
+<div *ngSwitchCase="'about'">
+  <ion-grid >
       <ion-row>
         <ion-col col-8 align='left'>
             <h1>ABOUT</h1>
@@ -155,7 +211,8 @@
               </ion-item>
           
           </ion-list>
-
+    </div> 
+</div>
 </ion-content>
 
 

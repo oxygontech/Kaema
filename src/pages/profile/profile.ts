@@ -5,6 +5,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { LoginPage } from '../login/login';
 import { Profile } from '../../models/profile';
 import { User } from '../../models/user';
+import { Post } from '../../models/post';
 import { InterfaceProvider } from '../../providers/interface/interface';
 import {ImageViewPage} from '../image-view/image-view';
 
@@ -35,11 +36,13 @@ export class ProfilePage {
   profileData :FirebaseObjectObservable<Profile>;
   profile ={} as Profile;
   user ={} as User;
+  post =[];
   view=true;
   viewImage=true;
   loader=null;
   tempUrl='assets/icon/avatar.png';
   captureDataUrl: string;
+  profileDetails:any;
 
   uploadImageOptions = [
                           {
@@ -77,6 +80,8 @@ export class ProfilePage {
         this.loader= this.interfac.presentLoadingDefault();
         this.loader.present();
 
+        this.profileDetails='post';
+
         this.profile.userPhotoURL=this.tempUrl;
 
         this.afAuth.authState.subscribe(result=>{
@@ -87,17 +92,33 @@ export class ProfilePage {
 
                 this.user.uId=result.uid;
                 this.profileData=this.afDatabase.object('profile/'+this.user.uId);
-                this.profileData.subscribe(x=> {
+                this.profileData.subscribe(profileResult=> {
                   
-                   this.profile.firstName=x.firstName;
+                   /*this.profile.firstName=x.firstName;
                    this.profile.email=x.email;
                    this.profile.bio=x.bio;
-                   this.profile.website=x.website;
+                   this.profile.website=x.website;*/
+
+                   this.profile=profileResult;
                    /*this.displayImage(x.userPhotoURL).then((result)=>{
                      this.profile.userPhotoURL=result;
                    });*/
-                   this.profile.userPhotoURL=x.userPhotoURL;
-                   this.loader.dismiss()
+
+                   //this.profile.userPhotoURL=x.userPhotoURL;
+
+                   this.afDatabase.list('post',{
+                     query :{
+                       orderByChild:'userId',
+                       equalTo:this.user.uId
+                     }
+                   }).subscribe(postResult=>{
+
+                    this.post =postResult;
+                    console.log(this.post);
+                    this.loader.dismiss()
+
+                   })
+                   
                   }
               
               );
@@ -105,6 +126,8 @@ export class ProfilePage {
                 this.navCtrl.setRoot(LoginPage);
               }
           });
+
+
 
   }
 
@@ -201,6 +224,7 @@ saveProfile(){
   this.view=true;
   this.viewImage=true;
   this.afDatabase.object(`profile/${this.user.uId}`).set(this.profile);
+  this.interfac.presentToast('Details Saved Sucessfully');
 }
 
 

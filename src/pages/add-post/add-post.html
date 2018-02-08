@@ -11,7 +11,7 @@
     
     
        <ion-buttons end >
-         <button ion-button>Post</button>
+         <button ion-button (click)="savePost()" >Post</button>
        </ion-buttons>
 
        
@@ -20,6 +20,149 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
 
+
+      <ion-grid class='black_shade'>
+      
+            <ion-row>
+              <ion-col col-12>
+                <ion-label stacked>Title</ion-label>
+                <ion-input    type='text' placeholder='eg: Fried Rice' [(ngModel)]="this.post.subject"></ion-input>
+
+                <ion-label stacked>Description</ion-label>
+                <ion-textarea type='text' placeholder='eg: Chicken fried Rice with Egg' [(ngModel)]="this.post.description"></ion-textarea>
+            </ion-col>
+          </ion-row>
+     </ion-grid>
+
+     <br/>
+     
+
+  <ion-grid class='black_shade'>
+          <ion-row>
+              <ion-col col-12>
+                Share/Request Donation
+              </ion-col>
+          </ion-row>  
+
+          <ion-row>
+              <ion-col col-12>
+
+
+              <ion-list>
+                  <ion-item>
+                   
+                    <ion-select [(ngModel)]="this.post.postType">
+                         
+                          <ion-option  value='share'>Share my Food</ion-option>
+                          <ion-option  value='donate'>Request a Food Donation</ion-option>
+
+                    </ion-select>
+                  </ion-item>
+                </ion-list>
+
+
+
+               </ion-col>
+              </ion-row>
+
+          <ion-row>
+              <ion-col col-06>
+                Servings
+              </ion-col>
+             
+               <ion-col col-06>
+                  Days Available
+                </ion-col>
+           </ion-row>
+
+
+      <ion-row>     
+           
+           <ion-col col-06>
+              <ion-list>
+                  <ion-item>
+                    
+                    <ion-select [(ngModel)]="this.post.servings" item-width="100%">
+                         
+                          <ion-option *ngFor="let item of servings_list;" value='{{item}}' >
+                            {{item}}
+                          </ion-option>
+
+                    </ion-select>
+                  </ion-item>
+                </ion-list>
+              </ion-col>
+
+              
+              
+
+              <ion-col col-06>
+                 <ion-list>
+                  <ion-item>
+                      <ion-select [(ngModel)]="this.post.daysAvailable" item-width="100%">
+                        
+                        <ion-option *ngFor="let item of number_of_days;" value='{{item}}' >
+                          {{item}}
+                        </ion-option>
+                        
+                      </ion-select>
+                    </ion-item>
+                  </ion-list>
+              </ion-col>
+
+
+          </ion-row>
+      </ion-grid> 
+
+      <br/>
+
+      <ion-grid  class='black_shade'>
+          <ion-row>
+                  
+              <ion-col col-6>
+                Photo
+              </ion-col>
+            
+
+              <ion-col col-6 align='right'>
+                <img  (click)="uploadImage()" src= {{this.imageURL}} >
+              </ion-col>
+
+            </ion-row>
+
+      </ion-grid>
+
+      <br/>
+      <ion-grid  class='black_shade'>
+            
+  
+              <ion-row >
+                <ion-col col-12 >
+                    <ion-card (click)='setLocation()'>
+                        <ion-card-header>
+                          Pick up Location
+                        </ion-card-header>
+                        <ion-card-content>
+                         <img *ngIf=locationImage class='mapImage' src={{this.locationImage}}>
+                         <div *ngIf=!locationImage>Not Set</div>
+                        </ion-card-content>
+                      </ion-card>
+                </ion-col> 
+              </ion-row>
+
+
+              <ion-row>
+                  <ion-col col-12 >
+                      <ion-label stacked>Pick up Time</ion-label>
+                      <ion-input    type='text' placeholder='eg. Weekdays Evening' [(ngModel)]="this.post.pickUpTime"></ion-input>
+                  </ion-col> 
+                </ion-row>
+
+
+          </ion-grid>
+           
+     
+   
 </ion-content>
