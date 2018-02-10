@@ -8,6 +8,7 @@ import { MorePage } from '../more/more';
 import { LoginPage } from '../login/login';
 import { ProfilePage } from '../profile/profile';
 import { AddPostPage } from '../add-post/add-post';
+import { LeaderboardPage } from '../leaderboard/leaderboard';
 
 import { Storage } from '@ionic/storage';
 /**
@@ -28,6 +29,7 @@ export class HomePage {
   monitor=MonitorPage;
   more=MorePage;
   profile=ProfilePage;
+  leaderBoard=LeaderboardPage;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,private afAuth:AngularFireAuth,private storage: Storage) {
   }

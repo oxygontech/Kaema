@@ -108,12 +108,16 @@ export class ProfilePage {
 
                    this.afDatabase.list('post',{
                      query :{
-                       orderByChild:'userId',
-                       equalTo:this.user.uId
+                      orderByChild:'userId',
+                       equalTo:this.user.uId,
+                       limitToLast:10
+                       
+                       //orderByKey:true                      
+                       
                      }
                    }).subscribe(postResult=>{
 
-                    this.post =postResult;
+                    this.post =postResult.reverse();
                     console.log(this.post);
                     this.loader.dismiss()
 
