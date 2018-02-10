@@ -12,11 +12,21 @@
     
     </ion-header>
 
-<ion-content padding>
+<ion-content>
+<ion-grid>
+    <ion-row>
+         <ion-col col-1></ion-col>
 
-    <div style="display:flex; flex-direction:column;justify-content:center">   
-        <img [src]="imageUrl"  *ngIf="imageUrl"/>
-    </div>
+         <ion-col col-10 align='center'>
+            <div style="display:flex; flex-direction:column;justify-content:center">   
+                <img [src]="imageUrl"  *ngIf="imageUrl"/>
+            </div>
+         </ion-col>
+
+        <ion-col col-1></ion-col>
+
+    </ion-row>
+</ion-grid>  
 
 <div *ngIf="uploadImage">
     <ion-grid>
