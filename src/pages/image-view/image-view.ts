@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 import { User } from '../../models/user';
 import { InterfaceProvider } from '../../providers/interface/interface';
-
+import { FirebaseImageServiceProvider } from '../../providers/firebase-image-service/firebase-image-service';
 
 import {AngularFireDatabase}  from 'angularfire2/database-deprecated';
 import firebase from 'firebase';
@@ -24,7 +24,7 @@ export class ImageViewPage {
 
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-               public interfac: InterfaceProvider,private afDatabase : AngularFireDatabase) {
+               public interfac: InterfaceProvider,private afDatabase:AngularFireDatabase,private fireImageService : FirebaseImageServiceProvider) {
 
     if(navParams.get('imageUrl')!=null){
     this.imageUrl=navParams.get('imageUrl');
@@ -48,50 +48,21 @@ export class ImageViewPage {
 
 
   
-saveImage() {
+async saveImage() {
   let loader= this.interfac.presentLoadingDefault();
   loader.present();
 
-  let storageRef = firebase.storage().ref();
-  // Create a timestamp as filename
   const filename = this.user.uId;
 
-  // Create a reference to 'images/todays-date.jpg'
-  const imageRef = storageRef.child(`profile_images/${filename}.jpg`);
-
-  imageRef.putString(this.imageUrl, firebase.storage.StringFormat.DATA_URL).then((snapshot)=> {
-   // Do something here when the data is succesfully uploaded!
-    this.getImage(`profile_images/${filename}.jpg`).then((result)=>{
-      this.afDatabase.object('profile/'+this.user.uId).update({userPhotoURL:result});
+  let uploadImage=await this.fireImageService.saveImage(filename,'profile_images/',this.imageUrl);
+ 
+      this.afDatabase.object('profile/'+this.user.uId).update({userPhotoURL:uploadImage});
       loader.dismiss();
       this.closePage();
-  });
-
-
-   
-  });
-
+  
 }
 
-async getImage(imageUrl){
 
-  let storageRef = firebase.storage().ref();
-  let photoUrl='';
-
-
-  // Create a reference to 'images/todays-date.jpg'
-  const imageRef = storageRef.child(imageUrl);
-
-  await imageRef.getDownloadURL().then((snapshot)=> {
-   // Do something here when the data is succesfully uploaded!
-   photoUrl=snapshot;
-  },(err)=>{
-    
-    console.log(err);
-    photoUrl=this.tempUrl;
-  });
-  return photoUrl;
-}
 
 
 closePage(){

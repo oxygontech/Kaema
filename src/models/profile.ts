@@ -7,6 +7,7 @@ export interface Profile{
     userPhotoURL:string;
     bio:string;
     website:string;
+    phoneNumber:string;
     
 
 }

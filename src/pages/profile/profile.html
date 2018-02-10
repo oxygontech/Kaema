@@ -181,6 +181,21 @@
 
 
 </ion-row>
+
+
+<ion-row>
+    <ion-col col-3 align='left'>
+        Phone No : 
+    </ion-col>
+
+    <ion-col col-9 align='left'>
+        {{this.profile?.phoneNumber}}
+    </ion-col>
+
+    
+
+
+</ion-row>
   </ion-grid>
 
 
@@ -209,6 +224,12 @@
                 <ion-label stacked>Website</ion-label>
                 <ion-input type="text" [(ngModel)]="this.profile.website"></ion-input>
               </ion-item>
+
+
+              <ion-item>
+                  <ion-label stacked>Phone No</ion-label>
+                  <ion-input type="text" [(ngModel)]="this.profile.phoneNumber"></ion-input>
+                </ion-item>
           
           </ion-list>
     </div> 
