@@ -59,6 +59,10 @@ export class HomePage {
  }
 
 
+ settings(){
+ this.navCtrl.push(MorePage);
+}
+
  viewProfile(){
   
   this.navCtrl.push(ProfilePage);

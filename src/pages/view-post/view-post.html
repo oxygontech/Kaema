@@ -1,0 +1,81 @@
+<!--
+  Generated template for the ViewPostPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{this.post?.subject}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col col-12>
+        <img  src= '{{this.post?.imageURL}}' class='viewPostImg'>
+     </ion-col>
+  </ion-row>
+
+  <ion-row>
+      <ion-col col-1></ion-col>
+      <ion-col col-10 align='center'>
+       <img   src= {{this.post?.userProfile.userPhotoURL}} class='viewPostProImg'>
+       </ion-col>
+       <ion-col col-1></ion-col>
+   </ion-row> 
+
+   <ion-row>
+      <ion-col col-1></ion-col>
+      <ion-col col-10 align='center'>
+       {{this.post?.userProfile.firstName}} 
+       </ion-col>
+       <ion-col col-1></ion-col>
+   </ion-row> 
+
+   <ion-row>
+      <ion-col col-1></ion-col>
+      <ion-col col-10 align='center'>
+       {{this.post?.description}} 
+       </ion-col>
+       <ion-col col-1></ion-col>
+   </ion-row> 
+
+   <ion-row>
+      <ion-col col-5 align='left'><ion-badge>Avaliable for {{this.post.daysAvailable}} Days</ion-badge></ion-col>
+      <ion-col col-3 align='left'><ion-badge>{{this.post.servings}} Servings</ion-badge></ion-col>
+      <ion-col col-2 align='left'><ion-badge>Type : {{this.post.postType}}</ion-badge></ion-col>
+      <ion-col col-2 ></ion-col>
+  </ion-row>
+
+   <ion-row>
+      <ion-col col-1></ion-col>
+      <ion-col col-11 align='left' >
+          <ion-label stacked>Pick up Time</ion-label>
+          {{this.post?.pickUpTime}} 
+      </ion-col> 
+    </ion-row>
+
+
+   <ion-row>
+   <ion-col col-12 >
+      <ion-card>
+          <ion-card-header>
+            Pick up Location
+          </ion-card-header>
+          <ion-card-content>
+           <img *ngIf=locationImage class='postMapImage' src={{this.locationImage}}>
+           <div *ngIf=!locationImage>Not Set</div>
+          </ion-card-content>
+        </ion-card>
+  </ion-col> 
+  </ion-row>
+
+
+  </ion-grid>  
+
+</ion-content>

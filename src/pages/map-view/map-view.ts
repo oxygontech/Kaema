@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 import { LocationServiceProvider } from '../../providers/location-service/location-service';
 import { Location } from '../../models/location';
+import { InterfaceProvider } from '../../providers/interface/interface';
 
 import { Storage } from '@ionic/storage';
 
@@ -27,9 +28,13 @@ export class MapViewPage {
 
   marker:any;
   myLocation ={} as Location;
+  loader:any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-              public locationService:LocationServiceProvider,private storage: Storage  ) {
+              public locationService:LocationServiceProvider,private storage: Storage ,public interfac: InterfaceProvider ) {
+
+                this.loader= this.interfac.presentLoadingDefault();
+                this.loader.present();
   }
 
   ionViewDidLoad() {
@@ -63,6 +68,7 @@ export class MapViewPage {
 
     });
 
+    this.loader.dismiss();
 
     
    

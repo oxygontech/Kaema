@@ -5,13 +5,81 @@
   Ionic pages and navigation.
 -->
 <ion-header>
+<!--
+    <ion-segment class='segmentPost' [(ngModel)]="viewType">
+        <ion-segment-button value="list">
+            <ion-icon name="list"></ion-icon>
+        </ion-segment-button>
+        <ion-segment-button value="map">
+            <ion-icon name="pin"></ion-icon>
+        </ion-segment-button>
+      </ion-segment>
+    -->
 </ion-header>
 
 
 
-<ion-content padding>
+<ion-content class='postContent' padding>
     
-        <div align='center'><h1>Post goes Here</h1></div>
+    
+   <!--
+      <div [ngSwitch]="viewType">
+
+            <div [style.display]="viewType == 'map' ? 'block' : 'none'">
+              <div #postmap id='postmap'></div>
+            </div>
+
+          <div *ngSwitchCase="'list'" >
+          -->
+              <ion-list>
+                  <ion-item  *ngFor='let item of post'>
+                    <ion-grid>
+                       <ion-row>
+                           <ion-col col-12 class='postHeader'>{{item.subject}}</ion-col>
+                      </ion-row>
 
 
+                      <ion-row>
+                          <ion-col col-12 align='center'> <img (click)='viewPost(item)'  src= '{{item.imageURL}}' class='mainPostImg'></ion-col>
+                     </ion-row>
+              
+                     <ion-row>
+                        <ion-col col-6 align='left'><ion-badge>Likes 1</ion-badge></ion-col>
+                        <ion-col col-6 align='right'><ion-badge>Comments 1</ion-badge></ion-col>
+                        
+                    </ion-row>
+              
+
+                    <!--
+                     <ion-row>
+                       
+                       
+                        <ion-col col-8 align='left'>{{item.description}}</ion-col>
+                        <ion-col col-4></ion-col>
+                    </ion-row>-->
+
+                    <ion-row *ngIf=item.userProfile>
+                        <ion-col col-3 align='left'>
+                          <img   src= {{item.userProfile.userPhotoURL}} class='postProfileImg'>
+                       </ion-col>
+                   
+                         <ion-col col-9 align='left' class='postProfileName'>
+                           {{item.userProfile.firstName}}
+                          </ion-col> 
+                    </ion-row>     
+              
+                    
+
+                    </ion-grid>
+                  </ion-item>
+                </ion-list>
+
+    <!--
+
+          </div>
+
+          
+
+      </div>
+     -->
 </ion-content>
