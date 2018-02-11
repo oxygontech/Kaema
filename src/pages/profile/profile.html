@@ -91,7 +91,7 @@
         </ion-row>
 
         <ion-row>
-            <ion-col col-12> <img  src= '{{item.imageURL}}' class='postImg'></ion-col>
+            <ion-col col-12> <img  (click)='viewPost(item)' src= '{{item.imageURL}}' class='postImg'></ion-col>
        </ion-row>
 
        <ion-row>
@@ -100,9 +100,9 @@
           
       </ion-row>
 
-       <ion-row>
+      <!-- <ion-row>
           <ion-col col-12>{{item.description}}</ion-col>
-      </ion-row>
+      </ion-row>-->
 
 
       </ion-grid>

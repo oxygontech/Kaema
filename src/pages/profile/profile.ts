@@ -8,6 +8,7 @@ import { User } from '../../models/user';
 import { Post } from '../../models/post';
 import { InterfaceProvider } from '../../providers/interface/interface';
 import {ImageViewPage} from '../image-view/image-view';
+import { ViewPostPage } from '../view-post/view-post';
 
 
 import { Camera,CameraOptions } from '@ionic-native/camera';
@@ -230,6 +231,10 @@ saveProfile(){
   this.afDatabase.object(`profile/${this.user.uId}`).set(this.profile);
   this.interfac.presentToast('Details Saved Sucessfully');
 }
+
+viewPost(selectedPost){
+  this.navCtrl.push(ViewPostPage,{post:selectedPost});
+  }
 
 
 

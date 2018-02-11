@@ -78,6 +78,11 @@ export class AddPostPage {
                   this.afAuth.authState.subscribe(result=>{
                       if(result.uid){
                          this.post.userId=result.uid;
+                         this.afDatabase.object('profile/'+result.uid).subscribe(result=>{
+                            
+                              this.post.userProfile=result;
+                         });
+                         
                       }else{
 
                         this.navCtrl.setRoot(LoginPage);

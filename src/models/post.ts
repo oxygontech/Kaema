@@ -1,4 +1,5 @@
 import { Location } from '../models/location';
+import { Profile } from '../models/profile';
 
 export interface Post{
     
@@ -13,6 +14,7 @@ export interface Post{
     postType:string;
     entDate:string;
     status:string;
+    userProfile:Profile;
 
     
     

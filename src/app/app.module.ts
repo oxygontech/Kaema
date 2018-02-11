@@ -23,6 +23,7 @@ import {ImageViewPage} from "../pages/image-view/image-view";
 import { AddPostPage } from '../pages/add-post/add-post';
 import { MapViewPage } from '../pages/map-view/map-view';
 import { LeaderboardPage } from '../pages/leaderboard/leaderboard';
+import { ViewPostPage } from '../pages/view-post/view-post';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -53,7 +54,8 @@ import { Geolocation } from '@ionic-native/geolocation';
     ImageViewPage,
     AddPostPage,
     MapViewPage,
-    LeaderboardPage
+    LeaderboardPage,
+    ViewPostPage
   ],
   imports: [
     BrowserModule,
@@ -82,7 +84,8 @@ import { Geolocation } from '@ionic-native/geolocation';
     ImageViewPage,
     AddPostPage,
     MapViewPage,
-    LeaderboardPage
+    LeaderboardPage,
+    ViewPostPage
   ],
   providers: [
     StatusBar,
