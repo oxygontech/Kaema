@@ -15,7 +15,6 @@ import { HomePage } from '../pages/home/home';
 import {TimelinePage} from '../pages/timeline/timeline';
 import {MonitorPage} from '../pages/monitor/monitor';
 import {MorePage} from '../pages/more/more';
-import {BlogPage  } from "../pages/blog/blog";
 import {PostPage  } from "../pages/post/post";
 import {NotificationPage} from "../pages/notification/notification";
 import {ProfilePage} from "../pages/profile/profile";
@@ -47,7 +46,6 @@ import { Geolocation } from '@ionic-native/geolocation';
     TimelinePage,
     MonitorPage,
     MorePage,
-    BlogPage,
     PostPage,
     NotificationPage,
     ProfilePage,
@@ -77,7 +75,6 @@ import { Geolocation } from '@ionic-native/geolocation';
     TimelinePage,
     MonitorPage,
     MorePage,
-    BlogPage,
     PostPage,
     NotificationPage,
     ProfilePage,
