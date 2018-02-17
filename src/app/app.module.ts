@@ -7,8 +7,7 @@ import {AngularFireAuthModule} from 'angularfire2/auth';
 import {AngularFireDatabaseModule} from 'angularfire2/database-deprecated';
 import { IonicStorageModule } from '@ionic/storage';
 
-import { Page1 } from '../pages/page1/page1';
-import { Page2 } from '../pages/page2/page2';
+
 import { LoginPage } from '../pages/login/login';
 import { RegisterPage } from '../pages/register/register';
 import { HomePage } from '../pages/home/home';
@@ -38,8 +37,6 @@ import { Geolocation } from '@ionic-native/geolocation';
 @NgModule({
   declarations: [
     MyApp,
-    Page1,
-    Page2,
     LoginPage,
     RegisterPage,
     HomePage,
@@ -67,8 +64,6 @@ import { Geolocation } from '@ionic-native/geolocation';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    Page1,
-    Page2,
     LoginPage,
     RegisterPage,
     HomePage,
