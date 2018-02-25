@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { Page1 } from '../page1/page1';
 import { RegisterPage } from '../register/register';
 import { HomePage } from '../home/home';
 
@@ -73,7 +72,7 @@ async social_login(socialType){
     // The signed-in user info.
    // var user = result.user;
     console.log(result);
-    this.navCtrl.push(Page1);
+    this.navCtrl.push(HomePage);
     
   }).catch(function(error) {
     // Handle Errors here.

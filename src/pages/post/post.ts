@@ -27,6 +27,7 @@ export class PostPage {
 
   viewType:any;
   post =[];
+  postKeys=[];
   loader:any;
 
    @ViewChild('postmap') mapDivRef :ElementRef;
@@ -55,8 +56,11 @@ export class PostPage {
 
 
       //this.showMap(); 
+     
      this.post =postResult.reverse();
+     //this.postKeys=postResult.keys();
      this.loader.dismiss()
+     console.log(this.post);
 
     });
 
@@ -102,7 +106,8 @@ export class PostPage {
   }
 
   viewPost(selectedPost){
-  this.navCtrl.push(ViewPostPage,{post:selectedPost});
+    console.log(selectedPost);
+    this.navCtrl.push(ViewPostPage,{post:selectedPost});
   }
   
 

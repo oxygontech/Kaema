@@ -134,4 +134,5 @@
         <variable name="GEOLOCATION_USAGE_DESCRIPTION" value="Get User Location for Map" />
     </plugin>
     <plugin name="cordova-plugin-whitelist" spec="^1.3.1" />
+    <plugin name="phonegap-plugin-barcodescanner" spec="^7.0.2" />
 </widget>

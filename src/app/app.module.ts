@@ -32,6 +32,9 @@ import { SuperTabsModule } from "ionic2-super-tabs";
 import { FirebaseImageServiceProvider } from '../providers/firebase-image-service/firebase-image-service';
 import { LocationServiceProvider } from '../providers/location-service/location-service';
 import { Geolocation } from '@ionic-native/geolocation';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import { FirebaseDatabaseServiceProvider } from '../providers/firebase-database-service/firebase-database-service';
+import { NgxQRCodeModule } from 'ngx-qrcode2';
 
 
 @NgModule({
@@ -59,7 +62,8 @@ import { Geolocation } from '@ionic-native/geolocation';
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
     AngularFireAuthModule,
     AngularFireDatabaseModule,
-    SuperTabsModule.forRoot()
+    SuperTabsModule.forRoot(),
+    NgxQRCodeModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -87,7 +91,9 @@ import { Geolocation } from '@ionic-native/geolocation';
     InterfaceProvider,
     FirebaseImageServiceProvider,
     LocationServiceProvider,
-    Geolocation
+    Geolocation,
+    FirebaseDatabaseServiceProvider,
+    BarcodeScanner
   ]
 })
 export class AppModule { }

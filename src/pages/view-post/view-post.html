@@ -74,7 +74,39 @@
         </ion-card>
   </ion-col> 
   </ion-row>
+ 
+ 
+  <div *ngIf='this.post?.userId!=this.user?.uId' >
+        <ion-row>
+          <ion-col col-12 >
+          <button id='scanButton' ion-button  outline (click)='scanCode()'>Scan Code</button>
+          </ion-col>
+        </ion-row> 
+     </div>
 
+<div *ngIf='this.post?.userId==this.user?.uId' >
+  <ion-row>
+    <ion-col col-12 >
+      
+
+         <ion-card *ngIf="this.qrImage">
+              <ion-card-header>
+                QR Code 
+              </ion-card-header>
+          <ngx-qrcode [qrc-value]="this.qrImage"></ngx-qrcode>
+        </ion-card>
+
+
+         <ion-card *ngIf="hiddenText">
+            <ion-card-content>
+              Result from Scan: {{ hiddenText }}
+            </ion-card-content>
+          </ion-card>
+
+          
+   </ion-col> 
+   </ion-row>
+</div>
 
   </ion-grid>  
 

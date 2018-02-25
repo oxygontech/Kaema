@@ -15,6 +15,7 @@ export interface Post{
     entDate:string;
     status:string;
     userProfile:Profile;
+    postId:string;
 
     
     
