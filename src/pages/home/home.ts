@@ -11,6 +11,7 @@ import { AddPostPage } from '../add-post/add-post';
 import { LeaderboardPage } from '../leaderboard/leaderboard';
 
 import { Storage } from '@ionic/storage';
+import { AlertController } from 'ionic-angular';
 /**
  * Generated class for the HomePage page.
  *
@@ -31,7 +32,8 @@ export class HomePage {
   profile=ProfilePage;
   leaderBoard=LeaderboardPage;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,private afAuth:AngularFireAuth,private storage: Storage) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+              private afAuth:AngularFireAuth,private storage: Storage,private alertCtrl:AlertController) {
   }
 
   ionViewDidLoad() {
@@ -50,14 +52,42 @@ export class HomePage {
 
   logout(){
     
+    this.navCtrl.setRoot(LoginPage);
+
    this.storage.set('status',false);
    this.storage.set('email', null);
    this.storage.set('password', null);
 
    this.afAuth.auth.signOut();
-   this.navCtrl.setRoot(LoginPage);
+  
+  // this.navCtrl.setRoot(LoginPage);
  }
 
+logoutConfirm(){
+
+  let confirm = this.alertCtrl.create({
+    title: 'Confirm Logout',
+    message: 'Are you sure you want to logout ?',
+    buttons: [
+      {
+        text: 'Yes',
+        handler: () => {
+          this.logout();
+        }
+      },
+      {
+        text: 'No',
+        handler: () => {
+         
+        }
+      }
+    ]
+  });
+  confirm.present();
+
+
+}
+ 
 
  settings(){
  this.navCtrl.push(MorePage);
