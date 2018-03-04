@@ -21,7 +21,8 @@ export class InterfaceProvider {
   presentToast(msg) {
     let toast = this.toastCtrl.create({
       message: msg,
-      duration: 3000
+      duration: 3000,
+      showCloseButton:true
     });
     toast.present();
   }
@@ -59,6 +60,6 @@ export class InterfaceProvider {
       subTitle: msg,
       buttons: ['OK']
     });
-
+return alert;
    }
 }

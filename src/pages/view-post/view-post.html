@@ -79,8 +79,13 @@
    <div *ngIf='this.post?.userId!=this.user?.uId' >
         <ion-row>
           <ion-col col-12 >
-          <button class='summaryButtons' id='requestButton' ion-button  outline >Request</button>
-          </ion-col>
+          <button *ngIf='!requestStatus' class='summaryButtons' id='requestButton' ion-button  outline (click)='requestPost()'>Request</button>
+          <button *ngIf='requestStatus' class='summaryButtons' id='requestButton' ion-button  outline ion-button icon-right disabled>
+             Request Sent
+             <ion-icon name="checkmark"></ion-icon>
+          </button>
+          
+         </ion-col>
         </ion-row> 
      </div>
 

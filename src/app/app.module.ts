@@ -22,6 +22,8 @@ import { AddPostPage } from '../pages/add-post/add-post';
 import { MapViewPage } from '../pages/map-view/map-view';
 import { LeaderboardPage } from '../pages/leaderboard/leaderboard';
 import { ViewPostPage } from '../pages/view-post/view-post';
+import { ProfileDetailsPage } from '../pages/profile-details/profile-details';
+
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -35,7 +37,7 @@ import { Geolocation } from '@ionic-native/geolocation';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { FirebaseDatabaseServiceProvider } from '../providers/firebase-database-service/firebase-database-service';
 import { NgxQRCodeModule } from 'ngx-qrcode2';
-
+import { Http, HttpModule } from '@angular/http';
 
 @NgModule({
   declarations: [
@@ -53,7 +55,8 @@ import { NgxQRCodeModule } from 'ngx-qrcode2';
     AddPostPage,
     MapViewPage,
     LeaderboardPage,
-    ViewPostPage
+    ViewPostPage,
+    ProfileDetailsPage
   ],
   imports: [
     BrowserModule,
@@ -63,7 +66,8 @@ import { NgxQRCodeModule } from 'ngx-qrcode2';
     AngularFireAuthModule,
     AngularFireDatabaseModule,
     SuperTabsModule.forRoot(),
-    NgxQRCodeModule
+    NgxQRCodeModule,
+    HttpModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -81,7 +85,8 @@ import { NgxQRCodeModule } from 'ngx-qrcode2';
     AddPostPage,
     MapViewPage,
     LeaderboardPage,
-    ViewPostPage
+    ViewPostPage,
+    ProfileDetailsPage
   ],
   providers: [
     StatusBar,

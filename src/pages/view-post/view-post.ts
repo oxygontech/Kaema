@@ -2,10 +2,13 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Post } from '../../models/post';
 import { User } from '../../models/user';
+import { Profile } from '../../models/profile';
+import { Request } from '../../models/request';
 import { LoginPage } from '../login/login';
 import { InterfaceProvider } from '../../providers/interface/interface';
 
 import {AngularFireAuth} from 'angularfire2/auth';
+import {AngularFireDatabase}  from 'angularfire2/database-deprecated';
 
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 
@@ -29,14 +32,34 @@ export class ViewPostPage {
   qrImage:any;
   user ={} as User;
   hiddenText :any;
+  request={} as Request;
+  requestStatus =false;
+  profile ={} as Profile;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,private afAuth:AngularFireAuth,
-              private barcodeScanner: BarcodeScanner,public interfac: InterfaceProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,private afDatabase : AngularFireDatabase,
+              private afAuth:AngularFireAuth,private barcodeScanner: BarcodeScanner,public interfac: InterfaceProvider) {
 
-    this.afAuth.authState.subscribe(result=>{
+    this.afAuth.authState.subscribe(userResult=>{
       
-          if(result.uid){
-            this.user.uId=result.uid;
+          if(userResult.uid){
+            this.user.uId=userResult.uid;
+
+            this.afDatabase.list('request/'+this.user.uId+'_'+this.post.postId).subscribe(result=>{
+                   
+              console.log(result.length);
+
+              if(result.length>0){
+                this.requestStatus=true;
+                
+              }
+            });
+
+
+            this.afDatabase.object('profile/'+this.user.uId).subscribe(result=>{
+
+               this.profile=result;
+
+            });
             
           }else{
             this.navCtrl.setRoot(LoginPage);
@@ -53,6 +76,8 @@ export class ViewPostPage {
 
       this.qrImage=this.post.postId;
       }
+
+    
   }
 
   ionViewDidLoad() {
@@ -72,6 +97,29 @@ export class ViewPostPage {
         console.log('Error: ', err);
         this.interfac.presentToast('An error occurred');
     });
+  }
+
+
+  requestPost(){
+  
+    this.request.requestedUser=this.user.uId;
+    this.request.requestedUserProfile=this.profile;
+    this.request.postedUser=this.post.userId;
+    this.request.post=this.post;
+    this.request.status='P';
+
+
+    let loader= this.interfac.presentLoadingDefault();
+    loader.present();
+
+
+    this.afDatabase.object('request/'+this.user.uId+'_'+this.post.postId).set(this.request).then(result=>{
+      loader.dismiss();
+      this.interfac.presentToast('Request has been sent');
+      this.requestStatus=true;
+    });
+    
+
   }
 
 

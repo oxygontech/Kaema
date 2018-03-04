@@ -1,22 +1,49 @@
 page-profile {
 
-}
+    .profileImg{
 
-.profileImg{
-
-    border-radius: 50%;
-    height :60px;
-    width :60px;
-    margin-top: -5px;
-  
-}
-
-.postImg{
-        height :250px;
-        width :90%;
-     }
-
-.editIcon{
-    
-        margin-bottom: 18px;
+        border-radius: 50%;
+        height :60px;
+        width :60px;
+        margin-top: -5px;
+      
     }
+    
+    .postImg{
+            height :250px;
+            width :90%;
+         }
+    
+    .editIcon{
+        
+            margin-bottom: 18px;
+        }
+    
+        #editProfileButton{
+            height:20px;
+            text-transform: none;
+            width:100%;
+        }
+
+   .circularPostImg{
+
+       border-radius: 50%;
+        height :60px;
+        width :60px;
+   }     
+
+
+   .profileImgSmall{
+
+     border-radius: 50%;
+     height :30px;
+     width : 30px;
+   }     
+
+   .sharedTxt{
+       font-size: 12px;
+       font-style: italic
+   }
+}
+
+
