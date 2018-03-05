@@ -47,6 +47,7 @@ export class ProfilePage {
   myRequest=[];
   pendingRequest=[];
   sharedItems=[];
+  receivedItems =[];
 
 
 
@@ -129,7 +130,40 @@ export class ProfilePage {
 
                    this.pendingRequest =requestResult.reverse();
                    console.log(this.myRequest);
-                  loader.dismiss()
+                 
+
+                  })
+
+
+                  this.afDatabase.list('shared',{
+                    query :{
+                      orderByChild:'sharedUser',
+                      equalTo:this.user.uId,
+                      limitToLast:10
+                      
+                      //orderByKey:true                      
+                      
+                    }
+                  }).subscribe(requestResult=>{
+
+                   this.sharedItems =requestResult.reverse();
+
+                  })
+
+
+                  this.afDatabase.list('shared',{
+                    query :{
+                      orderByChild:'receivedUser',
+                      equalTo:this.user.uId,
+                      limitToLast:10
+                      
+                      //orderByKey:true                      
+                      
+                    }
+                  }).subscribe(requestResult=>{
+
+                   this.receivedItems =requestResult.reverse();
+                   loader.dismiss()
 
                   })
                    

@@ -4,6 +4,7 @@ import { Post } from '../../models/post';
 import { User } from '../../models/user';
 import { Profile } from '../../models/profile';
 import { Request } from '../../models/request';
+import { Shared } from '../../models/shared';
 import { LoginPage } from '../login/login';
 import { InterfaceProvider } from '../../providers/interface/interface';
 
@@ -33,6 +34,7 @@ export class ViewPostPage {
   user ={} as User;
   hiddenText :any;
   request={} as Request;
+  shared={} as Shared;
   requestStatus =false;
   profile ={} as Profile;
 
@@ -88,8 +90,28 @@ export class ViewPostPage {
   scanCode() {
     this.barcodeScanner.scan().then(barcodeData => {
       this.hiddenText = barcodeData.text;
+
       if(barcodeData.text==this.post.postId){
-        this.interfac.presentToast('Scan Sucessfull You have receipted this Post');
+
+
+
+        let loader= this.interfac.presentLoadingDefault();
+        loader.present();
+    
+        this.shared.receivedUser=this.user.uId;
+        this.shared.receivedUserProfile=this.profile;
+        this.shared.sharedUser=this.post.userId;
+        this.shared.post=this.post;
+    
+    
+        this.afDatabase.object('shared/'+this.user.uId+'_'+this.post.postId).set(this.shared).then(result=>{
+          loader.dismiss();
+          this.interfac.presentToast('Scan Sucessfull, you  have receipted this Post');
+         
+        });
+        
+
+
       }else{
         this.interfac.presentToast('Scan Un-Sucessfull this is an incorrect Code');
       }
@@ -102,15 +124,17 @@ export class ViewPostPage {
 
   requestPost(){
   
+   
+
+
+    let loader= this.interfac.presentLoadingDefault();
+    loader.present();
+
     this.request.requestedUser=this.user.uId;
     this.request.requestedUserProfile=this.profile;
     this.request.postedUser=this.post.userId;
     this.request.post=this.post;
     this.request.status='P';
-
-
-    let loader= this.interfac.presentLoadingDefault();
-    loader.present();
 
 
     this.afDatabase.object('request/'+this.user.uId+'_'+this.post.postId).set(this.request).then(result=>{

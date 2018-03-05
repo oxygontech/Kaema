@@ -19,14 +19,14 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   rootPage: any;
-  showSplash = true;
+  showSplash = false;
 
   pages: Array<{ title: string, component: any }>;
 
   constructor(public platform: Platform, public statusBar: StatusBar, 
                public splashScreen: SplashScreen,private storage: Storage) {
 
-     timer(3000).subscribe(() => this.showSplash = false)
+    // timer(3000).subscribe(() => this.showSplash = false)
     // used for an example of ngFor and navigation
     this.storage.get('status').then((val) => {
       if(val){
