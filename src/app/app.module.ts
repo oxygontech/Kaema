@@ -7,8 +7,7 @@ import {AngularFireAuthModule} from 'angularfire2/auth';
 import {AngularFireDatabaseModule} from 'angularfire2/database-deprecated';
 import { IonicStorageModule } from '@ionic/storage';
 
-import { Page1 } from '../pages/page1/page1';
-import { Page2 } from '../pages/page2/page2';
+
 import { LoginPage } from '../pages/login/login';
 import { RegisterPage } from '../pages/register/register';
 import { HomePage } from '../pages/home/home';
@@ -23,6 +22,8 @@ import { AddPostPage } from '../pages/add-post/add-post';
 import { MapViewPage } from '../pages/map-view/map-view';
 import { LeaderboardPage } from '../pages/leaderboard/leaderboard';
 import { ViewPostPage } from '../pages/view-post/view-post';
+import { ProfileDetailsPage } from '../pages/profile-details/profile-details';
+
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -33,13 +34,14 @@ import { SuperTabsModule } from "ionic2-super-tabs";
 import { FirebaseImageServiceProvider } from '../providers/firebase-image-service/firebase-image-service';
 import { LocationServiceProvider } from '../providers/location-service/location-service';
 import { Geolocation } from '@ionic-native/geolocation';
-
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import { FirebaseDatabaseServiceProvider } from '../providers/firebase-database-service/firebase-database-service';
+import { NgxQRCodeModule } from 'ngx-qrcode2';
+import { Http, HttpModule } from '@angular/http';
 
 @NgModule({
   declarations: [
     MyApp,
-    Page1,
-    Page2,
     LoginPage,
     RegisterPage,
     HomePage,
@@ -53,7 +55,8 @@ import { Geolocation } from '@ionic-native/geolocation';
     AddPostPage,
     MapViewPage,
     LeaderboardPage,
-    ViewPostPage
+    ViewPostPage,
+    ProfileDetailsPage
   ],
   imports: [
     BrowserModule,
@@ -62,13 +65,13 @@ import { Geolocation } from '@ionic-native/geolocation';
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
     AngularFireAuthModule,
     AngularFireDatabaseModule,
-    SuperTabsModule.forRoot()
+    SuperTabsModule.forRoot(),
+    NgxQRCodeModule,
+    HttpModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    Page1,
-    Page2,
     LoginPage,
     RegisterPage,
     HomePage,
@@ -82,7 +85,8 @@ import { Geolocation } from '@ionic-native/geolocation';
     AddPostPage,
     MapViewPage,
     LeaderboardPage,
-    ViewPostPage
+    ViewPostPage,
+    ProfileDetailsPage
   ],
   providers: [
     StatusBar,
@@ -92,7 +96,9 @@ import { Geolocation } from '@ionic-native/geolocation';
     InterfaceProvider,
     FirebaseImageServiceProvider,
     LocationServiceProvider,
-    Geolocation
+    Geolocation,
+    FirebaseDatabaseServiceProvider,
+    BarcodeScanner
   ]
 })
 export class AppModule { }

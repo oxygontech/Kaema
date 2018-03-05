@@ -24,6 +24,7 @@
     "@angular/http": "4.1.3",
     "@angular/platform-browser": "4.1.3",
     "@angular/platform-browser-dynamic": "4.1.3",
+    "@ionic-native/barcode-scanner": "^4.5.3",
     "@ionic-native/camera": "^4.5.2",
     "@ionic-native/core": "3.12.1",
     "@ionic-native/geolocation": "^4.5.3",
@@ -52,6 +53,8 @@
     "ionic-plugin-keyboard": "^2.2.1",
     "ionic2-super-tabs": "^4.1.5",
     "ionicons": "3.0.0",
+    "ngx-qrcode2": "0.0.5",
+    "phonegap-plugin-barcodescanner": "^7.0.2",
     "rxjs": "5.4.0",
     "sw-toolbox": "3.6.0",
     "zone.js": "0.8.12"
@@ -98,12 +101,13 @@
       "cordova-plugin-camera": {},
       "cordova-plugin-image-picker": {},
       "cordova-plugin-geolocation": {
-        "GEOLOCATION_USAGE_DESCRIPTION": "Get User Location for Map"
-      }
+        "GEOLOCATION_USAGE_DESCRIPTION": "To locate you"
+      },
+      "phonegap-plugin-barcodescanner": {}
     },
     "platforms": [
-      "android",
-      "browser"
+      "browser",
+      "android"
     ]
   }
 }

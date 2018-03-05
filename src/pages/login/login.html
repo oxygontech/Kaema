@@ -7,20 +7,18 @@
 <ion-header>
 
   <ion-navbar color='primary'>
-    <ion-title>login</ion-title>
+    <ion-title>Login</ion-title>
   </ion-navbar>
 
 </ion-header>
 
-<ion-content padding> 
-<ion-card class='card'>
-  
-<ion-card-header class='content-header'>
+<ion-content> 
 
-  Welcome to Kaema
-</ion-card-header>
-  
-    <ion-card-content>
+    <br/>
+    <h3 align='center'>Welcome to Kaema</h3>
+    <br/>
+
+    
       <div align='center'>
         <ion-item>
            <ion-label floating>Email</ion-label>
@@ -42,7 +40,7 @@
         
         
         
-           <button ion-button  icon-left  class='login-buttons' (click) ='social_login("facebook")'>
+           <button ion-button  icon-left  class='login-buttons'  id='facebookButton' (click) ='social_login("facebook")'>
             
             <ion-icon name="logo-facebook" class='login-logo'></ion-icon>
              Sign Up with Facebook
@@ -51,7 +49,7 @@
         
         
         
-           <button ion-button  icon-left color='danger' class='login-buttons'  (click) ='social_login("google")'>
+           <button ion-button   class='login-buttons' id='gooleButton'  (click) ='social_login("google")'>
             
             <ion-icon name="logo-google" align='left' class='login-logo' ></ion-icon>
              Sign Up with Google
@@ -59,14 +57,14 @@
           </button>
         
         
-            <button ion-button   outlined class='login-buttons' (click) ='register()' outline> 
+            <button ion-button  class='login-buttons' (click) ='register()' outline> 
              Sign Up with Email
             </button>
         
         </div>
-    </ion-card-content>
+   
   
-  </ion-card>
+
 
 
 

@@ -4,11 +4,12 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Storage } from '@ionic/storage';
 
-import { Page1 } from '../pages/page1/page1';
-import { Page2 } from '../pages/page2/page2';
+
 import { LoginPage } from '../pages/login/login';
 import { HomePage } from '../pages/home/home';
 
+
+import { timer } from 'rxjs/observable/timer';
 
 
 @Component({
@@ -18,11 +19,14 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   rootPage: any;
+  showSplash = false;
 
   pages: Array<{ title: string, component: any }>;
 
   constructor(public platform: Platform, public statusBar: StatusBar, 
                public splashScreen: SplashScreen,private storage: Storage) {
+
+    // timer(3000).subscribe(() => this.showSplash = false)
     // used for an example of ngFor and navigation
     this.storage.get('status').then((val) => {
       if(val){
@@ -45,6 +49,7 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+
     });
   }
 

@@ -29,6 +29,7 @@ export class MapViewPage {
   marker:any;
   myLocation ={} as Location;
   loader:any;
+  alert :any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               public locationService:LocationServiceProvider,private storage: Storage ,public interfac: InterfaceProvider ) {
@@ -48,7 +49,7 @@ export class MapViewPage {
     
    this.locationService.getCurrentLocation().then(result=>{
    
-   
+   if(result !=null){
     const currentLocation={lat: result.latitude, lng: result.longitude};
     console.log(currentLocation);
 
@@ -66,9 +67,16 @@ export class MapViewPage {
               animation: google.maps.Animation.DROP,
               title:'You are here'});
 
+              this.loader.dismiss();
+    }else{
+
+      this.alert= this.interfac.presentAlert('GPS Problem','Please check your GPS Settings');
+      this.alert.present();
+      this.navCtrl.pop();
+    }
     });
 
-    this.loader.dismiss();
+    
 
     
    

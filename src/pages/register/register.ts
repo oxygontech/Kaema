@@ -7,6 +7,8 @@ import {AngularFireAuth} from 'angularfire2/auth';
 import {AngularFireDatabase} from 'angularfire2/database-deprecated';
 import { InterfaceProvider } from '../../providers/interface/interface';
 
+import { Storage } from '@ionic/storage';
+
 /**
  * Generated class for the RegisterPage page.
  *
@@ -28,7 +30,8 @@ export class RegisterPage {
  profile = {} as Profile;
 
   constructor(private afAuth:AngularFireAuth,public navCtrl: NavController, 
-    public navParams: NavParams,public interfac: InterfaceProvider,private afDatabase:AngularFireDatabase ) {
+    public navParams: NavParams,public interfac: InterfaceProvider,
+     private afDatabase:AngularFireDatabase,private storage: Storage ) {
   }
 
   ionViewDidLoad() {
@@ -59,10 +62,19 @@ export class RegisterPage {
                     if(result.uid){
                       
                       this.afDatabase.object(`profile/${result.uid}`).set(this.profile)
-                      .then(()=>
+                      .then(()=>{
+
+                        this.storage.set('status', true)
+                        this.storage.set('email', this.email)
+                        this.storage.set('password', this.password)
+
+                        this.navCtrl.push(HomePage)
+                        this.loader.dismiss()
+
+                      }
                     
-                      this.navCtrl.push(HomePage),
-                      this.loader.dismiss()
+
+                      
                     
                        );
                     }

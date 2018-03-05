@@ -248,7 +248,7 @@ export class AddPostPage {
 
       let uploadImage=await this.fireImageService.saveImage(postKey,'post/'+postKey,this.imageURL);
       console.log(uploadImage);
-      this.afDatabase.object('post/'+postKey).update({imageURL:uploadImage})
+      this.afDatabase.object('post/'+postKey).update({imageURL:uploadImage,postId:postKey})
       
 
       

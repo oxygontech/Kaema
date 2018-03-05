@@ -8,6 +8,20 @@
 
   <ion-navbar color='primary'>
     <ion-title>Profile</ion-title>
+
+
+    <ion-buttons end >
+
+        
+        <button ion-button icon-only (click)='settings()'>
+            <ion-icon name="cog" ></ion-icon>
+        </button>
+
+      <button ion-button icon-only (click)='logoutConfirm()'>
+          <ion-icon name="log-out" ></ion-icon>
+      </button>
+
+     </ion-buttons> 
   </ion-navbar>
 
 </ion-header>
@@ -27,6 +41,10 @@
         <br/>
 
         {{this.profile?.email}}
+
+        <br/>
+
+        <button id='editProfileButton' (click)='editProfile()' ion-button outline>Edit Profile</button>
         </ion-col>
     </ion-row>
 
@@ -42,15 +60,15 @@
 
 
       <ion-col col-3 align='center'>
-        <h4>{{this.post?.length}}</h4> Post's
+        <h4>{{this.mypost?.length}}</h4> Post's
       </ion-col>
 
       <ion-col col-3 align='center'>
-          <h4>25</h4> Shared
+          <h4>{{this.sharedItems?.length}}</h4> Shared
         </ion-col>
 
          <ion-col col-3 align='center'>
-            <h4>25</h4>Receipts
+            <h4>{{this.receivedItems?.length}}</h4>Receipts
           </ion-col>
     </ion-row>
 
@@ -61,22 +79,36 @@
 
    <div padding>
       <ion-segment [(ngModel)]="profileDetails">
-        <ion-segment-button value="post">
-          Post's
+        <ion-segment-button value="myPost">
+            <ion-icon name="apps"></ion-icon> 
         </ion-segment-button>
-        <ion-segment-button value="about">
-          About
+
+        <ion-segment-button value="myRequest">
+                <ion-icon name="list"></ion-icon>
         </ion-segment-button>
+
+        <ion-segment-button value="pendingRequest">
+            <ion-icon name="contacts"></ion-icon>
+        </ion-segment-button>
+
+        <ion-segment-button value="shared">
+            <ion-icon name="basket"></ion-icon>    
+       </ion-segment-button>
+
+       <ion-segment-button value="received">
+            <ion-icon name="paper-plane"></ion-icon>    
+       </ion-segment-button>
+
       </ion-segment>
     </div>
 
 <div [ngSwitch]="profileDetails">
 
-  <div *ngSwitchCase="'post'" >
+  <div *ngSwitchCase="'myPost'" >
     <ion-grid>
         <ion-row>
           <ion-col col-8 align='left'>
-              <h1>POST</h1>
+              <h3>My Post</h3>
           </ion-col>
     </ion-row>
 </ion-grid>
@@ -84,7 +116,7 @@
 
 
 <ion-list>
-    <ion-item  *ngFor='let item of post'>
+    <ion-item  *ngFor='let item of mypost'>
       <ion-grid>
          <ion-row>
              <ion-col col-12><b><h2>{{item.subject}}</h2></b></ion-col>
@@ -112,127 +144,220 @@
 </div>
 
 
-<div *ngSwitchCase="'about'">
-  <ion-grid >
-      <ion-row>
-        <ion-col col-8 align='left'>
-            <h1>ABOUT</h1>
-        </ion-col>
-
-        <ion-col col-4 align='right'>
-         <!--Changing Displayed button for edit or view Options-->   
-            <button ion-button icon-only clear (click)='editProfile()'>
-                <ion-icon  *ngIf=view name="create" class='editIcon' ></ion-icon><!--if view displaying create Icon-->
-                <ion-icon  *ngIf=!view name="checkmark" class='editIcon' ></ion-icon><!--if  not view displaying checkmark Icon-->
-            </button>
-
-        </ion-col>
-
-      </ion-row>
-  </ion-grid>
-
-<br/>
-<!--View option displays labels with imformation-->
-  <ion-grid *ngIf=view>
-      <ion-row>
-        <ion-col col-3 align='left'>
-            Name : 
-        </ion-col>
-
-        <ion-col col-9 align='left'>
-         {{this.profile?.firstName}}
-        </ion-col>
-
+  <div *ngSwitchCase="'myRequest'">
+     
+        <ion-grid>
+                <ion-row>
+                  <ion-col col-8 align='left'>
+                      <h3>My Request's</h3>
+                  </ion-col>
+            </ion-row>
+        </ion-grid>
         
-</ion-row>         
-<ion-row>
-         <ion-col col-3 align='left'>
-            Email : 
-        </ion-col>
-
-        <ion-col col-9 align='left'>
-            {{this.profile?.email}}
-        </ion-col>
-
-         
-</ion-row>
-<ion-row>
-         <ion-col col-3 align='left'>
-            Bio : 
-        </ion-col>
-
-        <ion-col col-9 align='left'>
-            {{this.profile?.bio}}
-        </ion-col>
-
         
-</ion-row>
-
-<ion-row>
-        <ion-col col-3 align='left'>
-            Website : 
-        </ion-col>
-
-        <ion-col col-9 align='left'>
-            {{this.profile?.website}}
-        </ion-col>
-
         
-
-
-</ion-row>
-
-
-<ion-row>
-    <ion-col col-3 align='left'>
-        Phone No : 
-    </ion-col>
-
-    <ion-col col-9 align='left'>
-        {{this.profile?.phoneNumber}}
-    </ion-col>
-
+        <ion-list>
+                <ion-item  *ngFor='let item of myRequest'>
+                  
+            <ion-grid>
+                    <ion-row (click)='viewPost(item.post)'>
+                        <ion-col col-3> <img class='circularPostImg'  src= '{{item.post.imageURL}}' ></ion-col>
+                        <ion-col col-8>
+                                  <ion-grid>
+                                      
+                                       <ion-row>
+                                       <ion-col col-12><h3>{{item.post.subject}}</h3></ion-col>
+                                       </ion-row> 
     
+                                       <ion-row>
+                                         <ion-col col-3 align='center'><img class='profileImgSmall' src= '{{item.post.userProfile.userPhotoURL}}' ></ion-col>
+                                         <ion-col col-8 class='sharedTxt' align='left'>
+                                              Requested from {{item.post.userProfile.firstName}}
+                                              <br/>
+                                              <div *ngIf='item.status=="P"'>Pending Approval</div>
+                                              <div *ngIf='item.status=="D"'>Declined</div>
+                                              <div *ngIf='item.status=="Y"'>Approved</div>
+                                         </ion-col>
+                                        <ion-col col-1></ion-col>
+                                        </ion-row>
 
-
-</ion-row>
-  </ion-grid>
-
-
-<!--Edit option displays Inputs fields with imformation allowing edit-->
-      <ion-list *ngIf=!view>
-          
-          
-
-
-            <ion-item>
-              <ion-label stacked>Name</ion-label>
-              <ion-input type="text" [(ngModel)]="this.profile.firstName"></ion-input>
-            </ion-item>
-          
-            <ion-item>
-                <ion-label stacked>Email</ion-label>
-                <ion-input type="text" [(ngModel)]="this.profile.email"></ion-input>
-           </ion-item>
-
-              <ion-item>
-                  <ion-label stacked>Bio</ion-label>
-                  <ion-textarea type="text" [(ngModel)]="this.profile.bio"></ion-textarea>
-             </ion-item>
-
-             <ion-item>
-                <ion-label stacked>Website</ion-label>
-                <ion-input type="text" [(ngModel)]="this.profile.website"></ion-input>
-              </ion-item>
-
-
-              <ion-item>
-                  <ion-label stacked>Phone No</ion-label>
-                  <ion-input type="text" [(ngModel)]="this.profile.phoneNumber"></ion-input>
+                                        
+                                    </ion-grid>
+                        </ion-col>
+                        <ion-col col-1></ion-col> 
+                   
+                    </ion-row>
+            
+                   
+            
+                  <!-- <ion-row>
+                      <ion-col col-12>{{item.description}}</ion-col>
+                  </ion-row>-->
+            
+            
+                  </ion-grid>
                 </ion-item>
-          
+              </ion-list>
+
+  </div> 
+
+
+  <div *ngSwitchCase="'pendingRequest'">
+     
+        <ion-grid>
+                <ion-row>
+                  <ion-col col-8 align='left'>
+                      <h3>Pending Request's</h3>
+                  </ion-col>
+            </ion-row>
+        </ion-grid>
+        
+        
+        
+        <ion-list>
+            <ion-item  *ngFor='let item of pendingRequest'>
+                    <ion-grid>
+                            <ion-row (click)='viewPost(item.post)'>
+                                <ion-col col-3> <img class='circularPostImg'  src= '{{item.post.imageURL}}' ></ion-col>
+                                <ion-col col-8>
+                                          <ion-grid>
+                                              
+                                               <ion-row>
+                                               <ion-col col-12><h3>{{item.post.subject}}</h3></ion-col>
+                                               </ion-row> 
+            
+                                               <ion-row>
+                                                 <ion-col col-3 align='center'><img class='profileImgSmall' src= '{{item.requestedUserProfile.userPhotoURL}}' ></ion-col>
+                                                 <ion-col col-8 class='sharedTxt' align='left'>
+                                                     Requested by {{item.requestedUserProfile.firstName}}
+                                                     <br/>
+                                                     <div *ngIf='item.status=="D"'>Declined</div>
+                                                     <div *ngIf='item.status=="Y"'>Approved</div>
+                                                   </ion-col>  
+                                                 <ion-col col-1></ion-col>
+                                               </ion-row>
+
+
+                                                  <ion-row *ngIf='item.status=="P"'>
+                                                    
+                                                    <ion-col col-5  align='center'><button ion-button color="primary" (click)='approveOrDecline(item,"Y")'>Accept</button></ion-col>
+                                                    <ion-col col-1></ion-col>
+                                                    <ion-col col-5  align='center'><button ion-button color="danger"  (click)='approveOrDecline(item,"D")'>Decline</button></ion-col>
+                                                    <ion-col col-1></ion-col>
+                                                  </ion-row>
+
+
+                                            </ion-grid>
+                                </ion-col>
+                                <ion-col col-1></ion-col> 
+                           
+                            </ion-row>
+                   </ion-grid>
+            </ion-item>
           </ion-list>
-    </div> 
+
+  </div> 
+
+
+
+  <div *ngSwitchCase="'shared'">
+     
+        <ion-grid>
+                <ion-row>
+                  <ion-col col-8 align='left'>
+                      <h3>Shared Items</h3>
+                  </ion-col>
+            </ion-row>
+        </ion-grid>
+        
+        
+        
+        <ion-list>
+            <ion-item  *ngFor='let item of sharedItems'>
+              
+        <ion-grid>
+                <ion-row (click)='viewPost(item.post)'>
+                    <ion-col col-3> <img class='circularPostImg' (click)='viewPost(item)' src= '{{item.post.imageURL}}' ></ion-col>
+                    <ion-col col-8>
+                              <ion-grid>
+                                  
+                                   <ion-row>
+                                   <ion-col col-12><h3>{{item.subject}}</h3></ion-col>
+                                   </ion-row> 
+
+                                   <ion-row>
+                                     <ion-col col-3 align='center'><img class='profileImgSmall' src= '{{item.receivedUserProfile.userPhotoURL}}' ></ion-col>
+                                     <ion-col col-8 class='sharedTxt' align='left'>Shared with {{item.receivedUserProfile.firstName}}</ion-col>
+                                    <ion-col col-1></ion-col>
+                                    </ion-row>
+                                </ion-grid>
+                    </ion-col>
+                    <ion-col col-1></ion-col> 
+               
+                </ion-row>
+        
+               
+        
+              <!-- <ion-row>
+                  <ion-col col-12>{{item.description}}</ion-col>
+              </ion-row>-->
+        
+        
+              </ion-grid>
+            </ion-item>
+          </ion-list>
+
+  </div> 
+
+  <div *ngSwitchCase="'received'">
+     
+        <ion-grid>
+                <ion-row>
+                  <ion-col col-8 align='left'>
+                      <h3>Received Items</h3>
+                  </ion-col>
+            </ion-row>
+        </ion-grid>
+        
+        
+        
+        <ion-list>
+            <ion-item  *ngFor='let item of receivedItems'>
+              
+        <ion-grid>
+                <ion-row (click)='viewPost(item.post)'>
+                    <ion-col col-3> <img class='circularPostImg' (click)='viewPost(item)' src= '{{item.post.imageURL}}' ></ion-col>
+                    <ion-col col-8>
+                              <ion-grid>
+                                  
+                                   <ion-row>
+                                   <ion-col col-12><h3>{{item.subject}}</h3></ion-col>
+                                   </ion-row> 
+
+                                   <ion-row>
+                                     <ion-col col-3 align='center'><img class='profileImgSmall' src= '{{item.post.userProfile.userPhotoURL}}' ></ion-col>
+                                     <ion-col col-8 class='sharedTxt' align='left'>Received {{item.post.userProfile.firstName}}</ion-col>
+                                    <ion-col col-1></ion-col>
+                                    </ion-row>
+                                </ion-grid>
+                    </ion-col>
+                    <ion-col col-1></ion-col> 
+               
+                </ion-row>
+        
+               
+        
+              <!-- <ion-row>
+                  <ion-col col-12>{{item.description}}</ion-col>
+              </ion-row>-->
+        
+        
+              </ion-grid>
+            </ion-item>
+          </ion-list>
+
+  </div> 
+
 </div>
 </ion-content>
 
