@@ -104,6 +104,7 @@
 
 <div [ngSwitch]="profileDetails">
 
+    
   <div *ngSwitchCase="'myPost'" >
     <ion-grid>
         <ion-row>
@@ -140,6 +141,18 @@
       </ion-grid>
     </ion-item>
   </ion-list>
+  
+                <div *ngIf='mypost.length==0'>
+                        <ion-grid>
+                        <ion-row>
+                            <ion-col align='center' col-12>
+                            <img id='noDataImg' src= 'assets/icon/no-data.svg' >
+                            <br/>
+                            <h5 id='noDataTxt'>Sorry ! You have not added any post </h5>
+                        </ion-col>
+                        </ion-row>
+                    </ion-grid>
+                </div>
 
 </div>
 
@@ -195,9 +208,21 @@
                   </ion-row>-->
             
             
-                  </ion-grid>
+                    </ion-grid>
                 </ion-item>
-              </ion-list>
+            </ion-list>
+
+              <div *ngIf='myRequest.length==0'>
+                    <ion-grid>
+                    <ion-row>
+                        <ion-col align='center' col-12>
+                         <img id='noDataImg' src= 'assets/icon/no-data.svg' >
+                         <br/>
+                         <h5 id='noDataTxt'>Sorry ! No request have been sent </h5>
+                      </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </div>
 
   </div> 
 
@@ -256,6 +281,17 @@
             </ion-item>
           </ion-list>
 
+          <div *ngIf='pendingRequest.length==0'>
+                <ion-grid>
+                <ion-row>
+                    <ion-col align='center' col-12>
+                     <img id='noDataImg' src= 'assets/icon/no-data.svg' >
+                     <br/>
+                     <h5 id='noDataTxt'>Sorry ! No pending request's to show </h5>
+                  </ion-col>
+                </ion-row>
+            </ion-grid>
+        </div>
   </div> 
 
 
@@ -307,10 +343,22 @@
             </ion-item>
           </ion-list>
 
-  </div> 
+          <div *ngIf='sharedItems.length==0'>
+                <ion-grid>
+                <ion-row>
+                    <ion-col align='center' col-12>
+                     <img id='noDataImg' src= 'assets/icon/no-data.svg' >
+                     <br/>
+                     <h5 id='noDataTxt'>Sorry ! No shared item to show </h5>
+                  </ion-col>
+                </ion-row>
+            </ion-grid>
+        </div>
 
+  </div> 
+  
   <div *ngSwitchCase="'received'">
-     
+    
         <ion-grid>
                 <ion-row>
                   <ion-col col-8 align='left'>
@@ -355,7 +403,20 @@
               </ion-grid>
             </ion-item>
           </ion-list>
+     
+     
+     <div *ngIf='receivedItems.length==0'>
+        <ion-grid>
+        <ion-row>
+            <ion-col align='center' col-12>
+             <img id='noDataImg' src= 'assets/icon/no-data.svg' >
+             <br/>
+             <h5 id='noDataTxt'>Sorry ! No received item to show </h5>
+          </ion-col>
+        </ion-row>
+    </ion-grid>
 
+     </div>
   </div> 
 
 </div>

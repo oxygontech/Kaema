@@ -175,7 +175,7 @@ export class ProfileDetailsPage {
 
 
   wakeServer(){
-    this.http.get('https://kaema.azurewebsites.net')
+    this.http.get('https://kaema.azurewebsites.net/service')
     .map(res => res.json())
     .subscribe(data => {
      console.log(data);
