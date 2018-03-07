@@ -52,6 +52,19 @@
     }
   }
 
+  #noDataImg{
+
+    height :80px;
+    width : 80px;
+ }
+
+ #noDataTxt{
+  font-size: 12px;
+  font-style: italic;
+  color:gray;
+  
+  }
+
 // App Global Sass
 // --------------------------------------------------
 // Put style rules here that you want to apply globally. These

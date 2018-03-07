@@ -34,8 +34,11 @@ export class MyApp {
       }else{
         this.rootPage= LoginPage;
       }
+
+      this.splashScreen.hide();
     }).catch(function(error){
       this.rootPage= LoginPage;
+      this.splashScreen.hide();
     });
 
     
