@@ -74,6 +74,10 @@
                   </ion-item>
                 </ion-list>
 
+                  <ion-infinite-scroll (ionInfinite)="scrollDown($event)">
+                    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+                  </ion-infinite-scroll>
+
     <!--
 
           </div>

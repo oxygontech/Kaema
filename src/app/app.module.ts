@@ -38,6 +38,7 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { FirebaseDatabaseServiceProvider } from '../providers/firebase-database-service/firebase-database-service';
 import { NgxQRCodeModule } from 'ngx-qrcode2';
 import { Http, HttpModule } from '@angular/http';
+import { WebServiceProvider } from '../providers/web-service/web-service';
 
 @NgModule({
   declarations: [
@@ -98,7 +99,9 @@ import { Http, HttpModule } from '@angular/http';
     LocationServiceProvider,
     Geolocation,
     FirebaseDatabaseServiceProvider,
-    BarcodeScanner
+    BarcodeScanner,
+    WebServiceProvider,
+    WebServiceProvider
   ]
 })
 export class AppModule { }

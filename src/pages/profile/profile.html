@@ -142,7 +142,7 @@
     </ion-item>
   </ion-list>
   
-                <div *ngIf='mypost.length==0'>
+                <div *ngIf='mypost?.length==0'>
                         <ion-grid>
                         <ion-row>
                             <ion-col align='center' col-12>
@@ -212,7 +212,7 @@
                 </ion-item>
             </ion-list>
 
-              <div *ngIf='myRequest.length==0'>
+              <div *ngIf='myRequest?.length==0'>
                     <ion-grid>
                     <ion-row>
                         <ion-col align='center' col-12>
@@ -281,7 +281,7 @@
             </ion-item>
           </ion-list>
 
-          <div *ngIf='pendingRequest.length==0'>
+          <div *ngIf='pendingRequest?.length==0'>
                 <ion-grid>
                 <ion-row>
                     <ion-col align='center' col-12>
@@ -343,7 +343,7 @@
             </ion-item>
           </ion-list>
 
-          <div *ngIf='sharedItems.length==0'>
+          <div *ngIf='sharedItems?.length==0'>
                 <ion-grid>
                 <ion-row>
                     <ion-col align='center' col-12>
@@ -405,7 +405,7 @@
           </ion-list>
      
      
-     <div *ngIf='receivedItems.length==0'>
+     <div *ngIf='receivedItems?.length==0'>
         <ion-grid>
         <ion-row>
             <ion-col align='center' col-12>

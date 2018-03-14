@@ -29,11 +29,14 @@ export class PostPage {
   post =[];
   postKeys=[];
   loader:any;
+  lastKey:any;
+  dataFinished=false;
 
    @ViewChild('postmap') mapDivRef :ElementRef;
   
     marker:any;
     myLocation ={} as Location;
+    batch=10;
   
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
@@ -41,39 +44,90 @@ export class PostPage {
                public interfac: InterfaceProvider,public locationService:LocationServiceProvider) {
 
     this.viewType='list';
+    this.loadPostList();
+    
 
-    this.loader= this.interfac.presentLoadingDefault();
-    this.loader.present();
+  }
+
+  loadPostList(){
+
+    let loader= this.interfac.presentLoadingDefault();
+    loader.present();
 
     this.afDatabase.list('post',{
       query :{
         orderByChild:'status',
         equalTo:'Y',
-        limitToLast:10
-        //orderByKey:true                       
+        limitToLast:this.batch
+                              
       }
     }).subscribe(postResult=>{
 
-
-      //this.showMap(); 
-     
+     this.lastKey=postResult.keys[0];
      this.post =postResult.reverse();
-     //this.postKeys=postResult.keys();
-     this.loader.dismiss()
-     console.log(this.post);
+
+     if(postResult.length==this.batch){
+      this.dataFinished=false;
+     }else{
+      this.dataFinished=true;
+     }
+     
+     loader.dismiss();
 
     });
 
   }
   
+  ionViewWillEnter(){
+    this.loadPostList();
+  }
+
 
   ionViewDidLoad() {
-    console.log('The map is up');
+   // console.log('The map is up');
+   
   }
 
   ionViewDidEnter(){
     
   }
+
+  scrollDown(infiniteScroll){
+
+   if(!this.dataFinished) {
+
+    this.afDatabase.list('post',{
+      query :{
+        orderByChild:'status',
+        equalTo:'Y',
+        limitToLast:(this.batch+1),
+        endAt:this.lastKey
+                              
+      }
+    }).subscribe(postResult=>{
+
+    let i=0;
+
+     for (let item of postResult.reverse() ){
+      if(i!=0){//not the first element,Because first element has already been added to Post List
+      this.post.push(item);
+      }else{
+        i++;
+      }
+     }
+
+    if(postResult.keys[0]==this.lastKey){
+      this.dataFinished=true;
+    }else{
+      this.lastKey=postResult.keys[0];
+    }
+    
+        infiniteScroll.complete();
+        });
+      }else{
+        infiniteScroll.complete();
+      }
+    }
 
 
   async showMap(){
