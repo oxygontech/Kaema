@@ -15,6 +15,8 @@ import { Profile } from '../../models/profile';
 import { User } from '../../models/user';
 import {ImageViewPage} from '../image-view/image-view';
 import { InterfaceProvider } from '../../providers/interface/interface';
+import { WebServiceProvider } from '../../providers/web-service/web-service';
+
 
 /**
  * Generated class for the ProfileDetailsPage page.
@@ -71,11 +73,11 @@ export class ProfileDetailsPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               private afDatabase : AngularFireDatabase ,private afAuth:AngularFireAuth,public interfac: InterfaceProvider,
-              public camera :Camera,private http :Http) {
+              public camera :Camera,private http :Http,private webService : WebServiceProvider) {
  
     this.loader= this.interfac.presentLoadingDefault();
     this.loader.present();
-    this.wakeServer();
+    //this.wakeServer();
 
     this.profileDetails='post';
 
@@ -92,7 +94,7 @@ export class ProfileDetailsPage {
             this.profileData.subscribe(profileResult=> {
               
                
-
+               this.afDatabase.object(`profile/${this.user.uId}`).set(this.profile);//Making Server Aware of a change
                this.profile=profileResult;
                this.loader.dismiss();
                
@@ -165,7 +167,7 @@ export class ProfileDetailsPage {
   saveProfile(){
     
     this.viewImage=true;
-    this.afDatabase.object(`profile/${this.user.uId}`).set(this.profile);
+    this.webService.editProfile(this.user.uId);
     this.interfac.presentToast('Details Saved Sucessfully');
 
     this.navCtrl.pop();
@@ -173,14 +175,6 @@ export class ProfileDetailsPage {
   
   }
 
-
-  wakeServer(){
-    this.http.get('https://kaema.azurewebsites.net/service')
-    .map(res => res.json())
-    .subscribe(data => {
-     console.log(data);
-    });
-  }
 
 
 

@@ -56,6 +56,7 @@ export class ProfilePage {
   tempUrl='assets/icon/avatar.png';
   captureDataUrl: string;
   profileDetails:any;
+  batch=100;
 
   
 
@@ -90,7 +91,7 @@ export class ProfilePage {
                      query :{
                       orderByChild:'userId',
                        equalTo:this.user.uId,
-                       limitToLast:10
+                       limitToLast:this.batch
                     
                        
                      }
@@ -105,7 +106,7 @@ export class ProfilePage {
                     query :{
                      orderByChild:'requestedUser',
                       equalTo:this.user.uId,
-                      limitToLast:10
+                      limitToLast:this.batch
                       
                       //orderByKey:true                      
                       
@@ -121,7 +122,7 @@ export class ProfilePage {
                     query :{
                      orderByChild:'postedUser',
                       equalTo:this.user.uId,
-                      limitToLast:10
+                      limitToLast:this.batch
                       
                       //orderByKey:true                      
                       
@@ -139,7 +140,7 @@ export class ProfilePage {
                     query :{
                       orderByChild:'sharedUser',
                       equalTo:this.user.uId,
-                      limitToLast:10
+                      limitToLast:this.batch
                       
                       //orderByKey:true                      
                       
@@ -155,7 +156,7 @@ export class ProfilePage {
                     query :{
                       orderByChild:'receivedUser',
                       equalTo:this.user.uId,
-                      limitToLast:10
+                      limitToLast:this.batch
                       
                       //orderByKey:true                      
                       
@@ -187,6 +188,7 @@ viewPost(selectedPost){
 editProfile(){
   this.navCtrl.push(ProfileDetailsPage);
 }
+
 
 
 logout(){
