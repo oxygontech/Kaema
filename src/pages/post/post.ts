@@ -92,6 +92,12 @@ export class PostPage {
     
   }
 
+  refresh(refresher){
+
+    this.loadPostList();
+    refresher.complete();
+  }
+
   scrollDown(infiniteScroll){
 
    if(!this.dataFinished) {

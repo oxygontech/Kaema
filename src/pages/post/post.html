@@ -31,6 +31,16 @@
 
           <div *ngSwitchCase="'list'" >
           -->
+
+          <ion-refresher (ionRefresh)="refresh($event)">
+            <ion-refresher-content
+                pullingIcon="arrow-dropdown"
+                pullingText="Pull to refresh"
+                refreshingSpinner="circle"
+                refreshingText="Refreshing...">
+
+            </ion-refresher-content>
+          </ion-refresher>
               <ion-list>
                   <ion-item  *ngFor='let item of post'>
                     <ion-grid>
