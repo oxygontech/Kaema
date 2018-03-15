@@ -77,7 +77,7 @@ export class ProfilePage {
           console.log('Auther');
               if(result.uid){
                 
-                console.log('profile/'+result.uid);
+                //console.log('profile/'+result.uid);
 
                 this.user.uId=result.uid;
                 this.profileData=this.afDatabase.object('profile/'+this.user.uId);
@@ -85,7 +85,7 @@ export class ProfilePage {
 
 
                    this.profile=profileResult;
-
+                   console.log('this is the profile : '+profileResult);
 
                    this.afDatabase.list('post',{
                      query :{

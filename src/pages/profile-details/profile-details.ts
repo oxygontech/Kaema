@@ -94,7 +94,7 @@ export class ProfileDetailsPage {
             this.profileData.subscribe(profileResult=> {
               
                
-               this.afDatabase.object(`profile/${this.user.uId}`).set(this.profile);//Making Server Aware of a change
+               this.webService.editProfile(this.user.uId);//Making Server Aware of a change
                this.profile=profileResult;
                this.loader.dismiss();
                
@@ -167,9 +167,9 @@ export class ProfileDetailsPage {
   saveProfile(){
     
     this.viewImage=true;
-    this.webService.editProfile(this.user.uId);
+    
+    this.afDatabase.object(`profile/${this.user.uId}`).set(this.profile);
     this.interfac.presentToast('Details Saved Sucessfully');
-
     this.navCtrl.pop();
   
   
