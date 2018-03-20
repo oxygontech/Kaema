@@ -12,6 +12,7 @@ import {AngularFireAuth} from 'angularfire2/auth';
 import {AngularFireDatabase}  from 'angularfire2/database-deprecated';
 
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import { WebServiceProvider } from '../../providers/web-service/web-service';
 
 
 /**
@@ -29,6 +30,7 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 export class ViewPostPage {
 
   post ={} as Post;
+  tempPost={} as Post;
   locationImage:any;
   qrImage:any;
   user ={} as User;
@@ -37,9 +39,11 @@ export class ViewPostPage {
   shared={} as Shared;
   requestStatus =false;
   profile ={} as Profile;
+  servesRemaning=0;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,private afDatabase : AngularFireDatabase,
-              private afAuth:AngularFireAuth,private barcodeScanner: BarcodeScanner,public interfac: InterfaceProvider) {
+              private afAuth:AngularFireAuth,private barcodeScanner: BarcodeScanner,public interfac: InterfaceProvider
+              ,private webService : WebServiceProvider) {
 
     this.afAuth.authState.subscribe(userResult=>{
       
@@ -69,15 +73,9 @@ export class ViewPostPage {
     
         });
 
-
-    if(navParams.get('post')!=null){
-      this.post=navParams.get('post');
-      this.locationImage='https://maps.googleapis.com/maps/api/staticmap?zoom=15&size=600x300&maptype=roadmap'+
-      '&markers=color:red%7Clabel:C%7C'+this.post.location.latitude+','+this.post.location.longitude+
-      '&key=AIzaSyBQP6abQtIy-p2SGetONO3L1-XVwxOZP-g';
-
-      this.qrImage=this.post.postId;
-      }
+       
+        this.getPostDetails();
+       
 
     
   }
@@ -86,9 +84,35 @@ export class ViewPostPage {
     
   }
 
+  getPostDetails(){
+
+    if(this.navParams.get('post')!=null){
+      this.tempPost=this.navParams.get('post');
+
+      this.afDatabase.object('post/'+this.tempPost.postId).subscribe(result=>{
+        this.post=result;
+
+        this.locationImage='https://maps.googleapis.com/maps/api/staticmap?zoom=15&size=600x300&maptype=roadmap'+
+        '&markers=color:red%7Clabel:C%7C'+this.post.location.latitude+','+this.post.location.longitude+
+        '&key=AIzaSyBQP6abQtIy-p2SGetONO3L1-XVwxOZP-g';
+  
+        this.qrImage=this.post.postId;
+        this.servesRemaning=+this.post.servings-(+this.post.shares);
+     });
+
+
+     
+      //console.log(this.servesRemaning);
+      //console.log(this.post.servings);
+      //console.log(this.post.shares);
+      }
+
+  }
+
 
   scanCode() {
-    this.barcodeScanner.scan().then(barcodeData => {
+      
+      this.barcodeScanner.scan().then(barcodeData => {
       this.hiddenText = barcodeData.text;
 
       if(barcodeData.text==this.post.postId){
@@ -102,11 +126,18 @@ export class ViewPostPage {
         this.shared.receivedUserProfile=this.profile;
         this.shared.sharedUser=this.post.userId;
         this.shared.post=this.post;
-    
+        this.post.shares=+this.post.shares+1;
     
         this.afDatabase.object('shared/'+this.user.uId+'_'+this.post.postId).set(this.shared).then(result=>{
-          loader.dismiss();
-          this.interfac.presentToast('Scan Sucessfull, you  have receipted this Post');
+
+          this.webService.sharePost(result).then(dataset=>{
+
+            this.afDatabase.object('post/'+this.post.postId).update({shares:+this.post.shares+1});
+            loader.dismiss();
+            this.interfac.presentToast('Scan Sucessfull, you  have receipted this Post');
+
+          });//Making Server Aware of a sharing event
+         
          
         });
         
@@ -119,6 +150,40 @@ export class ViewPostPage {
         console.log('Error: ', err);
         this.interfac.presentToast('An error occurred');
     });
+
+
+
+    //temp by jithendra 
+
+    
+
+
+
+    /*let loader= this.interfac.presentLoadingDefault();
+    loader.present();
+
+    this.shared.receivedUser=this.user.uId;
+    this.shared.receivedUserProfile=this.profile;
+    this.shared.sharedUser=this.post.userId;
+    this.shared.post=this.post;
+    this.post.shares=+this.post.shares+1;
+
+     
+
+    this.afDatabase.list('shared').push(this.shared).then(result=>{
+     // console.log(result);
+      this.webService.sharePost(this.shared).then(dataset=>{
+
+        console.log(dataset);
+
+        //this.afDatabase.object('post/'+this.post.postId).update({shares:+this.post.shares+1});
+        loader.dismiss();
+        this.interfac.presentToast('Scan Sucessfull, you  have receipted this Post');
+
+      });//Making Server Aware of a sharing event
+     
+     
+    });*/
   }
 
 

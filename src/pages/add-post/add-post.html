@@ -86,8 +86,8 @@
                     
                     <ion-select [(ngModel)]="this.post.servings" item-width="100%">
                          
-                          <ion-option *ngFor="let item of servings_list;" value='{{item}}' >
-                            {{item}}
+                          <ion-option *ngFor="let item of servings_list;" value='{{item.key}}' >
+                            {{item.value}}
                           </ion-option>
 
                     </ion-select>

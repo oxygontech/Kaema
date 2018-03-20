@@ -47,7 +47,10 @@
 
    <ion-row>
       <ion-col col-5 align='left'><ion-badge>Avaliable for {{this.post.daysAvailable}} Days</ion-badge></ion-col>
-      <ion-col col-3 align='left'><ion-badge>{{this.post.servings}} Servings</ion-badge></ion-col>
+      <ion-col col-3 align='left'>
+          <ion-badge *ngIf='servesRemaning>0'>{{this.servesRemaning}} Servings</ion-badge>
+          <ion-badge *ngIf='servesRemaning<=0' color='danger'>{{this.servesRemaning}} Servings</ion-badge>
+        </ion-col>
       <ion-col col-2 align='left'><ion-badge>Type : {{this.post.postType}}</ion-badge></ion-col>
       <ion-col col-2 ></ion-col>
   </ion-row>
@@ -79,16 +82,25 @@
    <div *ngIf='this.post?.userId!=this.user?.uId' >
         <ion-row>
           <ion-col col-12 >
+
+          <div  *ngIf='servesRemaning>0'>
           <button *ngIf='!requestStatus' class='summaryButtons' id='requestButton' ion-button  outline (click)='requestPost()'>Request</button>
           <button *ngIf='requestStatus' class='summaryButtons' id='requestButton' ion-button  outline ion-button icon-right disabled>
-             Request Sent
+              Request Sent
              <ion-icon name="checkmark"></ion-icon>
           </button>
+        </div>
+          <div *ngIf='servesRemaning<=0'>         
+            <button *ngIf='requestStatus' class='summaryButtons' id='requestButton' ion-button  outline ion-button icon-right disabled>
+              No Serving to request
+          </button>
+        </div>
           
          </ion-col>
         </ion-row> 
      </div>
-
+    
+   <div *ngIf='servesRemaning>0'> 
      <div *ngIf='this.post?.userId!=this.user?.uId' >
         <ion-row>
           <ion-col col-12 >
@@ -96,6 +108,7 @@
           </ion-col>
         </ion-row> 
      </div>
+  
 
 <div *ngIf='this.post?.userId==this.user?.uId' >
   <ion-row>
@@ -119,6 +132,7 @@
           
    </ion-col> 
    </ion-row>
+ </div>
 </div>
 
   </ion-grid>  

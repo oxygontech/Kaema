@@ -8,6 +8,7 @@ import {AngularFireDatabase} from 'angularfire2/database-deprecated';
 import { InterfaceProvider } from '../../providers/interface/interface';
 
 import { Storage } from '@ionic/storage';
+import { LeaderBoard } from '../../models/leader_board';
 
 /**
  * Generated class for the RegisterPage page.
@@ -28,6 +29,7 @@ export class RegisterPage {
  loader=null;
 
  profile = {} as Profile;
+ leader_board={} as LeaderBoard;
 
   constructor(private afAuth:AngularFireAuth,public navCtrl: NavController, 
     public navParams: NavParams,public interfac: InterfaceProvider,
@@ -68,8 +70,18 @@ export class RegisterPage {
                         this.storage.set('email', this.email)
                         this.storage.set('password', this.password)
 
-                        this.navCtrl.push(HomePage)
-                        this.loader.dismiss()
+                        this.leader_board.score=0;
+                        this.leader_board.userId=result.uid;
+                        this.leader_board.userProfile=this.profile;
+                      
+                        this.afDatabase.object(`leader_board/${result.uid}`).set(this.leader_board).then(()=>{
+
+                          this.navCtrl.push(HomePage)
+                          this.loader.dismiss()
+
+                        })
+
+                        
 
                       }
                     

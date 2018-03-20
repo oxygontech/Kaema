@@ -72,7 +72,7 @@ export class AddPostPage {
                   loader.present();
 
                   this.post.daysAvailable='1';
-                  this.post.servings='01';
+                  this.post.servings=1;
                   this.post.postType='share';
 
                   this.afAuth.authState.subscribe(result=>{
@@ -99,7 +99,20 @@ export class AddPostPage {
                   i++;
                  }
 
-                 this.afDatabase.object('admin_data/Servings').subscribe(result=>{
+                 var j=1;
+
+                 while(j<=5){
+                   let item={key:j,value:j}
+                   this.servings_list.push(item);
+                   j++;
+                 }
+
+
+                 this.servings_list.push({key:6,value:'More'});
+
+                 loader.dismiss();
+
+/*this.afDatabase.object('admin_data/Servings').subscribe(result=>{
 
 
                   for(let item of Object.keys(result)){
@@ -109,7 +122,7 @@ export class AddPostPage {
                  console.log(this.servings_list)
                  loader.dismiss();
                 // console.log(result.1)
-                 })
+                 })*/
   }
 
   ionViewDidLoad() {
