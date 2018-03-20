@@ -55,7 +55,7 @@ export class WebServiceProvider {
     console.log(shareObj);
 
     
-    this.http.post("http://kaema.azurewebsites.net/service/share",postParams, options)
+    this.http.post("https://kaema.azurewebsites.net/service/share",postParams, options)
       .subscribe(data => {
         console.log(data['_body']);
        }, error => {
