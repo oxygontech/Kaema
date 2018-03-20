@@ -128,11 +128,11 @@ export class ViewPostPage {
         this.shared.post=this.post;
         this.post.shares=+this.post.shares+1;
     
-        this.afDatabase.object('shared/'+this.user.uId+'_'+this.post.postId).set(this.shared).then(result=>{
+            this.afDatabase.list('shared').push(this.shared).then(result=>{
 
-          this.webService.sharePost(result).then(dataset=>{
+            this.webService.sharePost(result).then(dataset=>{
 
-            this.afDatabase.object('post/'+this.post.postId).update({shares:+this.post.shares+1});
+            this.afDatabase.object('post/'+this.post.postId).update({shares:+this.post.shares});
             loader.dismiss();
             this.interfac.presentToast('Scan Sucessfull, you  have receipted this Post');
 
