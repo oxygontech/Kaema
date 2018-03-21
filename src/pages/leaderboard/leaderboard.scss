@@ -1,3 +1,34 @@
 page-leaderboard {
 
+
+
+    .circularPostImg{
+
+        border-radius: 50%;
+         height :60px;
+         width :60px;
+    }     
+ 
+ 
+    .emailTxt{
+        font-size: 10px;
+        font-style: italic
+    }
+
+    .scoreTxt{
+        font-size: 25px;
+        font-style: bold;
+        margin-top:5px;
+
+    }
+
+    .rankTxt{
+
+        font-size: 15px;
+        font-style: bold;
+        border-radius: 50%;
+        margin-top:20px;
+        
+    }
+
 }
