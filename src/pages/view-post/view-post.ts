@@ -45,8 +45,13 @@ export class ViewPostPage {
               private afAuth:AngularFireAuth,private barcodeScanner: BarcodeScanner,public interfac: InterfaceProvider
               ,private webService : WebServiceProvider) {
 
-    this.afAuth.authState.subscribe(userResult=>{
+       let loader=interfac.presentLoadingDefault();
+       loader.present();
+
+
+       this.afAuth.authState.subscribe(userResult=>{
       
+
           if(userResult.uid){
             this.user.uId=userResult.uid;
 
@@ -64,6 +69,10 @@ export class ViewPostPage {
             this.afDatabase.object('profile/'+this.user.uId).subscribe(result=>{
 
                this.profile=result;
+               this.webService.sharePost().then(dataset=>{
+
+                   loader.dismiss();
+               });
 
             });
             
@@ -130,7 +139,7 @@ export class ViewPostPage {
     
             this.afDatabase.list('shared').push(this.shared).then(result=>{
 
-            this.webService.sharePost(result).then(dataset=>{
+            
 
             this.afDatabase.object('post/'+this.post.postId).update({shares:+this.post.shares});
             loader.dismiss();
@@ -139,7 +148,7 @@ export class ViewPostPage {
           });//Making Server Aware of a sharing event
          
          
-        });
+      
         
 
 

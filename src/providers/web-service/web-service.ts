@@ -16,7 +16,7 @@ export class WebServiceProvider {
   }
 
   
-  editProfile(userId){
+  async editProfile(userId){
 
     /*this.http.post('https://kaema.azurewebsites.net/service?userId='+this.user.uId)
     .map(res => res.json())
@@ -34,30 +34,32 @@ export class WebServiceProvider {
       userId: userId
     }
     
-    this.http.post("https://kaema.azurewebsites.net/service/profile", postParams, options)
+    await this.http.post("https://kaema.azurewebsites.net/service/profile", postParams, options)
       .subscribe(data => {
         console.log(data['_body']);
+        return data;
        }, error => {
         console.log(error);// Error getting the data
       });
   }
 
 
-  async sharePost(shareObj){
+  async sharePost(){
 
     var headers = new Headers();
     headers.append("Accept", 'application/json');
     headers.append('Content-Type', 'application/json' );
     let options = new RequestOptions({ headers: headers });
  
-    let postParams=shareObj;
+    /*let postParams=shareObj;
     console.log('WebService : ');
-    console.log(shareObj);
+    console.log(shareObj);*/
 
     
-    this.http.post("https://kaema.azurewebsites.net/service/share",postParams, options)
+    await this.http.post("https://kaema.azurewebsites.net/service/share", options)
       .subscribe(data => {
         console.log(data['_body']);
+        return data;
        }, error => {
         console.log(error);// Error getting the data
       });

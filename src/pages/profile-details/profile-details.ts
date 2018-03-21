@@ -94,9 +94,13 @@ export class ProfileDetailsPage {
             this.profileData.subscribe(profileResult=> {
               
                
-               this.webService.editProfile(this.user.uId);//Making Server Aware of a change
-               this.profile=profileResult;
-               this.loader.dismiss();
+               this.webService.editProfile(this.user.uId).then(()=>{
+                
+                this.profile=profileResult;
+                this.loader.dismiss();
+
+               });//Making Server Aware of a change
+          
                
               }
           
