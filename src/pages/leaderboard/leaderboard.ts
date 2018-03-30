@@ -33,18 +33,18 @@ export class LeaderboardPage {
               private afAuth:AngularFireAuth,public interfac: InterfaceProvider) {
 
 
-        
+
 
 
         this.afAuth.authState.subscribe(result=>{
           console.log('Auther');
               if(result.uid){
-                
+
                 //console.log('profile/'+result.uid);
 
                 this.loadLeaderBoard();
-                   
-                 
+
+
             }else{
                 this.navCtrl.setRoot(LoginPage);
               }
@@ -61,9 +61,9 @@ export class LeaderboardPage {
       query :{
         orderByChild:'score',
         limitToLast:this.batch
-        
-        //orderByKey:true                      
-        
+
+        //orderByKey:true
+
       }
     }).subscribe(leaderBoard=>{
 
@@ -76,7 +76,7 @@ export class LeaderboardPage {
 
 
   refresh(refresher){
-   
+
     this.loadLeaderBoard().then(()=>{
       refresher.complete();
     });
