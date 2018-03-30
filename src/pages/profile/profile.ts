@@ -21,6 +21,7 @@ import {AngularFireAuth} from 'angularfire2/auth';
 
 import { ProfileDetailsPage } from '../profile-details/profile-details';
 import { MorePage } from '../more/more';
+import { ProfileStats } from '../../models/profile_stats';
 
 
 /**
@@ -42,6 +43,7 @@ export class ProfilePage {
   profileData :FirebaseObjectObservable<Profile>;
   profile ={} as Profile;
   user ={} as User;
+  profile_stat={} as ProfileStats;
 
   mypost =[];
   myRequest=[];
@@ -60,7 +62,23 @@ export class ProfilePage {
 
   
 
- 
+ /**
+  * 
+  * ***********************HCI ISSUES************************
+  * 1.Screen has too many functionalities -Resolved (Moved the profile editing to another screen which has a link from this screen)
+  * 2.When data load increases loading the page gets slow -Resolved (
+  *    a.Saved user statistics to seperate node in firebase so that all data is not required to 
+  *       load in order to get the statistic data
+  *    b.Implemented infinite scroll to prevent loading all the data at once,instead loading small batches at a time
+  * )
+  * 3.No proper way for user to recognise new items added any of the list provied-Pending (Feature to implemneted to show 
+  *   new entries an list to be implemneted in a future iteration)
+  * 
+  * 4.Data in list's provided get unordered when data is updated-Resolved (Removed realtime link from firebase and instead provided
+  *    a referesh option which makes sure the list ordering is in place)
+  * 
+  * 
+  */
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
        private afDatabase : AngularFireDatabase ,private afAuth:AngularFireAuth,public interfac: InterfaceProvider,
@@ -72,13 +90,13 @@ export class ProfilePage {
 
         this.profileDetails='myPost';
         this.profile.userPhotoURL=this.tempUrl;
-
+//checking user authetication
         this.afAuth.authState.subscribe(result=>{
           console.log('Auther');
               if(result.uid){
                 
                 //console.log('profile/'+result.uid);
-
+//getting profile statistics
                 this.user.uId=result.uid;
                 this.profileData=this.afDatabase.object('profile/'+this.user.uId);
                 this.profileData.subscribe(profileResult=> {
@@ -87,87 +105,20 @@ export class ProfilePage {
                    this.profile=profileResult;
                    console.log('this is the profile : '+profileResult);
 
-                   this.afDatabase.list('post',{
-                     query :{
-                      orderByChild:'userId',
-                       equalTo:this.user.uId,
-                       limitToLast:this.batch
-                    
-                       
-                     }
-                   }).subscribe(postResult=>{
-
-                    this.mypost =postResult.reverse();
-
-                   })
-
-
-                   this.afDatabase.list('request',{
-                    query :{
-                     orderByChild:'requestedUser',
-                      equalTo:this.user.uId,
-                      limitToLast:this.batch
-                      
-                      //orderByKey:true                      
-                      
-                    }
-                  }).subscribe(requestResult=>{
-
-                   this.myRequest =requestResult.reverse();
-                  
-                  })
-
-
-                  this.afDatabase.list('request',{
-                    query :{
-                     orderByChild:'postedUser',
-                      equalTo:this.user.uId,
-                      limitToLast:this.batch
-                      
-                      //orderByKey:true                      
-                      
-                    }
-                  }).subscribe(requestResult=>{
-
-                   this.pendingRequest =requestResult.reverse();
-                   console.log(this.myRequest);
-                 
-
-                  })
-
-
-                  this.afDatabase.list('shared',{
-                    query :{
-                      orderByChild:'sharedUser',
-                      equalTo:this.user.uId,
-                      limitToLast:this.batch
-                      
-                      //orderByKey:true                      
-                      
-                    }
-                  }).subscribe(requestResult=>{
-
-                   this.sharedItems =requestResult.reverse();
-
-                  })
-
-
-                  this.afDatabase.list('shared',{
-                    query :{
-                      orderByChild:'receivedUser',
-                      equalTo:this.user.uId,
-                      limitToLast:this.batch
-                      
-                      //orderByKey:true                      
-                      
-                    }
-                  }).subscribe(requestResult=>{
-
-                   this.receivedItems =requestResult.reverse();
-                   loader.dismiss()
-
-                  })
                    
+                   this.afDatabase.object('profile_stats/'+this.user.uId).subscribe(profileStat=> {
+                     this.profile_stat=profileStat;
+                   });
+//loading user related Post,shares,request
+                   this.loadPostList ();
+                   this.loadRequestList ();
+                   this.loadPendingRequestList ();
+                   this.loadSharedList ();
+                   this.loadReceivedList ().then(()=>{
+                    loader.dismiss()
+                   })
+                  
+                  
                   }
               
               );
@@ -181,6 +132,127 @@ export class ProfilePage {
   }
 
 
+  //loading user related List
+
+
+  async loadPostList() {
+
+    
+  let PostSubcription=  this.afDatabase.list('post',{
+      query :{
+       orderByChild:'userId',
+        equalTo:this.user.uId,
+        limitToLast:this.batch
+     
+        
+      }
+    }).subscribe(postResult=>{
+
+     this.mypost =postResult.reverse();
+     PostSubcription.unsubscribe();
+
+    })
+
+  }
+
+  async loadRequestList (){
+
+    let requestSubcription=this.afDatabase.list('request',{
+      query :{
+       orderByChild:'requestedUser',
+        equalTo:this.user.uId,
+        limitToLast:this.batch
+        
+        //orderByKey:true                      
+        
+      }
+    }).subscribe(requestResult=>{
+
+     this.myRequest =requestResult.reverse();
+     requestSubcription.unsubscribe();
+    })
+  }
+
+
+  async loadPendingRequestList(){
+
+    let requestSubcription=  this.afDatabase.list('request',{
+    query :{
+     orderByChild:'postedUser',
+      equalTo:this.user.uId,
+      limitToLast:this.batch
+      
+      //orderByKey:true                      
+      
+    }
+  }).subscribe(requestResult=>{
+
+   this.pendingRequest =requestResult.reverse();
+   //console.log(this.myRequest);
+   requestSubcription.unsubscribe();
+
+  })
+}
+
+  async loadSharedList(){
+
+  let sharedSubcription=  this.afDatabase.list('shared',{
+      query :{
+        orderByChild:'sharedUser',
+        equalTo:this.user.uId,
+        limitToLast:this.batch
+        
+        //orderByKey:true                      
+        
+      }
+    }).subscribe(requestResult=>{
+
+     this.sharedItems =requestResult.reverse();
+     sharedSubcription.unsubscribe();
+    })
+
+
+  }
+
+  async loadReceivedList (){
+
+
+    let receivedSubcription=this.afDatabase.list('shared',{
+      query :{
+        orderByChild:'receivedUser',
+        equalTo:this.user.uId,
+        limitToLast:this.batch
+        
+        //orderByKey:true                      
+        
+      }
+    }).subscribe(requestResult=>{
+
+     this.receivedItems =requestResult.reverse();
+     receivedSubcription.unsubscribe
+
+    })
+
+
+  }
+
+  //refreshh function which reload the list's when invoked
+  refresh(refresher){
+   
+          let loader=this.interfac.presentLoadingDefault();
+          loader.present();
+
+                   this.loadPostList ();
+                   this.loadRequestList ();
+                   this.loadPendingRequestList ();
+                   this.loadSharedList ();
+                   this.loadReceivedList ().then(()=>{
+                    refresher.complete();
+                    loader.dismiss()
+                   });
+  
+
+  }
 viewPost(selectedPost){
   this.navCtrl.push(ViewPostPage,{post:selectedPost});
   }
@@ -190,20 +262,21 @@ editProfile(){
 }
 
 
-
+//logging out fuction 
 logout(){
     
   this.navCtrl.setRoot(LoginPage);
-
+//remove user data from device storage
  this.storage.set('status',false);
  this.storage.set('email', null);
  this.storage.set('password', null);
 
- this.afAuth.auth.signOut();
+ this.afAuth.auth.signOut();//signout the user
 
 // this.navCtrl.setRoot(LoginPage);
 }
 
+//logout confirmation before actually loging out the user
 logoutConfirm(){
 
 let confirm = this.alertCtrl.create({
@@ -229,18 +302,20 @@ confirm.present();
 
 }
 
-
+//opening the settings page
 settings(){
 this.navCtrl.push(MorePage);
 }
 
+
+//option provided to accept or decline a perticular request
 
 approveOrDecline(requestObj,updateStatus){
 
 
   let loader= this.interfac.presentLoadingDefault();
   loader.present();
-
+//updating firebase on the approval status
   this.afDatabase.object('request/'+requestObj.requestedUser+'_'+requestObj.post.postId).update({status:updateStatus}).then(result=>{
    loader.dismiss();
 

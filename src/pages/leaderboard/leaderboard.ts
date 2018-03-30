@@ -57,7 +57,7 @@ export class LeaderboardPage {
     let loader= this.interfac.presentLoadingDefault();
     loader.present();
 
-    this.afDatabase.list('leader_board',{
+    let leaderBoardSubscription =this.afDatabase.list('leader_board',{
       query :{
         orderByChild:'score',
         limitToLast:this.batch
@@ -68,7 +68,8 @@ export class LeaderboardPage {
     }).subscribe(leaderBoard=>{
 
      this.leaderboard =leaderBoard.reverse();
-     loader.dismiss()
+     loader.dismiss();
+     leaderBoardSubscription.unsubscribe();//removing the realtime link from firebase
 
     })
   }

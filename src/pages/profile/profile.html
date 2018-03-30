@@ -28,6 +28,20 @@
 
 
 <ion-content padding>
+
+
+        <ion-refresher (ionRefresh)="refresh($event)">
+                <ion-refresher-content
+                    pullingIcon="arrow-dropdown"
+                    pullingText="Pull to refresh"
+                    refreshingSpinner="circle"
+                    refreshingText="Refreshing...">
+            
+                </ion-refresher-content>
+              </ion-refresher>
+  
+              
+              
  <ion-grid>
    <ion-row>
      <ion-col col-4 align='center'>
@@ -60,15 +74,15 @@
 
 
       <ion-col col-3 align='center'>
-        <h4>{{this.mypost?.length}}</h4> Post's
+        <h4>{{this.profile_stat?.post}}</h4> Post's
       </ion-col>
 
       <ion-col col-3 align='center'>
-          <h4>{{this.sharedItems?.length}}</h4> Shared
+          <h4>{{this.profile_stat?.share}}</h4> Shared
         </ion-col>
 
          <ion-col col-3 align='center'>
-            <h4>{{this.receivedItems?.length}}</h4>Receipts
+            <h4>{{this.profile_stat?.receipt}}</h4>Receipts
           </ion-col>
     </ion-row>
 
@@ -318,7 +332,7 @@
                               <ion-grid>
                                   
                                    <ion-row>
-                                   <ion-col col-12><h3>{{item.subject}}</h3></ion-col>
+                                   <ion-col col-12><h3>{{item.post.subject}}</h3></ion-col>
                                    </ion-row> 
 
                                    <ion-row>
@@ -379,12 +393,12 @@
                               <ion-grid>
                                   
                                    <ion-row>
-                                   <ion-col col-12><h3>{{item.subject}}</h3></ion-col>
+                                   <ion-col col-12><h3>{{item.post.subject}}</h3></ion-col>
                                    </ion-row> 
 
                                    <ion-row>
                                      <ion-col col-3 align='center'><img class='profileImgSmall' src= '{{item.post.userProfile.userPhotoURL}}' ></ion-col>
-                                     <ion-col col-8 class='sharedTxt' align='left'>Received {{item.post.userProfile.firstName}}</ion-col>
+                                     <ion-col col-8 class='sharedTxt' align='left'>Received from {{item.post.userProfile.firstName}}</ion-col>
                                     <ion-col col-1></ion-col>
                                     </ion-row>
                                 </ion-grid>

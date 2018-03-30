@@ -14,7 +14,7 @@
 
 
 <ion-content>
-  <ion-grid>
+  <ion-grid *ngIf='this.post.userProfile'>
     <ion-row>
       <ion-col col-12>
         <img  src= '{{this.post?.imageURL}}' class='viewPostImg'>
@@ -24,7 +24,7 @@
   <ion-row>
       <ion-col col-1></ion-col>
       <ion-col col-10 align='center'>
-       <img   src= {{this.post?.userProfile.userPhotoURL}} class='viewPostProImg'>
+       <img   src= {{this.post?.userProfile?.userPhotoURL}} class='viewPostProImg'>
        </ion-col>
        <ion-col col-1></ion-col>
    </ion-row> 
@@ -32,7 +32,7 @@
    <ion-row>
       <ion-col col-1></ion-col>
       <ion-col col-10 align='center'>
-       {{this.post?.userProfile.firstName}} 
+       {{this.post?.userProfile?.firstName}} 
        </ion-col>
        <ion-col col-1></ion-col>
    </ion-row> 

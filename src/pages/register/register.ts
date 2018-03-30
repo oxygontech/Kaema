@@ -9,7 +9,7 @@ import { InterfaceProvider } from '../../providers/interface/interface';
 
 import { Storage } from '@ionic/storage';
 import { LeaderBoard } from '../../models/leader_board';
-
+import { ProfileStats } from '../../models/profile_stats';
 /**
  * Generated class for the RegisterPage page.
  *
@@ -24,12 +24,31 @@ import { LeaderBoard } from '../../models/leader_board';
 })
 export class RegisterPage {
 
+
+  /*
+  * *****************HCI ISSUES*********************
+  * 
+  * 1.User required to login after registering -Resolved (User is automatically logged in after registration)
+  * 2.Incorrect Email or Password exceptions not clear -Resolved (Properly handeled exception at registration and diplayed using a Toast)
+  * 3.When app relaoded User was required to sign in even though user was automatically signed in -Resolved (User credentilas saved
+  *   to device memory)
+  * 
+  * ****************SECURITY RISKS************
+  * 1.Unauthorised access to section of the application which require user to be authenticated -Users will be redirected to Login
+  *  page if the user is not authenticated.
+  * 2.Access application by exploiting the password field -Proper hashing has been implemented for passwords and there is no threat
+  *   of user exploiting the password field. 
+  */
+
+
+
  email="";
  password="";
  loader=null;
 
  profile = {} as Profile;
  leader_board={} as LeaderBoard;
+ profile_stats={} as ProfileStats;
 
   constructor(private afAuth:AngularFireAuth,public navCtrl: NavController, 
     public navParams: NavParams,public interfac: InterfaceProvider,
@@ -40,6 +59,7 @@ export class RegisterPage {
     console.log('ionViewDidLoad RegisterPage');
   }
 
+  //registering user
   async register(){
     
     this.loader=await this.interfac.presentLoadingDefault();
@@ -47,6 +67,7 @@ export class RegisterPage {
 
  try{
 
+  //creating a new user in firebase using email and password
   	const result= await this.afAuth.auth.createUserWithEmailAndPassword(this.email,this.password);
      if(result){
 
@@ -56,6 +77,7 @@ export class RegisterPage {
       this.profile.website='';
       this.profile.userPhotoURL='../../assets/icon/avatar.png';
       
+      //once user is created automatically sign in User 
 		            try{
 					  const loginResult=this.afAuth.auth.signInWithEmailAndPassword(this.email,this.password);
 					  if(loginResult){
@@ -66,20 +88,29 @@ export class RegisterPage {
                       this.afDatabase.object(`profile/${result.uid}`).set(this.profile)
                       .then(()=>{
 
+                        //storing user credentials in device memory
                         this.storage.set('status', true)
                         this.storage.set('email', this.email)
                         this.storage.set('password', this.password)
 
+                        //saving data which will be linked to user within the application
                         this.leader_board.score=0;
                         this.leader_board.userId=result.uid;
                         this.leader_board.userProfile=this.profile;
                       
                         this.afDatabase.object(`leader_board/${result.uid}`).set(this.leader_board).then(()=>{
+                        
+                          this.profile_stats.userId=result.uid;
+                          this.profile_stats.post=0;
+                          this.profile_stats.share=0;
+                          this.profile_stats.receipt=0;
 
-                          this.navCtrl.push(HomePage)
-                          this.loader.dismiss()
-
-                        })
+                            this.afDatabase.object(`profile_stats/${result.uid}`).set(this.profile_stats).then(()=>{
+                          
+                               this.navCtrl.push(HomePage)
+                               this.loader.dismiss();
+                            });
+                        });
 
                         
 
@@ -102,7 +133,7 @@ export class RegisterPage {
 					  }
       }
   }catch(e){
-
+//handling exceptions and displaing to user through a toast
      this.loader.dismiss();
      this.interfac.presentToast(e.message);
      console.error(e);

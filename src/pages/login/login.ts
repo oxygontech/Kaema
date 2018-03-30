@@ -34,6 +34,21 @@ export class LoginPage {
  user ={} as User;
  
 
+ /*
+  * *****************HCI ISSUES*********************
+  * 
+  * 1.Prompting Email and Password everytime the app is loaded -Resolved (User credentials will be saved on the device keeping
+  *   the user logged in even when the app reloaded).
+  * 2.Incorrect Email or Password exceptions not clear -Resolved (Properly handeled exception at login and diplayed using a Toast)
+  * 3.Social login not Functioning on mobile -Pending (Will be fixed in a future iteration)
+  * 
+  * ****************SECURITY RISKS************
+  * 1.Unauthorised access to section of the application which require user to be authenticated -Users will be redirected to Login
+  *  page if the user is not authenticated.
+  * 2.Access application by exploiting the password field -Proper hashing has been implemented for passwords and there is no threat
+  *   of user exploiting the password field. 
+  */
+
   constructor(private afAuth:AngularFireAuth,public navCtrl: NavController, public navParams: NavParams,
              public interfac: InterfaceProvider,public menuCtrl: MenuController,private storage: Storage ) {
   }
@@ -47,12 +62,12 @@ export class LoginPage {
          this.menuCtrl.swipeEnable( true )
        }*/
 
-
+//Open registration Page
   register(){this.navCtrl.push(RegisterPage); }
 
 
 
-
+//Social Login functionality,Currently does not work on Mobile device
 async social_login(socialType){
 
   if(socialType=='google'){
@@ -62,7 +77,7 @@ async social_login(socialType){
   }
 
 
-  //console.log('Reached here after redirect');
+  
   
  this.afAuth.auth.signInWithRedirect(this.provider).then(()=>{
   console.log('Reached here after redirect');
@@ -102,21 +117,21 @@ async social_login(socialType){
 }
 
 
-
+//Email login functonality
  async  login (){
  
   let message='';
 
-
+//display loader
   this.loader=await this.interfac.presentLoadingDefault();
   this.loader.present();
   try{
   
-  
+  //get autharisation from firebase
   const result=await this.afAuth.auth.signInWithEmailAndPassword(this.email,this.password);
  
   if(result){
-
+  //if user is authorized ,store the authorisation parameters in mobile storage
        this.storage.set('status', true);
        this.storage.set('email', this.email);
        this.storage.set('password', this.password);
@@ -126,7 +141,7 @@ async social_login(socialType){
        this.loader.dismiss();
     }
   }catch(e){
-    
+  //handeling exception in authorization  
     this.loader.dismiss();
 
     if(e.code=='auth/user-not-found')
@@ -134,7 +149,7 @@ async social_login(socialType){
     else
        message=e.message;
 
-
+//Displaying exception using a toast
     this.interfac.presentToast(message);
     console.error(e);
   }

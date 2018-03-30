@@ -9,6 +9,7 @@ import { LocationServiceProvider } from '../../providers/location-service/locati
 import { Location } from '../../models/location';
 
 import { ViewPostPage } from '../view-post/view-post';
+//import { CloudMessagingProvider } from '../../providers/cloud-messaging/cloud-messaging';
 
 /**
  * Generated class for the PostPage page.
@@ -41,45 +42,61 @@ export class PostPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               private afDatabase : AngularFireDatabase , private afAuth:AngularFireAuth,
-               public interfac: InterfaceProvider,public locationService:LocationServiceProvider) {
+               public interfac: InterfaceProvider,public locationService:LocationServiceProvider/*,
+  private messageProvider:CloudMessagingProvider*/) {
 
     this.viewType='list';
     this.loadPostList();
+
+    /*this.messageProvider.getToken().then(()=>{
+
+      console.log('Token received');
+          // Listen to incoming messages
+          this.messageProvider.listenToNotifications().subscribe(msg => {
+            // show a toast
+           let toastMsg=this.interfac.presentToast(msg.body)
+          })
+
+    })*/
     
 
   }
 
-  loadPostList(){
+async  loadPostList(){
 
     let loader= this.interfac.presentLoadingDefault();
     loader.present();
+    
 
-    this.afDatabase.list('post',{
-      query :{
-        orderByChild:'status',
-        equalTo:'Y',
-        limitToLast:this.batch
-                              
-      }
-    }).subscribe(postResult=>{
 
-     this.lastKey=postResult.keys[0];
-     this.post =postResult.reverse();
+   let  postSubscription =  this.afDatabase.list('post',{
+                        query :{
+                          orderByChild:'status',
+                          equalTo:'Y',
+                          limitToLast:this.batch
+                                                
+                        }
+                      }).subscribe(postResult=>{
 
-     if(postResult.length==this.batch){
-      this.dataFinished=false;
-     }else{
-      this.dataFinished=true;
-     }
-     
-     loader.dismiss();
+                      this.lastKey=postResult.keys[0];
+                      this.post =postResult.reverse();
 
-    });
+                      if(postResult.length==this.batch){
+                        this.dataFinished=false;
+                      }else{
+                        this.dataFinished=true;
+                      }
+                      
+                      loader.dismiss();
+                      postSubscription.unsubscribe();//removing realtime link to firebase
+                      });
+
+  //Removing the realtime link to firebase DB             
 
   }
   
   ionViewWillEnter(){
-    this.loadPostList();
+    //this.loadPostList();
   }
 
 
@@ -98,38 +115,41 @@ export class PostPage {
     refresher.complete();
   }
 
-  scrollDown(infiniteScroll){
+  async scrollDown(infiniteScroll){
 
    if(!this.dataFinished) {
 
-    this.afDatabase.list('post',{
-      query :{
-        orderByChild:'status',
-        equalTo:'Y',
-        limitToLast:(this.batch+1),
-        endAt:this.lastKey
-                              
-      }
-    }).subscribe(postResult=>{
+   let postSubscription=await this.afDatabase.list('post',{
+                      query :{
+                        orderByChild:'status',
+                        equalTo:'Y',
+                        limitToLast:(this.batch+1),
+                        endAt:this.lastKey
+                                              
+                      }
+                    }).subscribe(postResult=>{
 
-    let i=0;
+                    let i=0;
 
-     for (let item of postResult.reverse() ){
-      if(i!=0){//not the first element,Because first element has already been added to Post List
-      this.post.push(item);
-      }else{
-        i++;
-      }
-     }
+                    for (let item of postResult.reverse() ){
+                      if(i!=0){//not the first element,Because first element has already been added to Post List
+                      this.post.push(item);
+                      }else{
+                        i++;
+                      }
+                    }
 
-    if(postResult.keys[0]==this.lastKey){
-      this.dataFinished=true;
-    }else{
-      this.lastKey=postResult.keys[0];
-    }
-    
-        infiniteScroll.complete();
-        });
+                    if(postResult.keys[0]==this.lastKey){
+                      this.dataFinished=true;
+                    }else{
+                      this.lastKey=postResult.keys[0];
+                    }
+                    
+                        infiniteScroll.complete();
+                        postSubscription.unsubscribe(); //removing realtime link to firebase
+                        });
+
+                       
       }else{
         infiniteScroll.complete();
       }

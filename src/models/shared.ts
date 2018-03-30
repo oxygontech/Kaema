@@ -8,6 +8,7 @@ export interface Shared{
     receivedUser:string;
     receivedUserProfile:Profile;
     post:Post;
+    scoreStatus:String;
     
 
 }
