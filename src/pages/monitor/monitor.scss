@@ -2,3 +2,73 @@ page-monitor {
 
     #connect_button{width:100%}
 }
+
+.ios, .md {
+
+    page-home {
+
+        .scroll-content {
+            background-color: map-get($colors, light);
+        }
+
+        ion-card-header {
+            font-weight: bold;
+        }
+
+    }
+
+}
+
+$numberOfTasks: 10;
+$taskPercentage: 100 / $numberOfTasks / 100;
+
+$color: #00868b;
+
+@mixin task($percentage) {
+    background-image: linear-gradient(bottom, $color, $color $percentage, #444 $percentage, #444 100%) !important;
+  background-image: -webkit-linear-gradient(bottom, $color, $color $percentage, #444 $percentage, #444 100%) !important;
+}
+
+$task-list: ();
+@for $i from 1 through $numberOfTasks {
+  $task-list: append($task-list, (percentage($taskPercentage * $i)));
+}
+
+@each $task-percent in $task-list {
+    $i: index($task-list, $task-percent);
+    .task-#{$i}:before {
+      @include task($task-percent);
+    }
+}
+
+.progress-bar {
+  margin-bottom: 20px;
+}
+
+.progress-bar:before {
+  font-size: 60vw;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-centered {
+  text-align: center;
+}
+
+.scroll-content {
+  background-color: #f6f6f6;
+}
+// Change the number of tasks here and in the JS
+
+.fa {
+  color: grey;
+}
+
+.inspiring-message {
+  font-size: 30px;
+}
+
+hr {
+  padding: 0;
+  margin: 0;
+}

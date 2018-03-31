@@ -23,6 +23,7 @@ import { MapViewPage } from '../pages/map-view/map-view';
 import { LeaderboardPage } from '../pages/leaderboard/leaderboard';
 import { ViewPostPage } from '../pages/view-post/view-post';
 import { ProfileDetailsPage } from '../pages/profile-details/profile-details';
+import { BinRegistrationPage } from '../pages/bin-registration/bin-registration';
 
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -57,7 +58,8 @@ import { WebServiceProvider } from '../providers/web-service/web-service';
     MapViewPage,
     LeaderboardPage,
     ViewPostPage,
-    ProfileDetailsPage
+    ProfileDetailsPage,
+    BinRegistrationPage
   ],
   imports: [
     BrowserModule,

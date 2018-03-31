@@ -10,30 +10,63 @@
     <ion-title>Monitor</ion-title>
   </ion-navbar>
 
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+
+  <link href="//monitor.scss" rel="stylesheet">
+  <script src="//monitor.ts"></script>
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
 </ion-header>
 
 
 <ion-content padding>
 
-      
-      
-
        <ion-grid>
+          <div *ngIf="hideMonitor">
           <ion-row>
               <ion-col align='center' col-12>
               <img id='noDataImg' src= 'assets/icon/no-data.svg' >
               <br/>
-              <h5 id='noDataTxt'>Sorry ! You have not Connected a waste monitor </h5>
+              <h5 id='noDataTxt'>Sorry! You have not connected a waste monitor </h5>
           </ion-col>
           </ion-row>
 
           <ion-row>
               <ion-col align='center' col-12>
-                  <button ion-button    id='connect_button' outline>Connect Waste Monitor</button>
+                  <button ion-button id='connect_button' (click)='connectBin()' outline>Connect to Waste Monitor</button>
+
               </ion-col>
           </ion-row>
+		  </div>
+
+		  <div *ngIf="showMonitor">
+		  <ion-row>
+		  	<ion-col align='center' col-12>
+      				<div class="text-centered">
+        				<p>Weight</p>
+        				<i class="fa fa-trash-o fa-5x task-{{task}}"></i>
+      				</div>
+		  	</ion-col>
+		  </ion-row>
+		  <ion-row>
+		  	<ion-col align='center' col-12>
+		  		<canvas #lineCanvas></canvas>
+		  	</ion-col>
+		  </ion-row>
+
+		  <ion-row>
+		  	<ion-col align='center' col-12>
+          <br />​<hr />​​​​​​​​​​​​​​​​​​​
+		  		<p class="inspiring-message">There are 8 million people starving in the world</p>
+          <br />​<hr />​​​​​​​​​​​​​​​​​​​<br />​​​​​
+		  	</ion-col>
+		  </ion-row>
+
+		  </div>
 
       </ion-grid>
+
 
 
 </ion-content>

@@ -7,6 +7,7 @@ import { Storage } from '@ionic/storage';
 
 import { LoginPage } from '../pages/login/login';
 import { HomePage } from '../pages/home/home';
+import { BinRegistrationPage } from '../pages/bin-registration/bin-registration';
 
 
 import { timer } from 'rxjs/observable/timer';
@@ -23,7 +24,7 @@ export class MyApp {
 
   pages: Array<{ title: string, component: any }>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, 
+  constructor(public platform: Platform, public statusBar: StatusBar,
                public splashScreen: SplashScreen,private storage: Storage) {
 
     // timer(3000).subscribe(() => this.showSplash = false)
@@ -41,8 +42,8 @@ export class MyApp {
       this.splashScreen.hide();
     });
 
-    
-    
+
+
 
   }
 
