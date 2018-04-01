@@ -9,7 +9,7 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
 
       <ion-refresher (ionRefresh)="refresh($event)">
           <ion-refresher-content
@@ -23,38 +23,43 @@
 
 
 
-      <ion-grid>
-          <ion-row>
-            <ion-col col-12 align='Center'>
-                <h2 style='font-style:italic'>What is important</h2>
-            </ion-col>
-      </ion-row>
-
-      </ion-grid>
-      <ion-list>
-          <ion-item  *ngFor='let item of notifications; let catIndex = index'>
+     
+      <ion-list >
+          <ion-item  *ngFor='let item of notifyList; let catIndex = index'>
       <ion-grid>
               <ion-row >
-                  <ion-col col-1   class='rankTxt'>{{catIndex + 1 }}</ion-col>
-                  <ion-col col-3> <img class='circularPostImg'  src= '{{item.userProfile.userPhotoURL}}' align='center'></ion-col>
-                  <ion-col col-6 align='left'>
-                            <ion-grid>
+                  
+                  <ion-col col-4> <img class='circularPostImg'  src= '{{item.notificationImageUrl}}' align='center'></ion-col>
+                  <ion-col col-8 >
+                        <ion-grid>
                                  <ion-row>
-                                 <ion-col col-12><h3>{{item.description}}</h3></ion-col>
+                                 <ion-col col-12><h2>{{item.title}}</h2></ion-col>
                                  </ion-row>
                                  <ion-row>
-                                   <ion-col col-12 class='emailTxt' align='left'>
-                                        {{item.userProfile.firstName}}
+                                   <ion-col col-10 class='messagetxt' text-wrap>
+                                        {{item.message}}<br/>
+                                       <div class='dateTxt' *ngIf='currentDate==item.date'>Today</div>
+                                       <div class='dateTxt' *ngIf='currentDate!=item.date'> {{item.date}}</div>
                                    </ion-col>
+                                   <ion-col col-2></ion-col>
                                 </ion-row>
-
-
-                              </ion-grid>
+                        </ion-grid>
                   </ion-col>
-                  <ion-col col-2 class='scoreTxt' align='right'>{{item.date}}</ion-col>
+                 
               </ion-row>
-
-              </ion-grid>
+            </ion-grid>
           </ion-item>
       </ion-list>
+
+
+      <ion-grid *ngIf='notifyList.length==0'>
+            <ion-row>
+                <ion-col align='center' col-12>
+                <img id='noDataImg' src= 'assets/icon/no-data.svg' >
+                <br/>
+                <h5 id='noDataTxt'>Sorry! You do not have any notifications </h5>
+            </ion-col>
+            </ion-row>
+    </ion-grid>
+            
 </ion-content>

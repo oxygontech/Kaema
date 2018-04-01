@@ -256,13 +256,13 @@
         <ion-list>
             <ion-item  *ngFor='let item of pendingRequest'>
                     <ion-grid>
-                            <ion-row (click)='viewPost(item.post)'>
-                                <ion-col col-3> <img class='circularPostImg'  src= '{{item.post.imageURL}}' ></ion-col>
+                            <ion-row>
+                                <ion-col col-3 (click)='viewPost(item.post)'> <img class='circularPostImg'  src= '{{item.post.imageURL}}' ></ion-col>
                                 <ion-col col-8>
                                           <ion-grid>
                                               
                                                <ion-row>
-                                               <ion-col col-12><h3>{{item.post.subject}}</h3></ion-col>
+                                               <ion-col col-12 (click)='viewPost(item.post)'><h3>{{item.post.subject}}</h3></ion-col>
                                                </ion-row> 
             
                                                <ion-row>

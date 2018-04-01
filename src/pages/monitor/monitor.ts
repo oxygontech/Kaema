@@ -8,6 +8,8 @@ import {AngularFireAuth} from 'angularfire2/auth';
 import { InterfaceProvider } from '../../providers/interface/interface';
 
 import { WasteMonitor } from '../../models/waste-monitor';
+import { BinRegistrationPage } from '../bin-registration/bin-registration';
+
 
 
 
@@ -29,8 +31,10 @@ export class MonitorPage {
     numberTasks: number;
     task: number;
     timer: any;
+
     showMonitor: boolean = false;
     hideMonitor: boolean = true;
+
 
     wasteMonitor = [];
 

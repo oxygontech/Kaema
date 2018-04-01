@@ -21,36 +21,74 @@ import { LoginPage } from '../login/login';
 })
 export class NotificationPage {
 
-  notifications = [];
+  notifyList = [];
+  listLoaded=false;
+  userId:string;
+  dateObj=new Date();
+  currentDate=this.dateObj.toDateString();
+
+  
   constructor(public navCtrl: NavController, public navParams: NavParams,private afDatabase : AngularFireDatabase ,
               private afAuth:AngularFireAuth,public interfac: InterfaceProvider) {
 
-        this.afAuth.authState.subscribe(result=>{
-          console.log('Auther');
-              if(result.uid){
-
-               //console.log('profile/'+result.uid);
-              //this.loadNotifications();
-
-
-            }else{
-                this.navCtrl.setRoot(LoginPage);
-              }
-          });
+       
+                this.afAuth.authState.subscribe(result=>{
+                  console.log('Auther');
+                      if(result.uid){
+            
+                       //console.log('profile/'+result.uid);
+                       this.userId=result.uid;
+                       this.loadNotifications(result.uid);
+            
+            
+                    }else{
+                        this.navCtrl.setRoot(LoginPage);
+                      }
+                  });
   }
-  async loadNotifications(){
+
+
+  ionViewDidEnter (){
+
+    
+  }
+
+  async loadNotifications(currentUserId){
+
     let loader= this.interfac.presentLoadingDefault();
     loader.present();
-    this.afDatabase.list('notifications',{
+    let notifySubcription=  this.afDatabase.list('notifications',{
       query :{
-        orderByChild:'date',
-      //  limitToLast:this.batch
-        //orderByKey:true
+        orderByChild:'userId',
+        equalTo:currentUserId
+        
+        //orderByKey:true                      
+        
       }
+    }).subscribe(requestResult=>{
+
+     this.notifyList =requestResult.reverse();
+     notifySubcription.unsubscribe();
+     loader.dismiss();
+     console.log(this.notifyList);
+
+
     })
+
+
   }
+
+
+  refresh(refresher){
+
+    this.loadNotifications(this.userId).then(()=>{
+      refresher.complete();
+    });
+
+  }
+
   ionViewDidLoad() {
-    console.log('ionViewDidLoad NotificationPage');
+    //console.log('ionViewDidLoad NotificationPage');
   }
 
 }

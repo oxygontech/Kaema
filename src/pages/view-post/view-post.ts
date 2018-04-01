@@ -14,6 +14,7 @@ import {AngularFireDatabase}  from 'angularfire2/database-deprecated';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { WebServiceProvider } from '../../providers/web-service/web-service';
 import { ProfileStats } from '../../models/profile_stats';
+import { Notifications } from '../../models/notifications';
 
 
 /**
@@ -63,6 +64,7 @@ export class ViewPostPage {
   servesRemaning=0;
   profile_stats_share={} as ProfileStats;
   profile_stats_receive={} as ProfileStats;
+ 
 
   constructor(public navCtrl: NavController, public navParams: NavParams,private afDatabase : AngularFireDatabase,
               private afAuth:AngularFireAuth,private barcodeScanner: BarcodeScanner,public interfac: InterfaceProvider
@@ -80,16 +82,10 @@ export class ViewPostPage {
           if(userResult.uid){
             this.user.uId=userResult.uid;
 
-            //checking if the current user has sent a request for this post
-            this.afDatabase.list('request/'+this.user.uId+'_'+this.post.postId).subscribe(result=>{
-                   
-              console.log(result.length);
+               //getting the post details from firebase
+             this.getPostDetails().then(()=>{
 
-              if(result.length>0){
-                this.requestStatus=true;
                 
-              }
-            });
 
             //getting profile stats of current user
 
@@ -108,19 +104,23 @@ export class ViewPostPage {
                 });
                this.webService.sharePost().then(dataset=>{
                  
-                   
+                  
                });
 
             });
+
+
+            });
+          
             
           }else{
+            loader.dismiss();
             this.navCtrl.setRoot(LoginPage);
           }
     
         });
 
-       //getting the post details from firebase
-        this.getPostDetails();
+    
      
      
         
@@ -132,13 +132,14 @@ export class ViewPostPage {
   }
 
   //getting the post details from firebase
-  getPostDetails(){
+  async getPostDetails(){
 
     //getting post id from values passed when opening this page
     if(this.navParams.get('post')!=null){
       this.tempPost=this.navParams.get('post');
       console.log('tempp post '+this.tempPost.postId);
-      this.afDatabase.object('post/'+this.tempPost.postId).subscribe(result=>{
+
+     await this.afDatabase.object('post/'+this.tempPost.postId).subscribe(result=>{
         this.post=result;
 
         //setting up location image 
@@ -148,6 +149,17 @@ export class ViewPostPage {
   
         this.qrImage=this.post.postId;
         this.servesRemaning=+this.post.servings-(+this.post.shares);
+
+        //checking if the current user has sent a request for this post
+        this.afDatabase.list('request/'+this.user.uId+'_'+this.post.postId).subscribe(result=>{
+                   
+          console.log(result.length);
+
+          if(result.length>0){
+            this.requestStatus=true;
+            
+          }
+        });
      });
 
 
@@ -162,6 +174,8 @@ export class ViewPostPage {
 //implementation qr code scanner
   async scanCode() {
       //initialising the scanner
+      let notification ={} as Notifications;
+      let receivedNotification ={} as Notifications;
       this.barcodeScanner.scan().then(barcodeData => {
       this.hiddenText = barcodeData.text;
 
@@ -180,7 +194,25 @@ export class ViewPostPage {
         this.shared.post=this.post;
         this.shared.scoreStatus='N';
         this.post.shares=+this.post.shares+1;
-    
+       
+
+        notification.title='Food Shared ';
+        notification.message='You shared '+this.post.subject+' with '+this.shared.receivedUserProfile.firstName;
+        notification.notificationType='share';
+        notification.notificationImageUrl=this.post.imageURL;
+        notification.readStatus='N';
+        notification.userId=this.post.userId;
+        notification.date=(new Date()).toDateString();
+
+
+        receivedNotification.title='Food Received ';
+        receivedNotification.message='You received '+this.post.subject+' from '+this.post.userProfile.firstName;
+        receivedNotification.notificationType='receipt';
+        receivedNotification.notificationImageUrl=this.post.imageURL;
+        receivedNotification.readStatus='N';
+        receivedNotification.userId=this.shared.receivedUser;
+        receivedNotification.date= (new Date()).toDateString();
+
             this.afDatabase.list('shared').push(this.shared).then(result=>{//saving the share to firebase
 
             
@@ -192,9 +224,17 @@ export class ViewPostPage {
           
               this.profile_stats_receive.receipt++;
               this.afDatabase.object('profile_stats/'+this.shared.receivedUser).update({receipt:this.profile_stats_receive.receipt}).then(()=>{
-                                                                                          
-              loader.dismiss();
-              this.interfac.presentToast('Scan Sucessfull, you  have receipted this Post');
+                    
+              this.afDatabase.list('notifications').push(notification).then(()=>{
+
+                  this.afDatabase.list('notifications').push(receivedNotification).then(()=>{
+                  loader.dismiss();
+                  this.interfac.presentToast('Scan Sucessfull, you  have receipted this Post');
+                  });
+              });
+
+              
+              
   
                 
               });
@@ -262,6 +302,7 @@ export class ViewPostPage {
    
 
 
+    let notification={} as Notifications;
     let loader= this.interfac.presentLoadingDefault();
     loader.present();
 
@@ -272,11 +313,26 @@ export class ViewPostPage {
     this.request.post=this.post;
     this.request.status='P';
 
+        notification.title='Food Request ';
+        notification.message='You have received a food request from '+this.profile.firstName;
+        notification.notificationType='request';
+        notification.notificationImageUrl=this.post.imageURL;
+        notification.readStatus='N';
+        notification.userId=this.post.userId;
+        notification.date=(new Date()).toDateString();
+
    //saving request to firebase
     this.afDatabase.object('request/'+this.user.uId+'_'+this.post.postId).set(this.request).then(result=>{
-      loader.dismiss();
-      this.interfac.presentToast('Request has been sent');
-      this.requestStatus=true;
+
+      this.afDatabase.list('notifications').push(notification).then(()=>{
+
+        loader.dismiss();
+        this.interfac.presentToast('Request has been sent');
+        this.requestStatus=true;
+        });
+        
+     
+     
     });
     
 

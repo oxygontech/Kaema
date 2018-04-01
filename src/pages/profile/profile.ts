@@ -22,6 +22,8 @@ import {AngularFireAuth} from 'angularfire2/auth';
 import { ProfileDetailsPage } from '../profile-details/profile-details';
 import { MorePage } from '../more/more';
 import { ProfileStats } from '../../models/profile_stats';
+import { Notifications } from '../../models/notifications';
+import { HomePage } from '../home/home';
 
 
 /**
@@ -265,13 +267,16 @@ editProfile(){
 //logging out fuction 
 logout(){
     
-  this.navCtrl.setRoot(LoginPage);
+  
+ this.navCtrl.setRoot(LoginPage);
 //remove user data from device storage
  this.storage.set('status',false);
  this.storage.set('email', null);
  this.storage.set('password', null);
 
- this.afAuth.auth.signOut();//signout the user
+ this.afAuth.auth.signOut();
+ window.location.reload();
+ //signout the user
 
 // this.navCtrl.setRoot(LoginPage);
 }
@@ -312,17 +317,48 @@ this.navCtrl.push(MorePage);
 
 approveOrDecline(requestObj,updateStatus){
 
+  let notification={} as Notifications;
 
   let loader= this.interfac.presentLoadingDefault();
   loader.present();
 //updating firebase on the approval status
   this.afDatabase.object('request/'+requestObj.requestedUser+'_'+requestObj.post.postId).update({status:updateStatus}).then(result=>{
-   loader.dismiss();
+  
 
   if(updateStatus=='Y'){
-  this.interfac.presentToast('Request accepted successfully');
+  //saving a notification for user requested User
+        notification.title='Food Request ';
+        notification.message='Your request has beeen Approved by  '+requestObj.post.userProfile.firstName;
+        notification.notificationType='share';
+        notification.notificationImageUrl=requestObj.post.imageURL;
+        notification.readStatus='N';
+        notification.userId=requestObj.requestedUser;
+        notification.date=(new Date()).toDateString();
+
+        this.afDatabase.list('notifications').push(notification).then(()=>{
+        this.loadPendingRequestList ();
+           
+          loader.dismiss();
+          this.interfac.presentToast('Request accepted successfully');
+          });
+
+       
   }else{
-  this.interfac.presentToast('Request declined successfully');
+       notification.title='Food Request ';
+        notification.message='Your request has beeen Declined by  '+requestObj.post.userProfile.firstName;
+        notification.notificationType='share';
+        notification.notificationImageUrl=requestObj.post.imageURL;
+        notification.readStatus='N';
+        notification.userId=requestObj.requestedUser;
+        notification.date=(new Date()).toDateString();
+        
+        this.afDatabase.list('notifications').push(notification).then(()=>{
+        this.loadPendingRequestList ();
+          loader.dismiss();
+          this.interfac.presentToast('Request declined successfully');
+          });
+
+       
   }
 
   })
