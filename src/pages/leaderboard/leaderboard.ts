@@ -83,8 +83,8 @@ export class LeaderboardPage {
 
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad LeaderboardPage');
+  ionViewDidEnter() {
+    this.loadLeaderBoard();
   }
 
 }

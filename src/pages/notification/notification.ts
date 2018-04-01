@@ -48,9 +48,9 @@ export class NotificationPage {
   }
 
 
+//this section will be excuted everytime the user enter's the screen
   ionViewDidEnter (){
-
-    
+    this.loadNotifications(this.userId); 
   }
 
   async loadNotifications(currentUserId){

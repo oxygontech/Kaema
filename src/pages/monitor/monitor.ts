@@ -11,8 +11,6 @@ import { WasteMonitor } from '../../models/waste-monitor';
 import { BinRegistrationPage } from '../bin-registration/bin-registration';
 
 
-
-
 /**
  * Generated class for the MonitorPage page.
  *
@@ -32,8 +30,10 @@ export class MonitorPage {
     task: number;
     timer: any;
 
+
     showMonitor: boolean = false;
     hideMonitor: boolean = true;
+
 
 
     wasteMonitor = [];

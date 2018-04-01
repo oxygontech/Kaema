@@ -133,6 +133,23 @@ export class ProfilePage {
  
   }
 
+//this section will be excuted everytime the user enter's the screen
+  ionViewDidEnter(){
+
+    let loader= this.interfac.presentLoadingDefault();
+    loader.present();
+
+    this.loadPostList ();
+    this.loadRequestList ();
+    this.loadPendingRequestList ();
+    this.loadSharedList ();
+    this.loadReceivedList ().then(()=>{
+     loader.dismiss()
+    })
+
+  }
+
+
 
   //loading user related List
 
@@ -328,7 +345,9 @@ approveOrDecline(requestObj,updateStatus){
   if(updateStatus=='Y'){
   //saving a notification for user requested User
         notification.title='Food Request ';
-        notification.message='Your request has beeen Approved by  '+requestObj.post.userProfile.firstName;
+
+        notification.message='Your request has been Approved by  '+requestObj.post.userProfile.firstName;
+
         notification.notificationType='share';
         notification.notificationImageUrl=requestObj.post.imageURL;
         notification.readStatus='N';
@@ -345,7 +364,9 @@ approveOrDecline(requestObj,updateStatus){
        
   }else{
        notification.title='Food Request ';
-        notification.message='Your request has beeen Declined by  '+requestObj.post.userProfile.firstName;
+
+        notification.message='Your request has been Declined by  '+requestObj.post.userProfile.firstName;
+
         notification.notificationType='share';
         notification.notificationImageUrl=requestObj.post.imageURL;
         notification.readStatus='N';
