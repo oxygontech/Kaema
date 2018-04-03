@@ -99,31 +99,38 @@ export class MonitorPage {
     }
 
 ionViewWillEnter (){
-  /*let loader = this.interfac.presentLoadingDefault();
+  let loader = this.interfac.presentLoadingDefault();
   loader.present();
 
   this.afDatabase.list('bin_registration',{
-    query :{
-      orderByChild:'userid',
-      equalTo:this.userId
-    }
-  }).subscribe(requestResult=>{
+                query :{
+                  orderByChild:'userId',
+                  equalTo:this.userId
+                }
+              }).subscribe(requestResult=>{
+        
+                //this.receivedItems =requestResult.reverse();
+                console.log('Bin Data '+requestResult);
 
-    //this.receivedItems =requestResult.reverse();
-   // console.log(requestResult);
-   if(requestResult.length>0){
-    this.showMonitor= true;
-    this.hideMonitor = false;
-    this.drawGraph();
-    loader.dismiss();
-   }else{
-    loader.dismiss()
-   }
-    //this.wasteMonitor = requestResult;
-    
+               if(requestResult.length>0){
+                this.showMonitor= true;
+                this.hideMonitor = false;
+                this.displayMessage=this.messageString;
+                this.drawGraph();
+                loader.dismiss();
+               }else{
+                loader.dismiss()
+               }
+                //this.wasteMonitor = requestResult;
+                
+        
+        
+              })
 
+              
+           
 
-  })*/
+       
 }
 
     wasteLevelAnimation($timeout) {
