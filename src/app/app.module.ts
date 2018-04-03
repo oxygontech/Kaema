@@ -89,7 +89,8 @@ import { WebServiceProvider } from '../providers/web-service/web-service';
     MapViewPage,
     LeaderboardPage,
     ViewPostPage,
-    ProfileDetailsPage
+    ProfileDetailsPage,
+    BinRegistrationPage
   ],
   providers: [
     StatusBar,

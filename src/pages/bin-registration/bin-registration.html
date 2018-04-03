@@ -1,18 +1,54 @@
 <!--
-  Generated template for the BinRegistrationPage page.
+
+  Generated template for the RegisterPage page.
+
 
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>bin-registration</ion-title>
+
+  <ion-navbar color='primary'>
+    <ion-title>Register Bin</ion-title>
+
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+
+
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-label stacked>No. of People in Your Household</ion-label>
+        <ion-input type="number" pattern="[0-9*]" [(ngModel)]="this.binRegistration.noOfPeople"></ion-input>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <ion-label>Majority Food Preference</ion-label>
+          <ion-select [(ngModel)]="this.binRegistration.foodPreference">
+            <ion-option value="vegetarian">Vegetarian</ion-option>
+            <ion-option value="vegan">Vegan</ion-option>
+            <ion-option value="pescatarian">Pescatarian</ion-option>
+            <ion-option value="anything">Anything goes!</ion-option>
+          </ion-select>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col col-6 align='center'>
+        <button class='buttons' id='scanButton' ion-button  outline (click)='scanCode()'>Scan Code</button>
+      </ion-col>
+      <ion-col col-6 align='center'>
+        <button ion-button id='bin_reg_button' (click)='registerBin()' outline>Register Bin</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
 
 </ion-content>

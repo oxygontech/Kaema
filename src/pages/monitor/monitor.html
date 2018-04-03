@@ -22,8 +22,9 @@
 
 <ion-content padding>
 
-       <ion-grid>
-          <div *ngIf="hideMonitor">
+
+       <ion-grid *ngIf="hideMonitor">
+
           <ion-row>
               <ion-col align='center' col-12>
               <img id='noDataImg' src= 'assets/icon/no-data.svg' >
@@ -38,9 +39,11 @@
 
               </ion-col>
           </ion-row>
-		  </div>
 
-		  <div *ngIf="showMonitor">
+		  </ion-grid>
+
+      <ion-grid *ngIf="showMonitor">
+
 		  <ion-row>
 		  	<ion-col align='center' col-12>
       				<div class="text-centered">
@@ -63,7 +66,8 @@
 		  	</ion-col>
 		  </ion-row>
 
-		  </div>
+
+
 
       </ion-grid>
 

@@ -8,7 +8,11 @@ import {AngularFireAuth} from 'angularfire2/auth';
 import { InterfaceProvider } from '../../providers/interface/interface';
 
 import { WasteMonitor } from '../../models/waste-monitor';
-import { BinRegistrationPage } from '../bin-registration/bin-registration';
+
+
+import { BinRegistrationPage } from '../bin-registration/bin-registration'
+
+
 
 
 /**
@@ -30,10 +34,8 @@ export class MonitorPage {
     task: number;
     timer: any;
 
-
     showMonitor: boolean = false;
     hideMonitor: boolean = true;
-
 
 
     wasteMonitor = [];
@@ -43,7 +45,9 @@ export class MonitorPage {
       public interfac: InterfaceProvider) {
 
 
-      /*let loader = this.interfac.presentLoadingDefault();
+
+      let loader = this.interfac.presentLoadingDefault();
+
         loader.present();
 
                    this.afDatabase.list('waste_monitor/waste_monitor').subscribe(requestResult=>{
@@ -55,7 +59,9 @@ export class MonitorPage {
 
                    loader.dismiss()
 
-                  })*/
+
+                 })
+
 
     }
 
@@ -92,7 +98,10 @@ export class MonitorPage {
 
         console.log('ionViewDidLoad MonitorPage');
 
-        this.lineChart = new Chart(this.lineCanvas.nativeElement, {
+
+        if (this.showMonitor == true){
+          this.lineChart = new Chart(this.lineCanvas.nativeElement, {
+
 
             type: 'line',
             data: {
@@ -134,6 +143,9 @@ export class MonitorPage {
             }
 
         });
+
+      }
+
     }
 
     connectBin(){
