@@ -42,7 +42,7 @@
 
 		  </ion-grid>
 
-      <ion-grid *ngIf="showMonitor">
+      <ion-grid>
 
 		  <ion-row>
 		  	<ion-col align='center' col-12>
@@ -61,7 +61,7 @@
 		  <ion-row>
 		  	<ion-col align='center' col-12>
           <br />​<hr />​​​​​​​​​​​​​​​​​​​
-		  		<p class="inspiring-message">There are 8 million people starving in the world</p>
+		  		<p class="inspiring-message">{{this.displayMessage}}</p>
           <br />​<hr />​​​​​​​​​​​​​​​​​​​<br />​​​​​
 		  	</ion-col>
 		  </ion-row>

@@ -4,5 +4,6 @@ export interface BinRegistration{
   adminUser:boolean;
   noOfPeople:number;
   foodPreference:string;
+  userId:string;
 
 }

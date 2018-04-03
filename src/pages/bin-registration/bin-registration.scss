@@ -42,4 +42,14 @@ page-bin-registration {
         background-color: #db3236;
 
     }
+
+    .statusTxt{
+
+        color: map-get($colors, danger);
+    }
+
+    .statusTxtOk{
+
+        color: map-get($colors, secondary);
+    }
 }

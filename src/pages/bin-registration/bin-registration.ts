@@ -31,10 +31,13 @@ export class BinRegistrationPage {
   userID:string;
   codeScanned:boolean;
   barcode:any;
+  binMapped=false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private afDatabase:AngularFireDatabase,
               private afAuth:AngularFireAuth, private barcodeScanner:BarcodeScanner, public interfac:InterfaceProvider,
               private webService:WebServiceProvider) {
+
+                this.binRegistration.foodPreference='vegetarian';//setting default value
 
                 let loader = this.interfac.presentLoadingDefault();
                 loader.present();
@@ -42,9 +45,10 @@ export class BinRegistrationPage {
                 this.afAuth.authState.subscribe(result=>{
                     if(result.uid){
                        this.userID = result.uid;
-                       loader.dismiss;
+                       loader.dismiss();
                     }else{
                       this.navCtrl.setRoot(BinRegistrationPage);
+                      loader.dismiss();
                     }
 
                 });
@@ -57,7 +61,7 @@ export class BinRegistrationPage {
   }
 
 
-  scanCode() {
+  async scanCode() {
 
     this.barcodeScanner.scan().then(barcodeData => {
       this.barcode = barcodeData.text;
@@ -73,102 +77,84 @@ export class BinRegistrationPage {
           equalTo:this.barcode
         }
       }).subscribe(result=>{
+        console.log(result);
         this.binRegistration.binID = result[0].id;
+
+        if(this.binRegistration.binID != null){
+          this.binRegistration.binID = this.binRegistration.binID ;//+ " - " + this.userID;
+          this.interfac.presentToast('Scan Successfull.');
+          this.binMapped=true;
+        }else{
+          this.interfac.presentToast('Scan unsuccessful. This is an incorrect code.');
+        }
+
         loader.dismiss();
       });
 
       console.log("BARCODE VALUE 2 :::: " + this.binRegistration.binID);
 
 
-      if(this.binRegistration.binID != null){
-
-        this.binRegistration.binID = this.binRegistration.binID + " - " + this.userID;
-
-        this.afDatabase.list('bin_registration').push(this.binRegistration).then(result=>{
-
-          loader.dismiss();
-          this.interfac.presentToast('You have successfully registered your bin.');
-          this.codeScanned = true;
-
-        });//Making Server Aware of a sharing event
-
-      }else{
-        this.interfac.presentToast('Scan unsuccessful. This is an incorrect code.');
-      }
+     
     }, (err) => {
       console.log('Error: ', err);
       this.interfac.presentToast('An error occurred');
     });
   }
 
+  validateInputs(){
+
+    if(this.binRegistration.noOfPeople==0||this.binRegistration.noOfPeople==null){
+      this.interfac.presentToast('Please Enter Correct number of people');
+      return false;
+    }else if(!this.binMapped){
+      this.interfac.presentToast('Please Scan the bin barcode');
+      return false;
+    }else{
+      return true;
+    }
+
+  
+  }
+
+
+
   async registerBin(){
 
-      //if(this.binRegistration.noOfPeople )
-      /*this.loader = await this.interfac.presentLoadingDefault();
-     	this.loader.present();
+    if(this.validateInputs){
 
-   try{
-      const result = await this.afAuth.auth.createUserWithEmailAndPassword(this.email,this.password);
-       if(result){
+      let loader = this.interfac.presentLoadingDefault();
+      loader.present();
+      this.binRegistration.userId=this.userID;
 
-        this.profile.firstName=this.email;
-        this.profile.email=this.email;
-        this.profile.bio='';
-        this.profile.website='';
-        this.profile.userPhotoURL='../../assets/icon/avatar.png';
-
-  		            try{
-  					  const loginResult=this.afAuth.auth.signInWithEmailAndPassword(this.email,this.password);
-  					  if(loginResult){
-
-                this.afAuth.authState.subscribe(result=>{
-                      if(result.uid){
-
-                        this.afDatabase.object(`profile/${result.uid}`).set(this.profile)
-                        .then(()=>{
-
-                          this.storage.set('status', true)
-                          this.storage.set('email', this.email)
-                          this.storage.set('password', this.password)
-
-                          this.leader_board.score=0;
-                          this.leader_board.userId=result.uid;
-                          this.leader_board.userProfile=this.profile;
-
-                          this.afDatabase.object(`leader_board/${result.uid}`).set(this.leader_board).then(()=>{
-
-                            this.navCtrl.push(HomePage)
-                            this.loader.dismiss()
-
-                          })
-
-
-
-                        }
-
-
-
-
-                         );
-                      }
-                  });
-
-
-
-
-  					    }
-  					  }catch(e){
-                this.loader.dismiss();
-  					    console.error(e);
-  					  }
+    await  this.afDatabase.list('bin_registration/',{
+        query :{
+          orderByChild:'binID',
+          equalTo:this.binRegistration.binID
         }
-    }catch(e){
+      }).subscribe(result=>{
+        //console.log(result);
+        //this.binRegistration.binID = result[0].id;
+       if(result.length>0){
+        this.binRegistration.adminUser=true;
+       }else{
+        this.binRegistration.adminUser=false;
+       }
+        
+       this.afDatabase.object('bin_registration/'+this.binRegistration.binID+'_'+this.userID).set(this.binRegistration).then(()=>{
 
-       this.loader.dismiss();
-       this.interfac.presentToast(e.message);
-       console.error(e);
-     }*/
+        
+        loader.dismiss();
+        this.interfac.presentToast("Bin has been added Successfully");
+        this.navCtrl.pop();
+     })
+     
+        
+      });
+
+      
+      
     }
+  }
 
 
 

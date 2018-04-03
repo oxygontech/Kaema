@@ -41,6 +41,14 @@
     </ion-row>
 
     <ion-row>
+        <ion-col>
+          Wastebin Status <br/>
+          <div *ngIf='!binMapped' class='statusTxt'>You have not Scanned the QR Code provided on the Bin</div>
+          <div *ngIf='binMapped' class='statusTxtOk'>Bin has been Successfully added</div>  
+        </ion-col>
+    </ion-row>
+
+    <ion-row>
       <ion-col col-6 align='center'>
         <button class='buttons' id='scanButton' ion-button  outline (click)='scanCode()'>Scan Code</button>
       </ion-col>
