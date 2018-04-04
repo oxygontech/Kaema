@@ -27,20 +27,20 @@ export class NotificationPage {
   dateObj=new Date();
   currentDate=this.dateObj.toDateString();
 
-  
+
   constructor(public navCtrl: NavController, public navParams: NavParams,private afDatabase : AngularFireDatabase ,
               private afAuth:AngularFireAuth,public interfac: InterfaceProvider) {
 
-       
+
                 this.afAuth.authState.subscribe(result=>{
                   console.log('Auther');
                       if(result.uid){
-            
+
                        //console.log('profile/'+result.uid);
                        this.userId=result.uid;
                        this.loadNotifications(result.uid);
-            
-            
+
+
                     }else{
                         this.navCtrl.setRoot(LoginPage);
                       }
@@ -50,7 +50,7 @@ export class NotificationPage {
 
 //this section will be excuted everytime the user enter's the screen
   ionViewDidEnter (){
-    this.loadNotifications(this.userId); 
+    this.loadNotifications(this.userId);
   }
 
   async loadNotifications(currentUserId){
@@ -61,9 +61,6 @@ export class NotificationPage {
       query :{
         orderByChild:'userId',
         equalTo:currentUserId
-        
-        //orderByKey:true                      
-        
       }
     }).subscribe(requestResult=>{
 
@@ -71,11 +68,7 @@ export class NotificationPage {
      notifySubcription.unsubscribe();
      loader.dismiss();
      console.log(this.notifyList);
-
-
     })
-
-
   }
 
 
