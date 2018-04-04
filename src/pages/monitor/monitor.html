@@ -19,58 +19,46 @@
 
 </ion-header>
 
-
 <ion-content padding>
+  <ion-grid *ngIf="hideMonitor">
 
+    <ion-row>
+      <ion-col align='center' col-12>
+        <img id='noDataImg' src= 'assets/icon/no-data.svg' >
+        <br/>
+        <h5 id='noDataTxt'>Sorry! You have not connected a waste monitor </h5>
+      </ion-col>
+    </ion-row>
 
-       <ion-grid *ngIf="hideMonitor">
+    <ion-row>
+      <ion-col align='center' col-12>
+        <button ion-button id='connect_button' (click)='connectBin()' outline>Connect to Waste Monitor</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
-          <ion-row>
-              <ion-col align='center' col-12>
-              <img id='noDataImg' src= 'assets/icon/no-data.svg' >
-              <br/>
-              <h5 id='noDataTxt'>Sorry! You have not connected a waste monitor </h5>
-          </ion-col>
-          </ion-row>
+  <ion-grid >
+	   <ion-row *ngIf="showMonitor">
+       <ion-col align='center' col-12>
+         <div class="text-centered">
+           <p>Weight</p>
+           <i class="fa fa-trash-o fa-5x task-{{task}}"></i>
+         </div>
+       </ion-col>
+     </ion-row>
 
-          <ion-row>
-              <ion-col align='center' col-12>
-                  <button ion-button id='connect_button' (click)='connectBin()' outline>Connect to Waste Monitor</button>
+     <ion-row>
+       <ion-col align='center' col-12>
+         <canvas #lineCanvas></canvas>
+       </ion-col>
+     </ion-row>
 
-              </ion-col>
-          </ion-row>
-
-		  </ion-grid>
-
-      <ion-grid>
-
-		  <ion-row>
-		  	<ion-col align='center' col-12>
-      				<div class="text-centered">
-        				<p>Weight</p>
-        				<i class="fa fa-trash-o fa-5x task-{{task}}"></i>
-      				</div>
-		  	</ion-col>
-		  </ion-row>
-		  <ion-row>
-		  	<ion-col align='center' col-12>
-		  		<canvas #lineCanvas></canvas>
-		  	</ion-col>
-		  </ion-row>
-
-		  <ion-row>
-		  	<ion-col align='center' col-12>
-          <br />​<hr />​​​​​​​​​​​​​​​​​​​
-		  		<p class="inspiring-message">{{this.displayMessage}}</p>
-          <br />​<hr />​​​​​​​​​​​​​​​​​​​<br />​​​​​
-		  	</ion-col>
-		  </ion-row>
-
-
-
-
-      </ion-grid>
-
-
-
+     <ion-row *ngIf="showMonitor">
+       <ion-col align='center' col-12>
+         <br />​<hr />​​​​​​​​​​​​​​​​​​​
+         <p class="inspiring-message">{{this.displayMessage}}</p>
+         <br />​<hr />​​​​​​​​​​​​​​​​​​​<br />​​​​​
+       </ion-col>
+     </ion-row>
+   </ion-grid>
 </ion-content>

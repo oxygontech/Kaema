@@ -8,7 +8,6 @@
 -->
 <ion-header>
 
-
   <ion-navbar color='primary'>
     <ion-title>Register Bin</ion-title>
 
@@ -16,9 +15,7 @@
 
 </ion-header>
 
-
 <ion-content padding>
-
 
   <ion-grid>
     <ion-row>
@@ -32,10 +29,10 @@
       <ion-col>
         <ion-label>Majority Food Preference</ion-label>
           <ion-select [(ngModel)]="this.binRegistration.foodPreference">
-            <ion-option value="vegetarian">Vegetarian</ion-option>
-            <ion-option value="vegan">Vegan</ion-option>
-            <ion-option value="pescatarian">Pescatarian</ion-option>
-            <ion-option value="anything">Anything goes!</ion-option>
+            <ion-option value="Vegetarian">Vegetarian</ion-option>
+            <ion-option value="Vegan">Vegan</ion-option>
+            <ion-option value="Pescatarian">Pescatarian</ion-option>
+            <ion-option value="Anything">Anything goes!</ion-option>
           </ion-select>
       </ion-col>
     </ion-row>
@@ -43,8 +40,8 @@
     <ion-row>
         <ion-col>
           Wastebin Status <br/>
-          <div *ngIf='!binMapped' class='statusTxt'>You have not Scanned the QR Code provided on the Bin</div>
-          <div *ngIf='binMapped' class='statusTxtOk'>Bin has been Successfully added</div>  
+          <div *ngIf='!binMapped' class='statusTxt'>You have not scanned the QR code provided on the bin</div>
+          <div *ngIf='binMapped' class='statusTxtOk'>Bin has been successfully added</div>
         </ion-col>
     </ion-row>
 
@@ -57,6 +54,5 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-
 
 </ion-content>

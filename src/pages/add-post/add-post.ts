@@ -69,12 +69,12 @@ export class AddPostPage {
   /**
    * *******************HCI ISSUES************************
    * 
-   * 1.Not clear what needs to be enter -Resolved (User's are helped with placeholder to better understand what needs to filled)
-   * 2.User not aware of what data is madetory -Resolved (User's will alerted if they have missed any mandotory fields)
+   * 1. Not clear what needs to be enter -Resolved (User's are helped with placeholder to better understand what needs to filled)
+   * 2. User not aware of what data is madetory -Resolved (User's will alerted if they have missed any mandotory fields)
    * 
    * 
    * ***********************SECURITY RISKS*********
-   * 1.Unauthourized user adding a Post -(Application controls implemented preventing any unathourized access of this screen)
+   * 1. Unauthourized user adding a Post -(Application controls implemented preventing any unathourized access of this screen)
    * 
    * 
    * 
