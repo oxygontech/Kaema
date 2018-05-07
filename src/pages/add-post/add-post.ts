@@ -286,6 +286,7 @@ export class AddPostPage {
       this.post.entDate=(new Date()).toDateString();
       this.post.status='Y';
       this.post.shares=0;
+      this.post.views=0;
 
       //getting the reference on where to add the post
       let postList=this.afDatabase.list(`post`);

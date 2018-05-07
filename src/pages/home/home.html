@@ -35,8 +35,9 @@
 
 
 <ion-tabs >
-  <ion-tab tabIcon="list-box" tabTitle="Timeline" [root]="timeline"></ion-tab>
+  
+  <ion-tab  tabIcon="list-box" tabBadge="{{this.undreadNotification||''}}" tabBadgeStyle="danger"  tabTitle="Timeline" [root]="timeline"></ion-tab>
   <ion-tab tabIcon="beaker" tabTitle="Monitor"  [root]="monitor"></ion-tab>
-  <ion-tab tabIcon="list" tabTitle="Leaderboard"     [root]="leaderBoard"></ion-tab>
+  <ion-tab tabIcon="list"   tabTitle="Leaderboard"     [root]="leaderBoard"></ion-tab>
   <ion-tab tabIcon="person" tabTitle="Profile"     [root]="profile"></ion-tab>
 </ion-tabs>

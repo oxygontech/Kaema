@@ -85,8 +85,6 @@ export class ViewPostPage {
                //getting the post details from firebase
              this.getPostDetails().then(()=>{
 
-                
-
             //getting profile stats of current user
 
             this.afDatabase.object('profile/'+this.user.uId).subscribe(result=>{
@@ -127,8 +125,11 @@ export class ViewPostPage {
     
   }
 
-  ionViewDidLoad() {
-    
+  ionViewDidEnter() {
+   if (this.post!=null){
+    this.postView()
+  }
+   
   }
 
   //getting the post details from firebase
@@ -263,6 +264,7 @@ export class ViewPostPage {
 
 
 
+
     //temp by jithendra 
 
     
@@ -296,6 +298,14 @@ export class ViewPostPage {
     });*/
   }
 
+//increase view count 
+postView (){
+
+  if(this.user.uId!=this.post.userId){
+    this.post.views++;
+    this.afDatabase.object('post/'+this.post.postId).update({views:+this.post.views});
+  }
+}
 //sending a request for the post
   requestPost(){
   

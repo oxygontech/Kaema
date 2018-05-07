@@ -41,6 +41,8 @@ import { NgxQRCodeModule } from 'ngx-qrcode2';
 import { Http, HttpModule } from '@angular/http';
 import { WebServiceProvider } from '../providers/web-service/web-service';
 
+
+import { GooglePlus } from '@ionic-native/google-plus';
 @NgModule({
   declarations: [
     MyApp,
@@ -104,7 +106,8 @@ import { WebServiceProvider } from '../providers/web-service/web-service';
     FirebaseDatabaseServiceProvider,
     BarcodeScanner,
     WebServiceProvider,
-    WebServiceProvider
+    WebServiceProvider,
+    GooglePlus
   ]
 })
 export class AppModule { }

@@ -282,16 +282,17 @@ editProfile(){
 
 
 //logging out fuction 
-logout(){
+async logout(){
     
   
  this.navCtrl.setRoot(LoginPage);
+ await this.afAuth.auth.signOut();
 //remove user data from device storage
  this.storage.set('status',false);
  this.storage.set('email', null);
- this.storage.set('password', null);
+ await this.storage.set('password', null);
 
- this.afAuth.auth.signOut();
+ 
  window.location.reload();
  //signout the user
 

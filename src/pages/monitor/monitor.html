@@ -10,13 +10,7 @@
     <ion-title>Monitor</ion-title>
   </ion-navbar>
 
-  <meta charset="utf-8">
-  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-
-  <link href="//monitor.scss" rel="stylesheet">
-  <script src="//monitor.ts"></script>
-  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-
+ 
 </ion-header>
 
 <ion-content padding>
@@ -38,14 +32,72 @@
   </ion-grid>
 
   <ion-grid >
-	   <ion-row *ngIf="showMonitor">
-       <ion-col align='center' col-12>
-         <div class="text-centered">
-           <p>Weight</p>
-           <i class="fa fa-trash-o fa-5x task-{{task}}"></i>
-         </div>
-       </ion-col>
-     </ion-row>
+	 
+
+    <ion-row *ngIf="showMonitor">
+      <ion-col  col-12>
+              <ion-card>
+               <img src="{{this.messageImg}}"/>
+               <div class="card-title"> Message of the Day</div>
+               <div class="card-subtitle">{{this.displayMessage}}</div>
+             </ion-card>
+      </ion-col>
+ </ion-row>
+
+ 
+
+      <ion-row *ngIf="showMonitor">
+
+      
+          <ion-col align='left' col-6>
+              <p>Bin Stats</p>
+              <!--i class="bin fa fa-trash-o fa-5x task-{{task}}"></i-->
+              <div class="bowl">
+                  <div class="inner">
+                    <div [ngClass]="fillClass">
+                      <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="300px" height="300px" viewBox="0 0 300 300" enable-background="new 0 0 300 300" xml:space="preserve">
+                        <path class="waveShape" d="M300,300V2.5c0,0-0.6-0.1-1.1-0.1c0,0-25.5-2.3-40.5-2.4c-15,0-40.6,2.4-40.6,2.4
+                  c-12.3,1.1-30.3,1.8-31.9,1.9c-2-0.1-19.7-0.8-32-1.9c0,0-25.8-2.3-40.8-2.4c-15,0-40.8,2.4-40.8,2.4c-12.3,1.1-30.4,1.8-32,1.9
+                  c-2-0.1-20-0.8-32.2-1.9c0,0-3.1-0.3-8.1-0.7V300H300z" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+          </ion-col>
+          <ion-col align='center' col-6>
+               <p class='smallLabel' >Current Weight :</p>
+               <div class='largeLabel' align='center'>{{this.currentWeight}}<font color='green'>g</font></div><br>
+
+               <p class='smallLabel' >Current Level :</p>
+               <div class='largeLabel' align='center'>{{this.currentPercentage}}<font color='green'>%</font></div><br>
+
+          </ion-col>
+      </ion-row>
+
+      <ion-row *ngIf="showMonitor">
+
+        
+        <ion-col align='center' col-3>
+          <div class="circle" id='redCircle'><br/>750<font color='green'>g</font></div>
+          <br/>Yearly Waste
+        </ion-col>
+      
+        <ion-col align='center' col-1></ion-col>
+      
+        <ion-col align='center' col-3>
+            <div class="circle" id='yellowCircle'><br/>200<font color='green'>g</font></div>
+            <br/>Monthly Waste
+          </ion-col>
+      
+          <ion-col align='center' col-1></ion-col>
+      
+          <ion-col align='center' col-4>
+              <div class="circle" id='greenCircle'><br/>75<font color='green'>g</font></div>
+              <br/>Weekly Waste
+            </ion-col>
+          
+      </ion-row>
+
 
      <ion-row>
        <ion-col align='center' col-12>
@@ -54,11 +106,10 @@
      </ion-row>
 
      <ion-row *ngIf="showMonitor">
-       <ion-col align='center' col-12>
-         <br />​<hr />​​​​​​​​​​​​​​​​​​​
-         <p class="inspiring-message">{{this.displayMessage}}</p>
-         <br />​<hr />​​​​​​​​​​​​​​​​​​​<br />​​​​​
-       </ion-col>
-     </ion-row>
+      <ion-col  col-12>
+        <button ion-button id='connect_button' (click)='disconnectBin()' color='danger'  outline>Disconnect Waste Monitor</button>
+      </ion-col>
+    </ion-row>
+
    </ion-grid>
 </ion-content>

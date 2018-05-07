@@ -8,6 +8,7 @@ export interface Post{
     userId :string;
     servings  :number;
     shares :number;
+    views :number;
     daysAvailable:string;
     imageURL:string;
     location:Location;

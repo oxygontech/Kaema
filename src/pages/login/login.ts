@@ -4,11 +4,13 @@ import { RegisterPage } from '../register/register';
 import { HomePage } from '../home/home';
 
 import {AngularFireAuth} from 'angularfire2/auth';
-import { MenuController } from 'ionic-angular';
+import { MenuController ,Platform} from 'ionic-angular';
 import { InterfaceProvider } from '../../providers/interface/interface';
 import firebase from 'firebase/app';
 import { Storage } from '@ionic/storage';
 import { User } from '../../models/user';
+
+import { GooglePlus } from '@ionic-native/google-plus';
 
 
 /**
@@ -50,7 +52,8 @@ export class LoginPage {
   */
 
   constructor(private afAuth:AngularFireAuth,public navCtrl: NavController, public navParams: NavParams,
-             public interfac: InterfaceProvider,public menuCtrl: MenuController,private storage: Storage ) {
+             public interfac: InterfaceProvider,public menuCtrl: MenuController,
+             private storage: Storage, private gplus: GooglePlus,private platform: Platform ) {
   }
 
  /* ionViewWillEnter() {
@@ -66,7 +69,18 @@ export class LoginPage {
   register(){this.navCtrl.push(RegisterPage); }
 
 
+async googleLogin() {
+  
 
+  if (this.platform.is('cordova')) {
+    console.log('Native');
+    this.social_login_native();
+  } else {
+    console.log('WebClient');
+    this.social_login('google');
+    
+  }
+}
 //Social Login functionality,Currently does not work on Mobile device
 async social_login(socialType){
 
@@ -79,7 +93,7 @@ async social_login(socialType){
 
   
   
- this.afAuth.auth.signInWithRedirect(this.provider).then(()=>{
+ /*this.afAuth.auth.signInWithRedirect(this.provider).then(()=>{
   console.log('Reached here after redirect');
   this.afAuth.auth.getRedirectResult().then(result =>{
     // This gives you a Google Access Token. You can use it to access the Google API.
@@ -96,26 +110,48 @@ async social_login(socialType){
     // The email of the user's account used.
     var email = error.email;
     // The firebase.auth.AuthCredential type that was used.
-    var credential = error.credential;*/
+    var credential = error.credential;
     console.error(error);
    
+  });*/
+try{
+  const provider = new firebase.auth.GoogleAuthProvider();
+  const credential = await this.afAuth.auth.signInWithPopup(provider).then(result=>{
+
+     console.log(result);
   });
+}catch(err) {
+  console.log(err)
+}
 
-
- }).catch(function(error) {
-  // Handle Errors here.
-  /*var errorCode = error.code;
-  var errorMessage = error.message;
-  // The email of the user's account used.
-  var email = error.email;
-  // The firebase.auth.AuthCredential type that was used.
-  var credential = error.credential;*/
-  console.error(error);
- 
-});
 
 }
 
+
+async social_login_native(){
+
+  let loader=this.interfac.presentLoadingDefault();
+  try {
+
+   
+    loader.present();
+    const gplusUser = await this.gplus.login({
+      'webClientId': '704413697067-7fh66l89k944of9p6jdknrrtb0a7cgr2.apps.googleusercontent.com',
+      'offline': false,
+      'scopes': 'profile email'
+    })
+    console.log('Rechaed Here Native');
+    
+     await this.afAuth.auth.signInWithCredential(firebase.auth.GoogleAuthProvider.credential(gplusUser.idToken))
+     loader.dismiss();
+  } catch(err) {
+    this.interfac.presentToast(err);
+    console.log(err);
+    loader.dismiss();
+  }
+
+
+}
 
 //Email login functonality
  async  login (){

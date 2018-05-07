@@ -57,6 +57,7 @@ export class WebServiceProvider {
 
     
     await this.http.post("https://kaema.azurewebsites.net/service/share", options)
+   //await this.http.post("localhost:1337/service/share", options)
       .subscribe(data => {
         console.log(data['_body']);
         return data;

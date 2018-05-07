@@ -9,7 +9,7 @@ import { InterfaceProvider } from '../../providers/interface/interface';
 
 import { WasteMonitor } from '../../models/waste-monitor';
 import { BinRegistrationPage } from '../bin-registration/bin-registration'
-
+import { AlertController } from 'ionic-angular';
 /*
   * ***************** HCI ISSUES *********************
   * 
@@ -39,24 +39,37 @@ export class MonitorPage {
     hideMonitor: boolean = true;
     userId:string;
     messageString = 'There are 8 million people starving in the world';
+    messageImg="assets/img/message_background.jpg";
     displayMessage = '';
     wasteMonitor = [];
+    binId:string;
+    fillClass='fill0';
+
+    
+    currentWeight=0;
+    currentHeight=0;
+    currentPercentage=0;
+
+    pageLoaded=false;
 
     constructor(public navCtrl: NavController, public navParams: NavParams,
       private afDatabase : AngularFireDatabase ,private afAuth:AngularFireAuth,
-      public interfac: InterfaceProvider) {
+      public interfac: InterfaceProvider,private alertCtrl:AlertController) {
 
         let loader = this.interfac.presentLoadingDefault();
         loader.present();
+
+      this.pageLoaded=true;
 
         //validates the user
         this.afAuth.authState.subscribe(result=>{
           if(result.uid){
             this.userId = result.uid;
             console.log(result.uid);
-
+            
             //checks whether the bin is registered, only shows the monitor data if the bin is registers
             this.loadMonitor();
+            loader.dismiss();
           }else{
             this.navCtrl.setRoot(BinRegistrationPage);
             loader.dismiss();
@@ -70,33 +83,17 @@ export class MonitorPage {
         })
       }
 
-      ionViewWillEnter (){
-        this.loadMonitor();
+      ionViewDidEnter (){
+       // this.loadMonitor();
+       if (this.pageLoaded){
+        this.currentWeight=0;
+        this.currentPercentage=0;
+        this.binAnimation(this.binId);
+       }
       }
 
-      wasteLevelAnimation($timeout) {
-        this.numberTasks = 8;
-        this.task = 1;
-
-        this.timer = function() {
-          this.task++;
-
-          if (this.task != this.numberTasks) {
-            $timeout(function() {
-              this.timer()
-            }, 2000);
-          }
-        }
-
-        $timeout(function() {
-          this.timer()
-        }, 2000);
-      }
-
+   
       loadMonitor(){
-
-        let loader = this.interfac.presentLoadingDefault();
-        loader.present();
 
         this.afDatabase.list('bin_registration',{
           query :{
@@ -111,20 +108,113 @@ export class MonitorPage {
             this.hideMonitor = false;
             this.displayMessage = this.messageString;
             this.drawGraph();
-            loader.dismiss();
+            this.binId=requestResult[0].binID;
 
-          }else{
-            loader.dismiss()
+            
+            this.binAnimation(requestResult[0].binID);
+
+            //loading daily message with Background Image
+            this.afDatabase.list('daily_message').subscribe(messageResult=>{
+
+              //console.log(messageResult);
+              this.displayMessage=messageResult[0].message;
+              this.messageImg=messageResult[0].imageURL;
+            });
+           // loader.dismiss();
+
           }
         })
+      }
+
+binAnimation (bindId){
+        this.afDatabase.object('admin_data/binIDs/'+bindId).subscribe(resultAdmin=>{
+
+          //console.log(messageResult);
+          let maxHeight=resultAdmin.maxHeight;
+          this.afDatabase.object('current_reading/'+bindId).subscribe(result=>{
+ 
+              //console.log(result);
+             // this.currentWeight=result.weight;
+              this.weightAnimation(result.weight);
+              
+              
+              this.currentHeight=result.height;
+             // this.currentPercentage=(this.currentHeight/maxHeight)*100;
+              this.percentageAnimation((this.currentHeight/maxHeight)*100);
+
+              let percentage=(this.currentHeight/maxHeight)*100;
+             
+              switch(true) { 
+                case (percentage==0) : { 
+                  this.fillClass='fill0';
+                   break; 
+                } 
+
+                case (percentage>0 && percentage<=30) : { 
+                  this.fillClass='fill20';
+                   break; 
+                } 
+                case (percentage>30 && percentage<=50): { 
+                  this.fillClass='fill40';
+                   break; 
+                } 
+                case (percentage>50 && percentage<=70) : { 
+                  this.fillClass='fill60';
+                   break; 
+                } 
+                case (percentage>70 && percentage<=90): { 
+                  this.fillClass='fill80';
+                   break; 
+                } 
+
+                case (percentage>90 ): { 
+                  this.fillClass='fill100';
+                   break; 
+                } 
+              
+              }
+          });
+          
+        });
+        
+      }
+
+      weightAnimation (number){
+        let interval = setInterval(()=>{
+          
+           if( this.currentWeight > number){
+            this.currentWeight--; 
+           }else if(this.currentWeight == number){
+            clearInterval(interval);
+           }else  if( this.currentWeight < number){
+            this.currentWeight++;
+           }else{
+            clearInterval(interval);
+           }
+
+        },80)
+      }
+
+      
+      percentageAnimation (number){
+        let interval = setInterval(()=>{
+          
+           if( this.currentPercentage > number){
+            this.currentPercentage--; 
+           }else if(this.currentPercentage == number){
+            clearInterval(interval);
+           }else  if( this.currentPercentage < number){
+            this.currentPercentage++;
+           }else{
+            clearInterval(interval);
+           }
+        },80)
       }
 
       @ViewChild('lineCanvas') lineCanvas;
       lineChart: any;
 
-      ionViewDidLoad() {
-        console.log('ionViewDidLoad MonitorPage');
-      }
+   
 
       drawGraph(){
 
@@ -175,5 +265,31 @@ export class MonitorPage {
 
         connectBin(){
           this.navCtrl.push(BinRegistrationPage);
+        }
+
+        disconnectBin(){
+
+          let confirm = this.alertCtrl.create({
+            title: 'Confirm Disconnection',
+            message: 'Are you sure you want to Disconnect the Waste Monitor ?',
+            buttons: [
+              {
+                text: 'Yes',
+                handler: () => {
+                  this.showMonitor=false;
+                  this.afDatabase.object('bin_registration/'+this.binId+'_'+this.userId).remove();
+                }
+              },
+              {
+                text: 'No',
+                handler: () => {
+                 
+                }
+              }
+            ]
+          });
+          confirm.present();
+
+          
         }
 }

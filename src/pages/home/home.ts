@@ -12,6 +12,7 @@ import { LeaderboardPage } from '../leaderboard/leaderboard';
 
 import { Storage } from '@ionic/storage';
 import { AlertController } from 'ionic-angular';
+import {AngularFireDatabase,FirebaseObjectObservable}  from 'angularfire2/database-deprecated';
 /**
  * Generated class for the HomePage page.
  *
@@ -32,22 +33,49 @@ export class HomePage {
   profile=ProfilePage;
   leaderBoard=LeaderboardPage;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,
+  undreadNotification=0;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams,private afDatabase : AngularFireDatabase ,
               private afAuth:AngularFireAuth,private storage: Storage,private alertCtrl:AlertController) {
+
+                this.loadNotifications();
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad HomePage');
-    this.afAuth.authState.subscribe(result=>{
-      
-          if(!result.uid){
-            this.navCtrl.setRoot(LoginPage);
-          }
+  ionViewDidEnter() {
     
-        });
   }
 
 
+loadNotifications(){
+
+  
+  this.afAuth.authState.subscribe(result=>{
+      
+    if(!result.uid){
+      this.navCtrl.setRoot(LoginPage);
+    }else{
+
+
+      this.afDatabase.list('notifications',{
+        query :{
+          orderByChild:'userId',
+          equalTo:result.uid
+        }
+      }).subscribe(requestResult=>{
+  
+       let notifyList =requestResult.reverse();
+       this.undreadNotification=0;
+       for (let item of notifyList){
+            if(item.readStatus=="Y"){
+              continue;
+            }
+            this.undreadNotification++;
+          }
+      })
+    }
+
+  });
+}
 
 
   logout(){
