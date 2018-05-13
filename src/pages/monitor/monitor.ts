@@ -65,7 +65,7 @@ export class MonitorPage {
         this.afAuth.authState.subscribe(result=>{
           if(result.uid){
             this.userId = result.uid;
-            console.log(result.uid);
+            
             
             //checks whether the bin is registered, only shows the monitor data if the bin is registers
             this.loadMonitor();
@@ -78,7 +78,7 @@ export class MonitorPage {
 
         //gets the waste monitor data
         this.afDatabase.list('waste_monitor/waste_monitor').subscribe(requestResult=>{
-          console.log(requestResult);
+          
           this.wasteMonitor = requestResult;
         })
       }

@@ -1,0 +1,63 @@
+page-chat-message {
+
+
+    
+        ion-content {
+          
+          height: 100%;
+          overflow: hidden;
+          .item-md, .item-ios {
+            background: none;
+          }
+        }
+
+        .user_name {
+            color: #000;
+            
+        }
+
+        .my_user_name {
+            color: #000;
+            align-content: right;
+        }
+        .message {
+            padding: 10px !important;
+            transition: all 250ms ease-in-out !important;
+            border-radius: 10px !important;
+            margin-bottom: 4px !important;
+        }
+        .my_message {
+            background:#087697 !important;
+            color: #000 !important;
+        }
+        .other_message {
+            background: #dcdcdc !important;
+            color: #000 !important;
+        }
+        .time {
+            color: #afafaf;
+            float: right;
+            font-size: small;
+        }
+        .message_row {
+            background-color: #fff;
+        }
+
+        .chatImg{
+
+            border-radius: 50%;
+            height :20px;
+            width :20px;
+            margin-top: -5px;
+          
+        }
+    
+        .profileImg{
+            border-radius: 50%;
+            height :40px;
+            width :40px;
+            
+
+        }
+        
+}

@@ -89,6 +89,7 @@
               Request Sent
              <ion-icon name="checkmark"></ion-icon>
           </button>
+          
         </div>
           <div *ngIf='servesRemaning<=0'>         
             <button *ngIf='requestStatus' class='summaryButtons' id='requestButton' ion-button  outline ion-button icon-right disabled>
@@ -98,6 +99,12 @@
           
          </ion-col>
         </ion-row> 
+
+        <ion-row>
+          <ion-col col-12>
+            <button  class='summaryButtons' id='dmButton' ion-button  outline (click)='directMessage()'>Send Message</button>
+          </ion-col>
+        </ion-row>
      </div>
     
    <div *ngIf='servesRemaning>0'> 

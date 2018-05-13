@@ -33,7 +33,7 @@ export class NotificationPage {
 
 
                 this.afAuth.authState.subscribe(result=>{
-                  console.log('Auther');
+                 
                       if(result.uid){
 
                        //console.log('profile/'+result.uid);

@@ -153,7 +153,7 @@ export class AddPostPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad AddPostPage');
+    
   }
 
 
@@ -178,7 +178,7 @@ export class AddPostPage {
           '&markers=color:red%7Clabel:C%7C'+this.location.latitude+','+this.location.longitude+
           '&key=AIzaSyBQP6abQtIy-p2SGetONO3L1-XVwxOZP-g';
 
-          console.log(this.locationImage);
+         
         }
        
         
@@ -271,7 +271,7 @@ export class AddPostPage {
     //saving the post data to firebase
     async savePost(){
 
-      console.log((new Date()).toDateString());
+      
   
   
 
@@ -295,7 +295,6 @@ export class AddPostPage {
 
       //uploading image to firebase using provider firebase service
       let uploadImage=await this.fireImageService.saveImage(postKey,'post/'+postKey,this.imageURL);
-      console.log(uploadImage);
       this.afDatabase.object('post/'+postKey).update({imageURL:uploadImage,postId:postKey})
       
 

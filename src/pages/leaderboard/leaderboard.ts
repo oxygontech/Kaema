@@ -63,10 +63,11 @@ export class LeaderboardPage {
 
       }
     }).subscribe(leaderBoard=>{
-
+    
+     this.leaderboard=[];
      this.leaderboard =leaderBoard.reverse();
      loader.dismiss();
-     leaderBoardSubscription.unsubscribe();//removing the realtime link from firebase
+    // leaderBoardSubscription.unsubscribe();//removing the realtime link from firebase
 
     })
   }

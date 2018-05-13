@@ -1,0 +1,61 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+
+      <ion-grid>
+        <ion-row>
+          <ion-col col-9 aling='left'>
+            {{this.otherUserProfile.firstName}}
+         </ion-col>
+         <ion-col col-3 aling='right'>
+          <img  src= {{this.otherUserProfile?.userPhotoURL}} class='profileImg'>
+        </ion-col>
+      </ion-row>
+      </ion-grid>
+
+
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content id='messagesContent'>
+    <ion-grid>
+      <ion-row *ngFor="let message of messages">
+        
+        <ion-col col-9 *ngIf="message.userId !== this.user.uId" class="message other_message" >
+          <span class="user_name"><b>{{ this.otherUserProfile.firstName  }}</b></span><br>
+          <span>{{ message.text }}</span><br/>
+          <div class="time"  *ngIf='currentDate  ==message.sendDate '>Today {{message.sendTime||'' | date  : 'H:mm'}}</div>
+          <div class="time"  *ngIf='currentDate!=message.sendDate'>{{message.sendDate | date : 'dd-M-yyyy'}}{{message.sendTime||'' | date  : 'H:mm'}} </div>
+        </ion-col>
+   
+        <ion-col offset-3 col-9 *ngIf="message.userId === this.user.uId" class="message my_message" >
+          <span class="user_name" ><b>You</b></span><br/>
+          <span>{{ message.text }}</span><br/>
+         
+          <div class="time"  *ngIf='currentDate==message.sendDate '>Today {{message.sendTime||'' | date  : 'H:mm'}}</div>
+          <div class="time"  *ngIf='currentDate!=message.sendDate '>{{message.sendDate | date : 'dd-M-yyyy'}} {{message.sendTime||'' | date  : 'H:mm'}}</div>
+        </ion-col>
+   
+      </ion-row>
+    </ion-grid>
+   
+  </ion-content>
+   
+  <ion-footer>
+    <ion-toolbar>
+      <ion-row class="message_row">
+        <ion-col col-9>
+          <ion-item no-lines>
+            <ion-input type="text" placeholder="Message" [(ngModel)]="messageText"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col col-3>
+          <button ion-button clear color="primary" (click)="sendMessage()" [disabled]="messageText === ''">
+          Send
+        </button>
+        </ion-col>
+      </ion-row>
+    </ion-toolbar>
+  </ion-footer>

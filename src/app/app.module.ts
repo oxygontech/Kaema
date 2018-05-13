@@ -24,6 +24,8 @@ import { LeaderboardPage } from '../pages/leaderboard/leaderboard';
 import { ViewPostPage } from '../pages/view-post/view-post';
 import { ProfileDetailsPage } from '../pages/profile-details/profile-details';
 import { BinRegistrationPage } from '../pages/bin-registration/bin-registration';
+import { ChatPage } from '../pages/chat/chat';
+import { ChatMessagePage } from '../pages/chat-message/chat-message';
 
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -61,7 +63,9 @@ import { GooglePlus } from '@ionic-native/google-plus';
     LeaderboardPage,
     ViewPostPage,
     ProfileDetailsPage,
-    BinRegistrationPage
+    BinRegistrationPage,
+    ChatPage,
+    ChatMessagePage
   ],
   imports: [
     BrowserModule,
@@ -92,7 +96,9 @@ import { GooglePlus } from '@ionic-native/google-plus';
     LeaderboardPage,
     ViewPostPage,
     ProfileDetailsPage,
-    BinRegistrationPage
+    BinRegistrationPage,
+    ChatPage,
+    ChatMessagePage
   ],
   providers: [
     StatusBar,

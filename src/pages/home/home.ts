@@ -13,6 +13,8 @@ import { LeaderboardPage } from '../leaderboard/leaderboard';
 import { Storage } from '@ionic/storage';
 import { AlertController } from 'ionic-angular';
 import {AngularFireDatabase,FirebaseObjectObservable}  from 'angularfire2/database-deprecated';
+import { ChatPage } from '../chat/chat';
+import { User } from '../../models/user';
 /**
  * Generated class for the HomePage page.
  *
@@ -32,13 +34,27 @@ export class HomePage {
   more=MorePage;
   profile=ProfilePage;
   leaderBoard=LeaderboardPage;
+  chat=ChatPage;
+  undreadChat=0;
+  
 
   undreadNotification=0;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,private afDatabase : AngularFireDatabase ,
               private afAuth:AngularFireAuth,private storage: Storage,private alertCtrl:AlertController) {
 
-                this.loadNotifications();
+                this.afAuth.authState.subscribe(result=>{
+      
+                  if(!result.uid){
+                    this.navCtrl.setRoot(LoginPage);
+                  }else{
+                    this.loadNotifications(result.uid);
+                    this.loadUnreadMessages(result.uid);
+                  }
+              
+                });
+
+                
   }
 
   ionViewDidEnter() {
@@ -46,20 +62,13 @@ export class HomePage {
   }
 
 
-loadNotifications(){
-
-  
-  this.afAuth.authState.subscribe(result=>{
-      
-    if(!result.uid){
-      this.navCtrl.setRoot(LoginPage);
-    }else{
+loadNotifications(userId){
 
 
       this.afDatabase.list('notifications',{
         query :{
           orderByChild:'userId',
-          equalTo:result.uid
+          equalTo:userId
         }
       }).subscribe(requestResult=>{
   
@@ -74,7 +83,37 @@ loadNotifications(){
       })
     }
 
-  });
+  
+
+
+
+loadUnreadMessages (userId){
+
+  this.afDatabase.list('chat_user/'+userId).subscribe(requestResult=>{
+
+    //console.log(requestResult);
+  
+    for (let item of requestResult){
+    
+    
+ 
+      
+      this.afDatabase.list('chat_messages/'+item.chatId).subscribe(chatMessageResult=>{
+        
+         let chatCount=0;
+         for (let messageValue of chatMessageResult){
+
+        
+
+          if(messageValue.readStatus=='N' && messageValue.userId!=userId){
+            chatCount++;
+           }
+           
+        }
+        this.undreadChat=chatCount;
+      }) 
+     }
+  })
 }
 
 

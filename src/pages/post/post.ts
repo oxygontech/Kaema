@@ -102,11 +102,11 @@ async  loadPostList(){
 
   ionViewDidLoad() {
    // console.log('The map is up');
-   
+  
   }
 
   ionViewDidEnter(){
-    
+    this.loadPostList();
   }
 
   refresh(refresher){

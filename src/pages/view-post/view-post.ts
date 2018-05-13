@@ -16,7 +16,8 @@ import { WebServiceProvider } from '../../providers/web-service/web-service';
 import { ProfileStats } from '../../models/profile_stats';
 import { Notifications } from '../../models/notifications';
 
-
+import { AlertController } from 'ionic-angular';
+import { ChatMessagePage } from '../chat-message/chat-message';
 /**
  * Generated class for the ViewPostPage page.
  *
@@ -68,7 +69,7 @@ export class ViewPostPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,private afDatabase : AngularFireDatabase,
               private afAuth:AngularFireAuth,private barcodeScanner: BarcodeScanner,public interfac: InterfaceProvider
-              ,private webService : WebServiceProvider) {
+              ,private webService : WebServiceProvider,private alertCtrl:AlertController) {
 
                 //presenting loader
        let loader=interfac.presentLoadingDefault();
@@ -97,7 +98,7 @@ export class ViewPostPage {
       
                 this.afDatabase.object('profile_stats/'+this.user.uId).subscribe(receive_stat=>{
                 this.profile_stats_receive=receive_stat;
-                console.log( this.profile_stats_receive);
+                
                 loader.dismiss();
                 });
                this.webService.sharePost().then(dataset=>{
@@ -127,7 +128,11 @@ export class ViewPostPage {
 
   ionViewDidEnter() {
    if (this.post!=null){
-    this.postView()
+      try{
+        this.postView();
+      }catch(err){
+        
+      }
   }
    
   }
@@ -138,7 +143,7 @@ export class ViewPostPage {
     //getting post id from values passed when opening this page
     if(this.navParams.get('post')!=null){
       this.tempPost=this.navParams.get('post');
-      console.log('tempp post '+this.tempPost.postId);
+      
 
      await this.afDatabase.object('post/'+this.tempPost.postId).subscribe(result=>{
         this.post=result;
@@ -154,7 +159,7 @@ export class ViewPostPage {
         //checking if the current user has sent a request for this post
         this.afDatabase.list('request/'+this.user.uId+'_'+this.post.postId).subscribe(result=>{
                    
-          console.log(result.length);
+          
 
           if(result.length>0){
             this.requestStatus=true;
@@ -258,7 +263,7 @@ export class ViewPostPage {
         this.interfac.presentToast('Scan Un-Sucessfull this is an incorrect Code');
       }
     }, (err) => {
-        console.log('Error: ', err);
+        //console.log('Error: ', err);
         this.interfac.presentToast('An error occurred');
     });
 
@@ -339,12 +344,57 @@ postView (){
         loader.dismiss();
         this.interfac.presentToast('Request has been sent');
         this.requestStatus=true;
+
+                      let confirm = this.alertCtrl.create({
+                        title: 'Direct Messaging',
+                        message: 'Do you want send a direct message to this Poster ?',
+                        buttons: [
+                          {
+                            text: 'Yes',
+                            handler: () => {
+                              this.navCtrl.push(ChatMessagePage,{otherUser:this.post.userId});
+                            }
+                          },
+                          {
+                            text: 'No',
+                            handler: () => {
+                            
+                            }
+                          }
+                        ]
+                      });
+                      confirm.present();
         });
         
      
      
     });
     
+
+  }
+
+
+  directMessage(){
+
+    let confirm = this.alertCtrl.create({
+      title: 'Direct Messaging',
+      message: 'Do you want send a direct message to this Poster ?',
+      buttons: [
+        {
+          text: 'Yes',
+          handler: () => {
+            this.navCtrl.push(ChatMessagePage,{otherUser:this.post.userId});
+          }
+        },
+        {
+          text: 'No',
+          handler: () => {
+          
+          }
+        }
+      ]
+    });
+    confirm.present();
 
   }
 
