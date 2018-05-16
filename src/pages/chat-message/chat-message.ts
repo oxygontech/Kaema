@@ -60,8 +60,14 @@ export class ChatMessagePage {
 
 
      this.intializeChat().then(()=>{
-       this.scrollToBottom();
-     });
+       //this.messagesContent.scrollToBottom(0);
+    
+    let scrollDown = setTimeout( () => {
+      this.scrollToBottom();
+      this.loader.dismiss();
+    }, 2000);
+
+  });
 
   
 
@@ -69,19 +75,25 @@ export class ChatMessagePage {
     }
       
 
-  ionViewDidLoad(){
-   // this.scrollToBottom()
+  ionViewDidEnter(){
+    let scrollDown = setTimeout( () => {
+      this.readMessages(this.chatId);
+    }, 2000);
+   
   }
 
   scrollToBottom() {
     console.log('scroll');
-    this.messagesContent.scrollToBottom(0);
-  }
+    //this.messagesContent.scrollToBottom(0);
+
+          this.messagesContent.scrollTo(0, this.messagesContent.getContentDimensions().contentHeight+(this.messages.length*35), 700);
+        
+       }
 
  readMessages(chatId){
 
    
-  this.afDatabase.list('chat_messages/'+chatId,{
+  let readSubscription=this.afDatabase.list('chat_messages/'+chatId,{
     query :{
       orderByChild:'readStatus',
       equalTo:'N'
@@ -93,7 +105,7 @@ export class ChatMessagePage {
       console.log(message.$key);
       }
    }
-
+   readSubscription.unsubscribe();
  }) 
  }
 
@@ -157,7 +169,7 @@ export class ChatMessagePage {
                         this.readMessages(this.chatId);//read undread Messages
                       })
            })
-           this.loader.dismiss();
+          // this.loader.dismiss();
            });
           
        });
@@ -186,13 +198,14 @@ export class ChatMessagePage {
            this.messageData.readStatus='N';
            this.messageData.sendDate=(new Date()).toDateString();
            this.messageData.sendTime=(new Date()).toString();
+           this.scrollToBottom();
 
            this.messageText='';
           //await this.messages.push(this.messageData);
           await this.afDatabase.list('chat_messages/'+this.chatId).push(this.messageData).then(()=>{
             
             this.afDatabase.object('chat/'+this.chatId).update({lastMessage : this.messageData.text,lastMessageUser:this.user.uId}).then(()=>{
-            
+              
              });
           });
 

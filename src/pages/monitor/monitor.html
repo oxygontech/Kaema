@@ -65,11 +65,16 @@
                 </div>
           </ion-col>
           <ion-col align='center' col-6>
-               <p class='smallLabel' >Current Weight :</p>
+               <p class='smallLabel' >Current Weight </p>
                <div class='largeLabel' align='center'>{{this.currentWeight}}<font color='green'>g</font></div><br>
 
-               <p class='smallLabel' >Current Level :</p>
+               <p class='smallLabel' >Current Level </p>
                <div class='largeLabel' align='center'>{{this.currentPercentage}}<font color='green'>%</font></div><br>
+
+               <p class='smallLabel' >Bin Status </p>
+               <div  *ngIf='this.lidStatus==0'> <ion-badge color='danger'>Open</ion-badge><br></div>
+               <div  *ngIf='this.lidStatus==1'> <ion-badge color='primary'>Closed</ion-badge><br></div>
+
 
           </ion-col>
       </ion-row>

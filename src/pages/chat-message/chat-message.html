@@ -27,7 +27,7 @@
           <span class="user_name"><b>{{ this.otherUserProfile.firstName  }}</b></span><br>
           <span>{{ message.text }}</span><br/>
           <div class="time"  *ngIf='currentDate  ==message.sendDate '>Today {{message.sendTime||'' | date  : 'H:mm'}}</div>
-          <div class="time"  *ngIf='currentDate!=message.sendDate'>{{message.sendDate | date : 'dd-M-yyyy'}}{{message.sendTime||'' | date  : 'H:mm'}} </div>
+          <div class="time"  *ngIf='currentDate!=message.sendDate'>{{message.sendDate | date : 'MMM dd'}}{{message.sendTime||'' | date  : 'H:mm'}} </div>
         </ion-col>
    
         <ion-col offset-3 col-9 *ngIf="message.userId === this.user.uId" class="message my_message" >
@@ -35,7 +35,7 @@
           <span>{{ message.text }}</span><br/>
          
           <div class="time"  *ngIf='currentDate==message.sendDate '>Today {{message.sendTime||'' | date  : 'H:mm'}}</div>
-          <div class="time"  *ngIf='currentDate!=message.sendDate '>{{message.sendDate | date : 'dd-M-yyyy'}} {{message.sendTime||'' | date  : 'H:mm'}}</div>
+          <div class="time"  *ngIf='currentDate!=message.sendDate '>{{message.sendDate | date : 'MMM dd'}} {{message.sendTime||'' | date  : 'H:mm'}}</div>
         </ion-col>
    
       </ion-row>

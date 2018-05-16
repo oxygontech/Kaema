@@ -44,6 +44,7 @@ export class MonitorPage {
     wasteMonitor = [];
     binId:string;
     fillClass='fill0';
+    lidStatus :string;
 
     
     currentWeight=0;
@@ -134,7 +135,9 @@ binAnimation (bindId){
           this.afDatabase.object('current_reading/'+bindId).subscribe(result=>{
  
               //console.log(result);
-             // this.currentWeight=result.weight;
+             // this.currentWeight=result.weight;lidStatus
+             this.lidStatus=result.door;
+             if(result.door!=0){
               this.weightAnimation(result.weight);
               
               
@@ -145,12 +148,12 @@ binAnimation (bindId){
               let percentage=(this.currentHeight/maxHeight)*100;
              
               switch(true) { 
-                case (percentage==0) : { 
+                case (percentage>=0 && percentage<1) : { 
                   this.fillClass='fill0';
                    break; 
                 } 
 
-                case (percentage>0 && percentage<=30) : { 
+                case (percentage>1 && percentage<=30) : { 
                   this.fillClass='fill20';
                    break; 
                 } 
@@ -173,6 +176,8 @@ binAnimation (bindId){
                 } 
               
               }
+
+            }
           });
           
         });
