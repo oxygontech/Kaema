@@ -26,7 +26,7 @@
 
     <ion-row>
       <ion-col align='center' col-12>
-        <button ion-button id='connect_button' (click)='connectBin()' outline>Connect to Waste Monitor</button>
+        <button ion-button class='buttonConnect' id='connect_button' (click)='connectBin()' outline>Connect to Waste Monitor</button>
       </ion-col>
     </ion-row>
   </ion-grid>
@@ -112,7 +112,7 @@
 
      <ion-row *ngIf="showMonitor">
       <ion-col  col-12>
-        <button ion-button id='connect_button' (click)='disconnectBin()' color='danger'  outline>Disconnect Waste Monitor</button>
+        <button ion-button class='buttonConnect' id='disconnect_button' (click)='disconnectBin()' color='danger'  outline>Disconnect Waste Monitor</button>
       </ion-col>
     </ion-row>
 

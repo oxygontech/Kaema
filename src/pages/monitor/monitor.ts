@@ -138,10 +138,19 @@ binAnimation (bindId){
              // this.currentWeight=result.weight;lidStatus
              this.lidStatus=result.door;
              if(result.door!=0){
-              this.weightAnimation(result.weight);
+
+               if(result.weight>0){
+                 this.weightAnimation(result.weight);
+               }
+
               
+               if(result.height>0){
+                this.currentHeight=result.height;
+               }else{
+
+                this.currentHeight=0;
+               }
               
-              this.currentHeight=result.height;
              // this.currentPercentage=(this.currentHeight/maxHeight)*100;
               this.percentageAnimation((this.currentHeight/maxHeight)*100);
 
@@ -204,11 +213,11 @@ binAnimation (bindId){
       percentageAnimation (number){
         let interval = setInterval(()=>{
           
-           if( this.currentPercentage > number){
+           if( this.currentPercentage > number+5){
             this.currentPercentage--; 
            }else if(this.currentPercentage == number){
             clearInterval(interval);
-           }else  if( this.currentPercentage < number){
+           }else  if( this.currentPercentage < number+10){
             this.currentPercentage++;
            }else{
             clearInterval(interval);
@@ -282,7 +291,9 @@ binAnimation (bindId){
                 text: 'Yes',
                 handler: () => {
                   this.showMonitor=false;
-                  this.afDatabase.object('bin_registration/'+this.binId+'_'+this.userId).remove();
+                  this.afDatabase.object('bin_registration/'+this.binId+'_'+this.userId).remove().then(()=>{
+                    window.location.reload();
+                  });
                 }
               },
               {
