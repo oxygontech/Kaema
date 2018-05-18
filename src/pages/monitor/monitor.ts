@@ -217,7 +217,9 @@ binAnimation (bindId){
             this.currentPercentage--; 
            }else if(this.currentPercentage == number){
             clearInterval(interval);
-           }else  if( this.currentPercentage < number+10){
+
+           }else  if( this.currentPercentage < number+5){
+
             this.currentPercentage++;
            }else{
             clearInterval(interval);
