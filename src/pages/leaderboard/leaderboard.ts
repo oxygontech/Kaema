@@ -4,6 +4,7 @@ import { LoginPage } from '../login/login';
 import {AngularFireDatabase,FirebaseObjectObservable}  from 'angularfire2/database-deprecated';
 import {AngularFireAuth} from 'angularfire2/auth';
 import { InterfaceProvider } from '../../providers/interface/interface';
+import { EventLoggerProvider } from '../../providers/event-logger/event-logger';
 
 /**
  * Generated class for the LeaderboardPage page.
@@ -36,7 +37,7 @@ export class LeaderboardPage {
   batch=10;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,private afDatabase : AngularFireDatabase ,
-              private afAuth:AngularFireAuth,public interfac: InterfaceProvider) {
+              private afAuth:AngularFireAuth,public interfac: InterfaceProvider,private eventLogger :EventLoggerProvider) {
         this.afAuth.authState.subscribe(result=>{
           console.log('Auther');
               if(result.uid){
@@ -72,12 +73,15 @@ export class LeaderboardPage {
     })
   }
   refresh(refresher){
+    this.eventLogger.pageRefreshLogger('leaderboard_page');//analaytic data collection
+    
     this.loadLeaderBoard().then(()=>{
       refresher.complete();
     });
 
   }
   ionViewDidEnter() {
+    this.eventLogger.pageViewLogger('leaderboard_page');//analaytic data collection
     this.loadLeaderBoard();
   }
 

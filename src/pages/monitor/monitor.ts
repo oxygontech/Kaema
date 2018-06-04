@@ -10,6 +10,8 @@ import { InterfaceProvider } from '../../providers/interface/interface';
 import { WasteMonitor } from '../../models/waste-monitor';
 import { BinRegistrationPage } from '../bin-registration/bin-registration'
 import { AlertController } from 'ionic-angular';
+import { EventLoggerProvider } from '../../providers/event-logger/event-logger';
+
 /*
   * ***************** HCI ISSUES *********************
   * 
@@ -55,7 +57,7 @@ export class MonitorPage {
 
     constructor(public navCtrl: NavController, public navParams: NavParams,
       private afDatabase : AngularFireDatabase ,private afAuth:AngularFireAuth,
-      public interfac: InterfaceProvider,private alertCtrl:AlertController) {
+      public interfac: InterfaceProvider,private alertCtrl:AlertController,private eventLogger :EventLoggerProvider) {
 
         let loader = this.interfac.presentLoadingDefault();
         loader.present();
@@ -84,8 +86,14 @@ export class MonitorPage {
         })
       }
 
+      
+
       ionViewDidEnter (){
        // this.loadMonitor();
+      
+       
+       this.eventLogger.pageViewLogger('waster_monitor');//analaytic data collection
+
        if (this.pageLoaded){
         this.currentWeight=0;
         this.currentPercentage=0;

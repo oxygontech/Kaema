@@ -231,9 +231,9 @@ export class ViewPostPage {
               this.profile_stats_receive.receipt++;
               this.afDatabase.object('profile_stats/'+this.shared.receivedUser).update({receipt:this.profile_stats_receive.receipt}).then(()=>{
                     
-              this.afDatabase.list('notifications').push(notification).then(()=>{
+              this.afDatabase.list('notifications/'+notification.userId).push(notification).then(()=>{
 
-                  this.afDatabase.list('notifications').push(receivedNotification).then(()=>{
+                  this.afDatabase.list('notifications/'+receivedNotification.userId).push(receivedNotification).then(()=>{
                   loader.dismiss();
                   this.interfac.presentToast('Scan Sucessfull, you  have receipted this Post');
                   });
@@ -339,7 +339,7 @@ postView (){
    //saving request to firebase
     this.afDatabase.object('request/'+this.user.uId+'_'+this.post.postId).set(this.request).then(result=>{
 
-      this.afDatabase.list('notifications').push(notification).then(()=>{
+      this.afDatabase.list('notifications/'+notification.userId).push(notification).then(()=>{
 
         loader.dismiss();
         this.interfac.presentToast('Request has been sent');

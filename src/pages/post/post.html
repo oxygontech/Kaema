@@ -15,11 +15,28 @@
         </ion-segment-button>
       </ion-segment>
     -->
+
+     <ion-navbar color='primary'>
+
+    <ion-title >Timeline</ion-title>
+
+    <ion-buttons end >
+
+        
+        <button ion-button icon-only (click)="showNotifications()">
+          <ion-badge  color="danger">{{this.undreadNotification||''}}</ion-badge>
+          <ion-icon name="notifications"></ion-icon>
+        </button>
+
+     </ion-buttons> 
+  </ion-navbar>
 </ion-header>
 
 
 
-<ion-content class='postContent' padding>
+
+
+<ion-content class='postContent' padding hide-fab>
     
     
    <!--
@@ -31,6 +48,7 @@
 
           <div *ngSwitchCase="'list'" >
           -->
+          
 
           <ion-refresher (ionRefresh)="refresh($event)">
             <ion-refresher-content
@@ -96,4 +114,10 @@
 
       </div>
      -->
+
+     <ion-fab  center bottom >
+      <button ion-fab  (click)='addPost()'><ion-icon name="add"></ion-icon></button>
+    </ion-fab>
+
+
 </ion-content>

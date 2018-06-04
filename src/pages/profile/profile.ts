@@ -5,13 +5,11 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { LoginPage } from '../login/login';
 import { Profile } from '../../models/profile';
 import { User } from '../../models/user';
-import { Post } from '../../models/post';
 import { InterfaceProvider } from '../../providers/interface/interface';
-import {ImageViewPage} from '../image-view/image-view';
 import { ViewPostPage } from '../view-post/view-post';
 
 
-import { Camera,CameraOptions } from '@ionic-native/camera';
+import { Camera } from '@ionic-native/camera';
 import { Storage } from '@ionic/storage';
 import { AlertController } from 'ionic-angular';
 
@@ -23,7 +21,8 @@ import { ProfileDetailsPage } from '../profile-details/profile-details';
 import { MorePage } from '../more/more';
 import { ProfileStats } from '../../models/profile_stats';
 import { Notifications } from '../../models/notifications';
-import { HomePage } from '../home/home';
+import { EventLoggerProvider } from '../../providers/event-logger/event-logger';
+
 
 
 /**
@@ -46,6 +45,9 @@ export class ProfilePage {
   profile ={} as Profile;
   user ={} as User;
   profile_stat={} as ProfileStats;
+
+  profileSubscription :any;
+  profileStatSub :any;
 
   mypost =[];
   myRequest=[];
@@ -84,7 +86,7 @@ export class ProfilePage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
        private afDatabase : AngularFireDatabase ,private afAuth:AngularFireAuth,public interfac: InterfaceProvider,
-      public camera :Camera,private storage: Storage,private alertCtrl:AlertController) {
+      public camera :Camera,private storage: Storage,private alertCtrl:AlertController,private eventLogger :EventLoggerProvider) {
 
         
         let loader= this.interfac.presentLoadingDefault();
@@ -108,7 +110,7 @@ export class ProfilePage {
                    console.log('this is the profile : '+profileResult);
 
                    
-                   this.afDatabase.object('profile_stats/'+this.user.uId).subscribe(profileStat=> {
+                  this.afDatabase.object('profile_stats/'+this.user.uId).subscribe(profileStat=> {
                      this.profile_stat=profileStat;
                    });
 //loading user related Post,shares,request
@@ -127,7 +129,8 @@ export class ProfilePage {
             }else{
                 this.navCtrl.setRoot(LoginPage);
               }
-          });
+              
+            });
 
 
  
@@ -136,6 +139,8 @@ export class ProfilePage {
 //this section will be excuted everytime the user enter's the screen
   ionViewDidEnter(){
 
+    this.eventLogger.pageViewLogger('profile_page');//analaytic data collection
+    
     let loader= this.interfac.presentLoadingDefault();
     loader.present();
 
@@ -258,6 +263,8 @@ export class ProfilePage {
   //refreshh function which reload the list's when invoked
   refresh(refresher){
    
+         this.eventLogger.pageRefreshLogger('profile_page');//analaytic data collection
+
           let loader=this.interfac.presentLoadingDefault();
           loader.present();
 
@@ -277,6 +284,7 @@ viewPost(selectedPost){
   }
 
 editProfile(){
+  this.eventLogger.buttonClickLogger('profile_edit');//analaytic data collection
   this.navCtrl.push(ProfileDetailsPage);
 }
 
@@ -284,7 +292,8 @@ editProfile(){
 //logging out fuction 
 async logout(){
     
-  
+  this.eventLogger.buttonClickLogger('logout');
+
  this.navCtrl.setRoot(LoginPage);
  await this.afAuth.auth.signOut();
 //remove user data from device storage
@@ -355,7 +364,7 @@ approveOrDecline(requestObj,updateStatus){
         notification.userId=requestObj.requestedUser;
         notification.date=(new Date()).toDateString();
 
-        this.afDatabase.list('notifications').push(notification).then(()=>{
+        this.afDatabase.list('notifications/'+notification.userId).push(notification).then(()=>{
         this.loadPendingRequestList ();
            
           loader.dismiss();
@@ -374,7 +383,7 @@ approveOrDecline(requestObj,updateStatus){
         notification.userId=requestObj.requestedUser;
         notification.date=(new Date()).toDateString();
         
-        this.afDatabase.list('notifications').push(notification).then(()=>{
+        this.afDatabase.list('notifications/'+notification.userId).push(notification).then(()=>{
         this.loadPendingRequestList ();
           loader.dismiss();
           this.interfac.presentToast('Request declined successfully');

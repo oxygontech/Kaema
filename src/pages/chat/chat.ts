@@ -29,17 +29,32 @@ export class ChatPage {
 user ={} as User;
 loader :any;
 chatList =[];
+screenLoaded=false;
+
   constructor(public navCtrl: NavController, public navParams: NavParams,private afDatabase : AngularFireDatabase,
     private afAuth:AngularFireAuth,public interfac: InterfaceProvider) {
 
-       this.intializeChatList();
+      //presenting loader
+    /*this.loader=this.interfac.presentLoadingDefault();
+    this.loader.present();
+       this.loadChatList().then(()=>{
+        this.screenLoaded=true;
+        this.loader.dismiss();
+       });*/
   }
   
-async intializeChatList(){
+//loading the chat list again to refresh the screen
+  ionViewDidEnter (){
+    
+    this.loadChatList();
+    
+  }
 
-    //presenting loader
-    this.loader=this.interfac.presentLoadingDefault();
-    this.loader.present();
+
+
+async loadChatList(){
+
+    
 
          await this.afAuth.authState.subscribe(userResult=>{
         
@@ -47,31 +62,24 @@ async intializeChatList(){
             this.user.uId=userResult.uid;
 
 
-        this.afDatabase.list('chat_user/'+this.user.uId).subscribe(requestResult=>{
+        let chatUserSub=this.afDatabase.list('chat_user/'+this.user.uId).subscribe(requestResult=>{
 
-        //console.log(requestResult);
-      
+        console.log(requestResult);
+        this.chatList=[];
         for (let item of requestResult){
-        
-        
-        this.afDatabase.object('chat/'+item.chatId).subscribe(chatResult=>{
+        let chatSub=this.afDatabase.object('chat/'+item.chatId).subscribe(chatResult=>{
 
-          
           let chatCount=0;
           
-          this.afDatabase.list('chat_messages/'+item.chatId).subscribe(chatMessageResult=>{
-            this.chatList=[];
+          let ChatMessageSub=this.afDatabase.list('chat_messages/'+item.chatId).subscribe(chatMessageResult=>{
+            
             chatCount=0;
-
              for (let messageValue of chatMessageResult){
             
-
               if(messageValue.readStatus=='N' && messageValue.userId!=this.user.uId){
                 chatCount++;
                }
-               
             }
-
             if(chatResult.userId1==this.user.uId){
               let chatObj ={userName:chatResult.userProfile2.firstName, 
                              profileImg:chatResult.userProfile2.userPhotoURL,
@@ -90,27 +98,23 @@ async intializeChatList(){
                             unreadCount:chatCount}
               this.chatList.push(chatObj);
             }
-           
 
+            //unsubscribing so auto reload will no affect,Refresh handeled in onViewDidLoad
+            ChatMessageSub.unsubscribe();
+            chatSub.unsubscribe();
+            chatUserSub.unsubscribe();
           })
-         
-
-         
          
           })
         }
 
-        this.loader.dismiss();
-      })
+       
+})
 
     }else{
-      this.loader.dismiss();
       this.navCtrl.setRoot(LoginPage);
     }
-
     });
-
-
   }
 
 

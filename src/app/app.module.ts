@@ -42,9 +42,12 @@ import { FirebaseDatabaseServiceProvider } from '../providers/firebase-database-
 import { NgxQRCodeModule } from 'ngx-qrcode2';
 import { Http, HttpModule } from '@angular/http';
 import { WebServiceProvider } from '../providers/web-service/web-service';
-
+import { FirebaseAnalytics } from '@ionic-native/firebase-analytics';
 
 import { GooglePlus } from '@ionic-native/google-plus';
+import { EventLoggerProvider } from '../providers/event-logger/event-logger';
+import { HideFabDirective } from '../directives/hide-fab/hide-fab';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -65,7 +68,8 @@ import { GooglePlus } from '@ionic-native/google-plus';
     ProfileDetailsPage,
     BinRegistrationPage,
     ChatPage,
-    ChatMessagePage
+    ChatMessagePage,
+    HideFabDirective
   ],
   imports: [
     BrowserModule,
@@ -113,7 +117,9 @@ import { GooglePlus } from '@ionic-native/google-plus';
     BarcodeScanner,
     WebServiceProvider,
     WebServiceProvider,
-    GooglePlus
+    GooglePlus,
+    FirebaseAnalytics,
+    EventLoggerProvider
   ]
 })
 export class AppModule { }

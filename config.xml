@@ -143,4 +143,9 @@
     <plugin name="cordova-plugin-googleplus" spec="^5.3.0">
         <variable name="WEB_APPLICATION_CLIENT_ID" value="704413697067-7fh66l89k944of9p6jdknrrtb0a7cgr2.apps.googleusercontent.com" />
     </plugin>
+    <plugin name="cordova-plugin-local-notification" spec="^0.9.0-beta.2" />
+    <plugin name="cordova-plugin-firebase-analytics" spec="^0.14.0">
+        <variable name="FIREBASE_CORE_VERSION" value="16.0.+" />
+    </plugin>
+    <allow-navigation href="http://192.168.1.9:8100" />
 </widget>

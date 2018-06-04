@@ -1,5 +1,5 @@
 import { Component,ViewChild,ElementRef } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams  } from 'ionic-angular';
 
 
 import {AngularFireDatabase,FirebaseObjectObservable}  from 'angularfire2/database-deprecated';
@@ -9,6 +9,9 @@ import { LocationServiceProvider } from '../../providers/location-service/locati
 import { Location } from '../../models/location';
 
 import { ViewPostPage } from '../view-post/view-post';
+import { AddPostPage } from '../add-post/add-post';
+import { NotificationPage } from '../notification/notification';
+import { EventLoggerProvider } from '../../providers/event-logger/event-logger';
 //import { CloudMessagingProvider } from '../../providers/cloud-messaging/cloud-messaging';
 
 /**
@@ -32,6 +35,7 @@ export class PostPage {
   loader:any;
   lastKey:any;
   dataFinished=false;
+  undreadNotification=0;
 
    @ViewChild('postmap') mapDivRef :ElementRef;
   
@@ -42,11 +46,19 @@ export class PostPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               private afDatabase : AngularFireDatabase , private afAuth:AngularFireAuth,
-               public interfac: InterfaceProvider,public locationService:LocationServiceProvider/*,
+               public interfac: InterfaceProvider,public locationService:LocationServiceProvider,
+               private eventLogger :EventLoggerProvider/*,
   private messageProvider:CloudMessagingProvider*/) {
 
     this.viewType='list';
     this.loadPostList();
+
+    this.afAuth.authState.subscribe(result=>{          
+      if(result.uid){
+       this.loadNotifications(result.uid);
+    }
+
+  });
 
     /*this.messageProvider.getToken().then(()=>{
 
@@ -95,17 +107,11 @@ async  loadPostList(){
 
   }
   
-  ionViewWillEnter(){
-    //this.loadPostList();
-  }
 
-
-  ionViewDidLoad() {
-   // console.log('The map is up');
-  
-  }
 
   ionViewDidEnter(){
+    this.eventLogger.pageViewLogger('timeline');//analaytic data collection
+
     this.loadPostList();
   }
 
@@ -191,5 +197,30 @@ async  loadPostList(){
   }
   
 
+  addPost(){
+    this.eventLogger.buttonClickLogger('add_post');//analaytic data collection
+    this.navCtrl.push(AddPostPage);
+    }
+
+    
+  showNotifications(){
+    this.navCtrl.push(NotificationPage);
+    }
+
+    loadNotifications(userId){
+
+
+      this.afDatabase.list('notifications/'+userId).subscribe(requestResult=>{
+  
+       let notifyList =requestResult.reverse();
+       this.undreadNotification=0;
+       for (let item of notifyList){
+            if(item.readStatus=="Y"){
+              continue;
+            }
+            this.undreadNotification++;
+          }
+      })
+    }
 
 }

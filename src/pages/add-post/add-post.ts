@@ -16,8 +16,9 @@ import {AngularFireAuth} from 'angularfire2/auth';
 import { Camera,CameraOptions } from '@ionic-native/camera';
 import { Storage } from '@ionic/storage';
 import { ProfileStats } from '../../models/profile_stats';
+import { PostPage } from '../post/post';
 
-
+import { EventLoggerProvider } from '../../providers/event-logger/event-logger';
 
 
 /**
@@ -83,7 +84,8 @@ export class AddPostPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
                 private afDatabase : AngularFireDatabase ,private afAuth:AngularFireAuth,public interfac: InterfaceProvider,
-                public camera :Camera,private fireImageService:FirebaseImageServiceProvider,private storage:Storage) {
+                public camera :Camera,private fireImageService:FirebaseImageServiceProvider,private storage:Storage
+                ,private eventLogger :EventLoggerProvider) {
 
                   //diplaying loading
                   let loader= this.interfac.presentLoadingDefault();
@@ -152,14 +154,13 @@ export class AddPostPage {
                  })*/
   }
 
-  ionViewDidLoad() {
-    
-  }
 
 
 
   ionViewWillEnter(){
    
+    this.eventLogger.pageViewLogger('addpost_page');//analaytic data collection
+
     this.storage.get('myLat').then((lat) => {
       if(lat){
         this.location.latitude=lat;
@@ -207,8 +208,10 @@ export class AddPostPage {
     
       //based on options selected camera or gallery variable is selceted
       if(imageOption=='select'){
+        this.eventLogger.buttonClickLogger('gallery_image');//analaytic data collection
         imageType=this.camera.PictureSourceType.PHOTOLIBRARY;
       }else{
+        this.eventLogger.buttonClickLogger('camera_image');//analaytic data collection
         imageType=this.camera.PictureSourceType.CAMERA;
       }
     
@@ -277,7 +280,8 @@ export class AddPostPage {
 
       if(this.validateInputs()){//check validity of inputs
 
-
+        this.eventLogger.buttonClickLogger('addPost_save');//analaytic data collection
+        
 //present the loader
       let loader= this.interfac.presentLoadingDefault();
       loader.present();
@@ -304,7 +308,7 @@ export class AddPostPage {
      
         loader.dismiss();
         this.interfac.presentToast('Post Saved Sucessfully');
-        this.navCtrl.pop();
+        this.navCtrl.setRoot(PostPage);
      
       });
 

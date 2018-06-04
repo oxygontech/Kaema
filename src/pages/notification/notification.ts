@@ -50,7 +50,7 @@ export class NotificationPage {
 
 //this section will be excuted everytime the user enter's the screen
   ionViewDidEnter (){
-    this.loadNotifications(this.userId);
+    //this.loadNotifications(this.userId);
     this.readNotifications(this.userId);
   }
 
@@ -58,12 +58,7 @@ export class NotificationPage {
 
     let loader= this.interfac.presentLoadingDefault();
     loader.present();
-    let notifySubcription=  this.afDatabase.list('notifications',{
-      query :{
-        orderByChild:'userId',
-        equalTo:currentUserId
-      }
-    }).subscribe(requestResult=>{
+    let notifySubcription=  this.afDatabase.list('notifications/'+currentUserId).subscribe(requestResult=>{
 
      this.notifyList =requestResult.reverse();
      notifySubcription.unsubscribe();
@@ -76,12 +71,7 @@ export class NotificationPage {
   readNotifications(currentUserId){
 
   
-  this.afDatabase.list('notifications',{
-      query :{
-        orderByChild:'userId',
-        equalTo:currentUserId
-      }
-    }).subscribe(requestResult=>{
+  this.afDatabase.list('notifications/'+currentUserId).subscribe(requestResult=>{
 
      let notifyList =requestResult.reverse();
 
@@ -91,7 +81,7 @@ export class NotificationPage {
         break;
       }
       console.log(item.$key);
-      this.afDatabase.object('notifications/'+item.$key).update({readStatus:'Y'});
+      this.afDatabase.object('notifications/'+currentUserId+'/'+item.$key).update({readStatus:'Y'});
     }
    })
 
@@ -105,10 +95,5 @@ export class NotificationPage {
 
   }
 
- 
-
-  ionViewDidLoad() {
-    //console.log('ionViewDidLoad NotificationPage');
-  }
 
 }
