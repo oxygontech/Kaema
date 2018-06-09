@@ -91,6 +91,10 @@ export class NotificationPage {
 
     this.loadNotifications(this.userId).then(()=>{
       refresher.complete();
+    })
+    .catch(error=>{
+      console.log(error);
+      refresher.complete();
     });
 
   }
