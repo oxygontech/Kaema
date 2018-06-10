@@ -146,17 +146,11 @@ binAnimation (bindId){
              // this.currentWeight=result.weight;lidStatus
              this.lidStatus=result.door;
              if(result.door!=0){
-<<<<<<< HEAD
-               if(result.weight>0){
-                 this.weightAnimation(result.weight);
-               }
-=======
 
                if(result.weight>0){
                  this.weightAnimation(result.weight);
                }
 
->>>>>>> f8811e4e5bf1a691378f8acb72f5268215f48ea4
               
                if(result.height>0){
                 this.currentHeight=result.height;
@@ -231,13 +225,9 @@ binAnimation (bindId){
             this.currentPercentage--; 
            }else if(this.currentPercentage == number){
             clearInterval(interval);
-<<<<<<< HEAD
-           }else  if( this.currentPercentage < number+5){
-=======
 
            }else  if( this.currentPercentage < number+5){
 
->>>>>>> f8811e4e5bf1a691378f8acb72f5268215f48ea4
             this.currentPercentage++;
            }else{
             clearInterval(interval);
