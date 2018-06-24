@@ -1,9 +1,9 @@
 export const FIREBASE_CONFIG ={
 	
-	apiKey: "AIzaSyA3nEvA59vlfyUCxYjugwOR0IFcii6f4nM",
-    authDomain: "kaema-159c6.firebaseapp.com",
-    databaseURL: "https://kaema-159c6.firebaseio.com",
-    projectId: "kaema-159c6",
-    storageBucket: "gs://kaema-159c6.appspot.com",
-    messagingSenderId: "704413697067"
+	apiKey: "AIzaSyB9UDSLBe7K9VfMeieIgwIK5SqkL8KFmQ4",
+    authDomain: "kaema-af14c.firebaseapp.com",
+    databaseURL: "https://kaema-af14c.firebaseio.com",
+    projectId: "kaema-af14c",
+    storageBucket: "gs://kaema-af14c.appspot.com",
+    messagingSenderId: "983666357627"
 }
