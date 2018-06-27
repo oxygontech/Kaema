@@ -19,7 +19,7 @@ import { ProfileStats } from '../../models/profile_stats';
 import { PostPage } from '../post/post';
 
 import { EventLoggerProvider } from '../../providers/event-logger/event-logger';
-
+import { Diagnostic } from '@ionic-native/diagnostic';
 
 /**
  * Generated class for the AddPostPage page.
@@ -85,7 +85,7 @@ export class AddPostPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,
                 private afDatabase : AngularFireDatabase ,private afAuth:AngularFireAuth,public interfac: InterfaceProvider,
                 public camera :Camera,private fireImageService:FirebaseImageServiceProvider,private storage:Storage
-                ,private eventLogger :EventLoggerProvider) {
+                ,private eventLogger :EventLoggerProvider,private diagnostic: Diagnostic) {
 
                   //diplaying loading
                   let loader= this.interfac.presentLoadingDefault();
@@ -153,6 +153,7 @@ export class AddPostPage {
                 // console.log(result.1)
                  })*/
   }
+
 
 
 
@@ -319,7 +320,27 @@ export class AddPostPage {
 
 //loading maps page so that user can select the location
     setLocation(){
-      this.navCtrl.push(MapViewPage);
-    }
 
+
+      this.diagnostic.isLocationEnabled().then(
+        (isAvailable) => {
+        if(isAvailable){
+          this.navCtrl.push(MapViewPage);
+        }else{
+          this.interfac.presentToast('Please turn on location settings');
+        }
+         
+        //console.log('Is available? ' + isAvailable);
+       // this.interfac.presentToast('Is available? ' + isAvailable);
+        }).catch( (e) => {
+        console.log(e);
+        this.interfac.presentToast(JSON.stringify(e));
+        
+        });
+        
+      }
+      
+    
+
+      
 }

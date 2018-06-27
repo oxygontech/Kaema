@@ -69,7 +69,35 @@ export class WebServiceProvider {
   }
 
 
+    getUrls() :any {
 
+    var headers = new Headers();
+    headers.append("Accept", 'application/json');
+    headers.append('Content-Type', 'application/json' );
+    let options = new RequestOptions({ headers: headers });
+    let returnValue={key:'No work'};
+    /*let postParams=shareObj;
+    console.log('WebService : ');
+    console.log(shareObj);*/
+
+    
+    //await this.http.post("https://kaema.azurewebsites.net/service/policy", options)
+    this.http.post("http://localhost:1337/service/policy", options)
+      .subscribe(data => {
+        console.log(data['_body']);
+        returnValue= data['_body'];
+        return returnValue;
+       }, error => {
+        console.log(error);// Error getting the data
+        returnValue= error;
+        return returnValue;
+      });
+
+      
+      //return returnValue; 
+     
+
+  }
 
 
 }

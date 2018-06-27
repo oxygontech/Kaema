@@ -47,6 +47,7 @@ import { FirebaseAnalytics } from '@ionic-native/firebase-analytics';
 import { GooglePlus } from '@ionic-native/google-plus';
 import { EventLoggerProvider } from '../providers/event-logger/event-logger';
 import { HideFabDirective } from '../directives/hide-fab/hide-fab';
+import { Diagnostic } from '@ionic-native/diagnostic';
 
 @NgModule({
   declarations: [
@@ -119,7 +120,8 @@ import { HideFabDirective } from '../directives/hide-fab/hide-fab';
     WebServiceProvider,
     GooglePlus,
     FirebaseAnalytics,
-    EventLoggerProvider
+    EventLoggerProvider,
+    Diagnostic
   ]
 })
 export class AppModule { }

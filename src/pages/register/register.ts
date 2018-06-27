@@ -10,6 +10,7 @@ import { InterfaceProvider } from '../../providers/interface/interface';
 import { Storage } from '@ionic/storage';
 import { LeaderBoard } from '../../models/leader_board';
 import { ProfileStats } from '../../models/profile_stats';
+import { WebServiceProvider } from '../../providers/web-service/web-service';
 /**
  * Generated class for the RegisterPage page.
  *
@@ -59,11 +60,20 @@ export class RegisterPage {
 
   constructor(private afAuth:AngularFireAuth,public navCtrl: NavController, 
     public navParams: NavParams,public interfac: InterfaceProvider,
-     private afDatabase:AngularFireDatabase,private storage: Storage ) {
-  }
+     private afDatabase:AngularFireDatabase,private storage: Storage ,private service :WebServiceProvider) {
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad RegisterPage');
+               
+            
+            }
+
+  async ionViewDidLoad() {
+     
+    /*this.service.getUrls().then(data=>{
+     if(data!=null){
+      console.log(data) 
+     }
+    })*/
+      
   }
 
 

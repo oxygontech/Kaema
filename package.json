@@ -27,6 +27,7 @@
     "@ionic-native/barcode-scanner": "^4.5.3",
     "@ionic-native/camera": "^4.5.2",
     "@ionic-native/core": "3.12.1",
+    "@ionic-native/diagnostic": "^4.8.0",
     "@ionic-native/firebase-analytics": "^4.7.0",
     "@ionic-native/geolocation": "^4.5.3",
     "@ionic-native/google-plus": "^4.7.0",
@@ -58,6 +59,7 @@
     "cordova-support-android-plugin": "^0.3.7",
     "cordova-support-google-services": "^1.1.0",
     "cordova-universal-links-plugin": "^1.2.1",
+    "cordova.plugins.diagnostic": "^4.0.8",
     "firebase": "^4.7.0",
     "ionic-angular": "^3.9.2",
     "ionic-plugin-keyboard": "^2.2.1",
@@ -122,7 +124,8 @@
       "cordova-plugin-local-notification": {},
       "cordova-plugin-firebase-analytics": {
         "FIREBASE_CORE_VERSION": "16.0.+"
-      }
+      },
+      "cordova.plugins.diagnostic": {}
     },
     "platforms": [
       "browser",
