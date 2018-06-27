@@ -48,35 +48,18 @@ export class HomePage {
   constructor(public navCtrl: NavController, public navParams: NavParams,private afDatabase : AngularFireDatabase ,
               private afAuth:AngularFireAuth,private storage: Storage,private alertCtrl:AlertController) {
 
-                this.afAuth.authState.subscribe(result=>{
+                try{this.afAuth.authState.subscribe(result=>{
                   if(!result.uid){
                     this.navCtrl.setRoot(LoginPage);
-                  }else{
-                    this.loadUnreadMessages(result.uid);
-                  }        
-                });
+                  }  
+                })
+              }catch(error){
+                this.navCtrl.setRoot(LoginPage);
+              }
      
       }
 
 
-loadUnreadMessages (userId){
-
-  this.afDatabase.list('chat_user/'+userId).subscribe(requestResult=>{
-
-    for (let item of requestResult){
-      this.afDatabase.list('chat_messages/'+item.chatId).subscribe(chatMessageResult=>{
-        
-         let chatCount=0;
-         for (let messageValue of chatMessageResult){
-          if(messageValue.readStatus=='N' && messageValue.userId!=userId){
-            chatCount++;
-           }
-        }
-        this.undreadChat=chatCount;
-      }) 
-     }
-  })
-}
 
 
 

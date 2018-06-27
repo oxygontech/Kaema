@@ -191,6 +191,23 @@ async social_login_native(){
   }
  }
 
+ resetPassword(){
+      if(this.email!=''){
+      let loader= this.interfac.presentLoadingDefault();
+      loader.present();
+
+      this.afAuth.auth.sendPasswordResetEmail(this.email).then(()=>{
+        loader.dismiss();
+        this.interfac.presentToast('Password reset link has been sent to your email');
+        
+      }).catch(error=>{
+        loader.dismiss();
+        this.interfac.presentToast(error);
+      })
+    }else{
+      this.interfac.presentToast('Please type in your email before clicking forgot password');
+    }
+}
 
  
 

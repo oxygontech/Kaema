@@ -1,31 +1,27 @@
 {
   "project_info": {
-    "project_number": "704413697067",
-    "firebase_url": "https://kaema-159c6.firebaseio.com",
-    "project_id": "kaema-159c6",
-    "storage_bucket": "kaema-159c6.appspot.com"
+    "project_number": "983666357627",
+    "firebase_url": "https://kaema-af14c.firebaseio.com",
+    "project_id": "kaema-af14c",
+    "storage_bucket": "kaema-af14c.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:704413697067:android:71a1d06f0f37f3dc",
+        "mobilesdk_app_id": "1:983666357627:android:01060aadb1cd561f",
         "android_client_info": {
-          "package_name": "com.novatechdev.kaema"
+          "package_name": "com.oxygontech.kaema"
         }
       },
       "oauth_client": [
         {
-          "client_id": "704413697067-7fh66l89k944of9p6jdknrrtb0a7cgr2.apps.googleusercontent.com",
-          "client_type": 3
-        },
-        {
-          "client_id": "704413697067-7fh66l89k944of9p6jdknrrtb0a7cgr2.apps.googleusercontent.com",
+          "client_id": "983666357627-btsnq7eaaabms6q502s28c1smmnfva56.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA5D1ZgM2A25n5EZDI6bdD5NqKJMWGBRYU"
+          "current_key": "AIzaSyAU0DykFHNFk4J8LpNbQGGZbZVXsAf83Cs"
         }
       ],
       "services": {

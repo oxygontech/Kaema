@@ -28,6 +28,11 @@
           <ion-icon name="notifications"></ion-icon>
         </button>
 
+        <button ion-button icon-only (click)="showChat()">
+          <ion-badge  color="danger">{{this.undreadChat||''}}</ion-badge>
+          <ion-icon name="chatboxes"></ion-icon>
+        </button>
+
      </ion-buttons> 
   </ion-navbar>
 </ion-header>

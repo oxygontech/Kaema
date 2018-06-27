@@ -44,6 +44,13 @@ export class RegisterPage {
 
  email="";
  password="";
+ repassword="";
+ fullname="";
+ bio="";
+ contactNo="";
+ website="";
+ agree=false;
+
  loader=null;
 
  profile = {} as Profile;
@@ -59,11 +66,28 @@ export class RegisterPage {
     console.log('ionViewDidLoad RegisterPage');
   }
 
+
+   validate(){
+
+    if(this.fullname ==''){
+      this.interfac.presentToast('Please enter name');
+      return false;
+    }else if (this.password!=this.repassword){
+      this.interfac.presentToast('Passwords do not match');
+      return false;
+    }else{
+      return true;
+    }
+  }
   //registering user
   async register(){
-    
+   
+    console.log(this.validate());
     this.loader=await this.interfac.presentLoadingDefault();
-   	this.loader.present();
+    this.loader.present();
+
+    if(this.validate()){
+   
 
  try{
 
@@ -71,11 +95,12 @@ export class RegisterPage {
   	const result= await this.afAuth.auth.createUserWithEmailAndPassword(this.email,this.password);
      if(result){
 
-      this.profile.firstName=this.email;
+      this.profile.firstName=this.fullname;
       this.profile.email=this.email;
       this.profile.bio='';
       this.profile.website='';
-      this.profile.userPhotoURL='../../assets/icon/avatar.png';
+      this.profile.phoneNumber=this.contactNo;
+      this.profile.userPhotoURL='assets/icon/avatar.png';
       
       //once user is created automatically sign in User 
 		            try{
@@ -138,7 +163,10 @@ export class RegisterPage {
      this.interfac.presentToast(e.message);
      console.error(e);
     }
+  }else{
+    this.loader.dismiss();
   }
+}
 
 
 

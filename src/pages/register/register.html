@@ -15,16 +15,43 @@
 
 <ion-content padding>
  <ion-item>
- 	 <ion-label floating>Email</ion-label>
+ 	 <ion-label stacked>Email *</ion-label>
  	 <ion-input type='text' [(ngModel)]="email"></ion-input>
  </ion-item>
 
  <ion-item>
- 	 <ion-label floating>Password</ion-label>
+ 	 <ion-label stacked>Password *</ion-label>
  	 <ion-input type='password' [(ngModel)]="password"></ion-input>
  </ion-item>
 
+ <ion-item>
+  <ion-label stacked>Retype Password *</ion-label>
+  <ion-input type='password' [(ngModel)]="repassword"></ion-input>
+</ion-item>
 
-<button ion-button  id='reg_button' (click)='register()' outline>Register</button>
+<ion-item>
+  <ion-label stacked>Name *</ion-label>
+  <ion-input type='text' [(ngModel)]="fullname"></ion-input>
+</ion-item>
+
+
+
+<ion-item>
+  <ion-label stacked>Contact No (Optional)</ion-label>
+  <ion-input type='text' [(ngModel)]="contactNo"></ion-input>
+</ion-item>
+
+<ion-item>
+  <ion-label class='policy' text-wrap>By creating an account, you agree to our <a href='https://www.google.com/'>Terms of Service</a> 
+                 and <a href='https://www.google.com/'>Privacy Policy</a>. </ion-label>
+</ion-item>
+
+<ion-item>
+  <ion-label class='policy' text-wrap>I agree to the above </ion-label>
+  <ion-checkbox type='checkbox' [(ngModel)]="agree"></ion-checkbox>
+</ion-item>
+
+
+<button *ngIf='agree' ion-button  id='reg_button' (click)='register()' outline>Register</button>
 
 </ion-content>

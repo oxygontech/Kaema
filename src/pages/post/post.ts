@@ -12,6 +12,7 @@ import { ViewPostPage } from '../view-post/view-post';
 import { AddPostPage } from '../add-post/add-post';
 import { NotificationPage } from '../notification/notification';
 import { EventLoggerProvider } from '../../providers/event-logger/event-logger';
+import { ChatPage } from '../chat/chat';
 //import { CloudMessagingProvider } from '../../providers/cloud-messaging/cloud-messaging';
 
 /**
@@ -36,6 +37,7 @@ export class PostPage {
   lastKey:any;
   dataFinished=false;
   undreadNotification=0;
+  undreadChat=0;
 
    @ViewChild('postmap') mapDivRef :ElementRef;
   
@@ -56,6 +58,7 @@ export class PostPage {
     this.afAuth.authState.subscribe(result=>{          
       if(result.uid){
        this.loadNotifications(result.uid);
+       this.loadUnreadMessages(result.uid);
     }
 
   });
@@ -207,6 +210,10 @@ async  loadPostList(){
     this.navCtrl.push(NotificationPage);
     }
 
+    showChat(){
+      this.navCtrl.push(ChatPage);
+      }
+
     loadNotifications(userId){
 
 
@@ -220,6 +227,25 @@ async  loadPostList(){
             }
             this.undreadNotification++;
           }
+      })
+    }
+
+    loadUnreadMessages (userId){
+
+      this.afDatabase.list('chat_user/'+userId).subscribe(requestResult=>{
+    
+        for (let item of requestResult){
+          this.afDatabase.list('chat_messages/'+item.chatId).subscribe(chatMessageResult=>{
+            
+             let chatCount=0;
+             for (let messageValue of chatMessageResult){
+              if(messageValue.readStatus=='N' && messageValue.userId!=userId){
+                chatCount++;
+               }
+            }
+            this.undreadChat=chatCount;
+          }) 
+         }
       })
     }
 

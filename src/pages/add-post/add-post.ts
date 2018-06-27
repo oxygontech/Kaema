@@ -130,14 +130,14 @@ export class AddPostPage {
 
                  var j=1;
 
-                 while(j<=5){
+                 while(j<=20){
                    let item={key:j,value:j}
                    this.servings_list.push(item);
                    j++;
                  }
 
 
-                 this.servings_list.push({key:6,value:'More'});
+                 //this.servings_list.push({key:6,value:'More'});
 
                  loader.dismiss();
 

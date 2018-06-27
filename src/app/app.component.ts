@@ -7,10 +7,8 @@ import { Storage } from '@ionic/storage';
 
 import { LoginPage } from '../pages/login/login';
 import { HomePage } from '../pages/home/home';
-import { BinRegistrationPage } from '../pages/bin-registration/bin-registration';
+import {AngularFireAuth} from 'angularfire2/auth';
 
-
-import { timer } from 'rxjs/observable/timer';
 
 
 @Component({
@@ -25,13 +23,27 @@ export class MyApp {
   pages: Array<{ title: string, component: any }>;
 
   constructor(public platform: Platform, public statusBar: StatusBar,
-               public splashScreen: SplashScreen,private storage: Storage) {
+               public splashScreen: SplashScreen,private storage: Storage,
+               private afAuth:AngularFireAuth) {
 
     // timer(3000).subscribe(() => this.showSplash = false)
     // used for an example of ngFor and navigation
+
+ 
     this.storage.get('status').then((val) => {
       if(val){
-        this.rootPage= HomePage;
+
+        this.afAuth.authState.subscribe(result=>{          
+          if(result!=null){
+           
+            this.rootPage= HomePage;
+          }else{
+          this.storage.set('status',false);
+          this.rootPage= LoginPage;
+         }
+    
+      });
+
       }else{
         this.rootPage= LoginPage;
       }

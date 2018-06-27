@@ -19,7 +19,7 @@
     <br/>
 
     
-      <div align='center'>
+      <div align='center' class='container'>
         <ion-item>
            <ion-label floating>Email</ion-label>
            <ion-input type='text' [(ngModel)]="email"></ion-input>
@@ -32,7 +32,10 @@
         
         <br/>
         <button ion-button   (click)='login()' class='login-buttons'  outline>Login</button>
-        
+        <button ion-button  class='login-buttons' (click) ='register()' > 
+          Sign Up
+         </button><br/>
+         <a (click)='resetPassword()'>Forgot Password</a>
         </div>
         
         <div class='container'>
@@ -49,17 +52,15 @@
         
         
         
-           <button ion-button   class='login-buttons' id='gooleButton'  (click) ='googleLogin()'>
+           <!--button ion-button   class='login-buttons' id='gooleButton'  (click) ='googleLogin()'>
             
             <ion-icon name="logo-google" align='left' class='login-logo' ></ion-icon>
              Sign Up with Google
         
-          </button>
+          </button-->
         
         
-            <button ion-button  class='login-buttons' (click) ='register()' outline> 
-             Sign Up with Email
-            </button>
+          
         
         </div>
    
