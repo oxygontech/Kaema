@@ -37,7 +37,7 @@ export class LocationServiceProvider {
         
         
        }).catch((error) => {
-         console.log('Error getting location', error);
+         console.log('Error getting location', error.message);
          
        });
 

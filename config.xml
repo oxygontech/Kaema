@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.oxygontech.kaema" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.oxygontech.kaema" version="1.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Kaema</name>
     <description>Sri lanka's first food sharing app.</description>
     <author email="oxygontech@gmail.com" href="http://ionicframework.com/">Oxygon Tech Team</author>
@@ -145,8 +145,6 @@
         <variable name="WEB_APPLICATION_CLIENT_ID" value="704413697067-7fh66l89k944of9p6jdknrrtb0a7cgr2.apps.googleusercontent.com" />
     </plugin>
     <plugin name="cordova-plugin-local-notification" spec="^0.9.0-beta.2" />
-    <plugin name="cordova-plugin-firebase-analytics" spec="^0.14.0">
-        <variable name="FIREBASE_CORE_VERSION" value="16.0.+" />
-    </plugin>
     <plugin name="cordova.plugins.diagnostic" spec="^4.0.8" />
+    <plugin name="cordova-plugin-firebase-analytics" spec="^1.0.0" />
 </widget>

@@ -1,0 +1,3 @@
+$ keytool -genkey -v -keystore kaema-release-key.keystore -alias kaema -keyalg RSA -keysize 2048 -validity 10000
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore kaema-release-key.keystore android-release-unsigned.apk Kaema
+C:\Users\User\AppData\Local\Android\sdk\build-tools\26.0.2\zipalign -v 4 android-release-unsigned.apk Kaema.apk

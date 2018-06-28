@@ -151,7 +151,7 @@ export class ViewPostPage {
         //setting up location image 
         this.locationImage='https://maps.googleapis.com/maps/api/staticmap?zoom=15&size=600x300&maptype=roadmap'+
         '&markers=color:red%7Clabel:C%7C'+this.post.location.latitude+','+this.post.location.longitude+
-        '&key=AIzaSyBQP6abQtIy-p2SGetONO3L1-XVwxOZP-g';
+        '&key=AIzaSyAU0DykFHNFk4J8LpNbQGGZbZVXsAf83Cs';
   
         this.qrImage=this.post.postId;
         this.servesRemaning=+this.post.servings-(+this.post.shares);
