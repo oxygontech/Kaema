@@ -1,7 +1,7 @@
 import { Http , Headers, RequestOptions} from '@angular/http';
 import 'rxjs/add/operator/map';
 import { Injectable } from '@angular/core';
-
+import {SERVICE_URL} from '../../app/app.config';
 /*
   Generated class for the WebServiceProvider provider.
 
@@ -34,7 +34,7 @@ export class WebServiceProvider {
       userId: userId
     }
     
-    await this.http.post("https://kaema.azurewebsites.net/service/profile", postParams, options)
+    await this.http.post(SERVICE_URL+"/profile", postParams, options)
       .subscribe(data => {
         console.log(data['_body']);
         return data;
@@ -56,7 +56,7 @@ export class WebServiceProvider {
     console.log(shareObj);*/
 
     
-    await this.http.post("https://kaema.azurewebsites.net/service/share", options)
+    await this.http.post(SERVICE_URL+"/share", options)
    //await this.http.post("localhost:1337/service/share", options)
       .subscribe(data => {
         console.log(data['_body']);
@@ -69,35 +69,7 @@ export class WebServiceProvider {
   }
 
 
-    getUrls() :any {
-
-    var headers = new Headers();
-    headers.append("Accept", 'application/json');
-    headers.append('Content-Type', 'application/json' );
-    let options = new RequestOptions({ headers: headers });
-    let returnValue={key:'No work'};
-    /*let postParams=shareObj;
-    console.log('WebService : ');
-    console.log(shareObj);*/
-
-    
-    //await this.http.post("https://kaema.azurewebsites.net/service/policy", options)
-    this.http.post("http://localhost:1337/service/policy", options)
-      .subscribe(data => {
-        console.log(data['_body']);
-        returnValue= data['_body'];
-        return returnValue;
-       }, error => {
-        console.log(error);// Error getting the data
-        returnValue= error;
-        return returnValue;
-      });
-
-      
-      //return returnValue; 
-     
-
-  }
+   
 
 
 }
