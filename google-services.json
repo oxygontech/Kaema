@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "254041655268",
+    "firebase_url": "https://kaema-uat.firebaseio.com",
+    "project_id": "kaema-uat",
+    "storage_bucket": "kaema-uat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:254041655268:android:01060aadb1cd561f",
+        "android_client_info": {
+          "package_name": "com.oxygontech.kaema"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "254041655268-571qovfuli33uaj0s0uclbn13e8cofcq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhQQoh1RqlECY0LB6gtmA-FbjGukdVhOM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
