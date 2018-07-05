@@ -40,3 +40,4 @@ kaema-release-key.keystore
 app/app.config.ts
 app/app.firebase.config.ts
 index.html
+google-services.json
