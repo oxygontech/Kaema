@@ -18,6 +18,8 @@ import { Notifications } from '../../models/notifications';
 
 import { AlertController } from 'ionic-angular';
 import { ChatMessagePage } from '../chat-message/chat-message';
+
+import {MAP_API_KEY} from '../../app/app.config';
 /**
  * Generated class for the ViewPostPage page.
  *
@@ -151,7 +153,7 @@ export class ViewPostPage {
         //setting up location image 
         this.locationImage='https://maps.googleapis.com/maps/api/staticmap?zoom=15&size=600x300&maptype=roadmap'+
         '&markers=color:red%7Clabel:C%7C'+this.post.location.latitude+','+this.post.location.longitude+
-        '&key=AIzaSyAU0DykFHNFk4J8LpNbQGGZbZVXsAf83Cs';
+        '&key='+MAP_API_KEY;
   
         this.qrImage=this.post.postId;
         this.servesRemaning=+this.post.servings-(+this.post.shares);
