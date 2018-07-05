@@ -37,3 +37,6 @@ Kaema.code-workspace
 Kaema.apk
 android-release-unsigned.apk
 kaema-release-key.keystore
+app/app.config.ts
+app/app.firebase.config.ts
+index.html
