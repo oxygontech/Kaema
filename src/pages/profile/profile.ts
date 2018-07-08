@@ -115,8 +115,8 @@ export class ProfilePage {
                    });
 //loading user related Post,shares,request
                    this.loadPostList ();
-                   this.loadRequestList ();
-                   this.loadPendingRequestList ();
+                   //this.loadRequestList ();
+                   //this.loadPendingRequestList ();
                    this.loadSharedList ();
                    this.loadReceivedList ().then(()=>{
                     loader.dismiss()
@@ -145,8 +145,8 @@ export class ProfilePage {
     loader.present();
 
     this.loadPostList ();
-    this.loadRequestList ();
-    this.loadPendingRequestList ();
+    //this.loadRequestList ();
+    //this.loadPendingRequestList ();
     this.loadSharedList ();
     this.loadReceivedList ().then(()=>{
      loader.dismiss()
@@ -269,8 +269,8 @@ export class ProfilePage {
           loader.present();
 
                    this.loadPostList ();
-                   this.loadRequestList ();
-                   this.loadPendingRequestList ();
+                   //this.loadRequestList ();
+                  // this.loadPendingRequestList ();
                    this.loadSharedList ();
                    this.loadReceivedList ().then(()=>{
                     refresher.complete();
