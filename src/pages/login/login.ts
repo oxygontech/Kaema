@@ -159,6 +159,8 @@ async social_login_native(){
   let message='';
 
 //display loader
+  this.email=this.email.trim();
+
   this.loader=await this.interfac.presentLoadingDefault();
   this.loader.present();
   try{
@@ -193,6 +195,7 @@ async social_login_native(){
 
  resetPassword(){
       if(this.email!=''){
+        this.email=this.email.trim();
       let loader= this.interfac.presentLoadingDefault();
       loader.present();
 
