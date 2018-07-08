@@ -26,7 +26,8 @@ import { ProfileDetailsPage } from '../pages/profile-details/profile-details';
 import { BinRegistrationPage } from '../pages/bin-registration/bin-registration';
 import { ChatPage } from '../pages/chat/chat';
 import { ChatMessagePage } from '../pages/chat-message/chat-message';
-
+import { UserRatingPage } from '../pages/user-rating/user-rating';
+import { ViewRatingPage } from '../pages/view-rating/view-rating';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -40,7 +41,7 @@ import { Geolocation } from '@ionic-native/geolocation';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { FirebaseDatabaseServiceProvider } from '../providers/firebase-database-service/firebase-database-service';
 import { NgxQRCodeModule } from 'ngx-qrcode2';
-import { Http, HttpModule } from '@angular/http';
+import {  HttpModule } from '@angular/http';
 import { WebServiceProvider } from '../providers/web-service/web-service';
 import { FirebaseAnalytics } from '@ionic-native/firebase-analytics';
 
@@ -48,6 +49,10 @@ import { GooglePlus } from '@ionic-native/google-plus';
 import { EventLoggerProvider } from '../providers/event-logger/event-logger';
 import { HideFabDirective } from '../directives/hide-fab/hide-fab';
 import { Diagnostic } from '@ionic-native/diagnostic';
+
+import { Ionic2RatingModule } from 'ionic2-rating';
+
+
 
 @NgModule({
   declarations: [
@@ -70,7 +75,9 @@ import { Diagnostic } from '@ionic-native/diagnostic';
     BinRegistrationPage,
     ChatPage,
     ChatMessagePage,
-    HideFabDirective
+    HideFabDirective,
+    UserRatingPage,
+    ViewRatingPage
   ],
   imports: [
     BrowserModule,
@@ -81,7 +88,8 @@ import { Diagnostic } from '@ionic-native/diagnostic';
     AngularFireDatabaseModule,
     SuperTabsModule.forRoot(),
     NgxQRCodeModule,
-    HttpModule
+    HttpModule,
+    Ionic2RatingModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -103,7 +111,9 @@ import { Diagnostic } from '@ionic-native/diagnostic';
     ProfileDetailsPage,
     BinRegistrationPage,
     ChatPage,
-    ChatMessagePage
+    ChatMessagePage,
+    UserRatingPage,
+    ViewRatingPage
   ],
   providers: [
     StatusBar,

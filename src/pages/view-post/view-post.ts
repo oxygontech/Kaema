@@ -20,6 +20,9 @@ import { AlertController } from 'ionic-angular';
 import { ChatMessagePage } from '../chat-message/chat-message';
 
 import {MAP_API_KEY} from '../../app/app.config';
+import { UserRatingPage } from '../user-rating/user-rating';
+import { ViewRatingPage } from '../view-rating/view-rating';
+import { EventLoggerProvider } from '../../providers/event-logger/event-logger';
 /**
  * Generated class for the ViewPostPage page.
  *
@@ -67,11 +70,14 @@ export class ViewPostPage {
   servesRemaning=0;
   profile_stats_share={} as ProfileStats;
   profile_stats_receive={} as ProfileStats;
- 
+  userRating : number; 
+
+  showQrCode=false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,private afDatabase : AngularFireDatabase,
               private afAuth:AngularFireAuth,private barcodeScanner: BarcodeScanner,public interfac: InterfaceProvider
-              ,private webService : WebServiceProvider,private alertCtrl:AlertController) {
+              ,private webService : WebServiceProvider,private alertCtrl:AlertController
+              ,private eventLogger :EventLoggerProvider) {
 
                 //presenting loader
        let loader=interfac.presentLoadingDefault();
@@ -101,6 +107,7 @@ export class ViewPostPage {
                 this.afDatabase.object('profile_stats/'+this.user.uId).subscribe(receive_stat=>{
                 this.profile_stats_receive=receive_stat;
                 
+                this.getUserRating();//setting user rating value through this functions
                 loader.dismiss();
                 });
                this.webService.sharePost().then(dataset=>{
@@ -120,12 +127,27 @@ export class ViewPostPage {
           }
     
         });
+  }
 
-    
-     
-     
-        
-    
+  getUserRating(){
+    this.afDatabase.object('ratings/'+this.post.userId).subscribe(ratingResult=>{
+      if(ratingResult.length != 0 && ratingResult!=null){
+        this.userRating=(Math.round((ratingResult.stars/ratingResult.ratings)*10))/10;//getting result to once decimal place
+       //this.userRating=ratingResult.stars/ratingResult.ratings;
+      }else{
+        this.userRating=0.0;
+      }
+           
+    })
+
+  }
+
+  rateUser(){
+    this.navCtrl.push(UserRatingPage,{postUser:this.post.userId});
+  }
+
+  showRating(){
+    this.navCtrl.push(ViewRatingPage,{postUser:this.post.userId});
   }
 
   ionViewDidEnter() {
@@ -187,6 +209,7 @@ export class ViewPostPage {
       this.barcodeScanner.scan().then(barcodeData => {
       this.hiddenText = barcodeData.text;
 
+      this.eventLogger.buttonClickLogger('scan_code');//analaytic data collection
       //check if the hidden code is equal to the post Id,if true share allowed
       if(barcodeData.text==this.post.postId){
 
@@ -238,71 +261,27 @@ export class ViewPostPage {
                   this.afDatabase.list('notifications/'+receivedNotification.userId).push(receivedNotification).then(()=>{
                   loader.dismiss();
                   this.interfac.presentToast('Scan Sucessfull, you  have receipted this Post');
+                  this.navCtrl.pop();
+                  this.rateUser();//once scan is sucessfull directing user to rating page;
                   });
               });
 
-              
-              
-  
                 
               });
 
-
-              
-
-
-           
-            
-
           });//Making Server Aware of a sharing event
          
-         
-      
-        
-
 
       }else{
+        this.eventLogger.inputRejection('scan_incorrect_code');//analaytic data collection
         this.interfac.presentToast('Scan Un-Sucessfull this is an incorrect Code');
       }
     }, (err) => {
         //console.log('Error: ', err);
-        this.interfac.presentToast('An error occurred');
+        this.eventLogger.inputRejection('scan_error');//analaytic data collection
+        this.interfac.presentToast('Scan Un-Sucessfull an error occurred');
     });
 
-
-
-
-    //temp by jithendra 
-
-    
-
-
-
-    /*let loader= this.interfac.presentLoadingDefault();
-    loader.present();
-
-    this.shared.receivedUser=this.user.uId;
-    this.shared.receivedUserProfile=this.profile;
-    this.shared.sharedUser=this.post.userId;
-    this.shared.post=this.post;
-    this.post.shares=+this.post.shares+1;
-
-     
-
-    this.afDatabase.list('shared').push(this.shared).then(result=>{
-     // console.log(result);
-      this.webService.sharePost(this.shared).then(dataset=>{
-
-        console.log(dataset);
-
-        //this.afDatabase.object('post/'+this.post.postId).update({shares:+this.post.shares+1});
-        loader.dismiss();
-        this.interfac.presentToast('Scan Sucessfull, you  have receipted this Post');
-
-      });//Making Server Aware of a sharing event
-     
-     
-    });*/
   }
 
 //increase view count 
@@ -399,6 +378,18 @@ postView (){
     confirm.present();
 
   }
+
+  showQr (){
+
+    this.eventLogger.buttonClickLogger('show_QR');//analaytic data collection
+    if(this.showQrCode==true){
+      this.showQrCode=false;
+    }else{
+      this.showQrCode=true;
+    }
+  }
+
+
 
 
 

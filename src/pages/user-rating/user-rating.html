@@ -1,0 +1,74 @@
+<!--
+  Generated template for the UserRatingPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color='primary'>
+    <ion-title>User Review</ion-title>
+
+    <ion-buttons end>
+
+        <button ion-button  (click)='skipRating()'>
+            Skip
+        </button>
+      
+    </ion-buttons> 
+
+
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content >
+
+            <ion-grid>
+                <ion-row>
+                  <ion-col col-12 align='center'>
+                    <img  src= {{this.postUserProfile?.userPhotoURL}} class='profileImg'>
+                </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col col-12 align='center' class='userName'>
+                    {{this.postUserProfile?.firstName}}
+                  </ion-col>
+                </ion-row>
+
+                <ion-row>
+                  <ion-col col-12 align='center' class='userName'>
+                      <div class='ratingIntro' wrap-text>
+                          <b>  How was your food sharing experience with {{this.postUserProfile?.firstName}} </b>
+                      </div>
+                  </ion-col>
+                </ion-row>
+                
+              </ion-grid>
+
+              <ion-list>
+                      <ion-item>
+                          <ion-label stacked>Review *</ion-label>
+                          <ion-textarea type="text" [(ngModel)]="this.review"></ion-textarea>
+                     </ion-item>
+
+                     <ion-item>
+                       
+                        <rating [(ngModel)]="rate" 
+                        readOnly="false" 
+                        max="5" 
+                        emptyStarIconName="star-outline" 
+                        halfStarIconName="star-half" 
+                        starIconName="star" 
+                        nullable="false" >
+                      </rating>
+                   </ion-item>
+
+                </ion-list>
+
+                <button ion-button    id='submitButton' (click)='saveRating()' outline>Post Review</button>
+
+
+
+</ion-content>
