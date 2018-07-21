@@ -29,8 +29,10 @@ export class UserRatingPage {
   review : string;
   rate   :any;
   userRatingSummary = {} as userRatingSummary;
+  postRatingSummary = {} as userRatingSummary;
   userReview = {} as userReview;
   postUser : string;
+  postId : string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               private afDatabase : AngularFireDatabase,private afAuth:AngularFireAuth
@@ -41,7 +43,10 @@ export class UserRatingPage {
      //presenting loader
      let loader=interfac.presentLoadingDefault();
      loader.present();
-
+     
+     if(this.navParams.get('postId')!=null){
+       this.postId=this.navParams.get('postId');
+     }
      this.userRatingSummary.ratings=0;
      this.userRatingSummary.stars=0;
      this.userRatingSummary.star_5=0;
@@ -49,28 +54,30 @@ export class UserRatingPage {
      this.userRatingSummary.star_3=0;
      this.userRatingSummary.star_2=0;
      this.userRatingSummary.star_1=0;
-    
 
+
+     this.postRatingSummary.ratings=0;
+     this.postRatingSummary.stars=0;
+     this.postRatingSummary.star_5=0;
+     this.postRatingSummary.star_4=0;
+     this.postRatingSummary.star_3=0;
+     this.postRatingSummary.star_2=0;
+     this.postRatingSummary.star_1=0;
+    
+     console.log(this.navParams.get('postUser'));
 
     this.afAuth.authState.subscribe(userResult=>{
       
-
-        
       if(userResult.uid){
         this.user.uId=userResult.uid;
 
         this.afDatabase.object('profile/'+this.user.uId).subscribe(result=>{
           this.userProfile=result;        
         });
-
-
         this.getPostUserProfile().then(()=>{
-         
           loader.dismiss();
-
         })
       }else{
-
         loader.dismiss();
         this.navCtrl.setRoot(LoginPage);
       }
@@ -87,9 +94,17 @@ export class UserRatingPage {
           this.afDatabase.object('profile/'+this.postUser).subscribe(result=>{
 
             this.postUserProfile=result;
-            this.afDatabase.object('ratings/'+this.postUser).subscribe(ratingResult=>{
-              if(ratingResult.length != 0 && ratingResult!=null){
+            this.afDatabase.object('ratings_user/'+this.postUser).subscribe(ratingResult=>{
+
+              //console.log(ratingResult.star);
+
+              if(ratingResult.length != 0 && ratingResult.stars>0){
                 this.userRatingSummary=ratingResult;
+                    this.afDatabase.object('ratings_post/'+this.postUser).subscribe(postRatingResult=>{
+                      if(postRatingResult.length != 0 && postRatingResult.stars>0){
+                        this.postRatingSummary=postRatingResult;
+                      }
+                     })
               }
                    
             })
@@ -149,16 +164,25 @@ export class UserRatingPage {
 
               this.userRatingSummary.stars=this.userRatingSummary.stars+this.rate;
               this.userRatingSummary.ratings++;
+
+              this.postRatingSummary.stars=this.postRatingSummary.stars+this.rate;
+              this.postRatingSummary.ratings++;
+
                if(this.rate==1){
                  this.userRatingSummary.star_1++;
+                 this.postRatingSummary.star_1++;
                }else if(this.rate==2){
                 this.userRatingSummary.star_2++;
+                this.postRatingSummary.star_2++;
                }else if(this.rate==3){
                 this.userRatingSummary.star_3++;
+                this.postRatingSummary.star_3++;
                }else if(this.rate==4){
                 this.userRatingSummary.star_4++;
+                this.postRatingSummary.star_4++;
               }else if(this.rate==5){
                 this.userRatingSummary.star_5++;
+                this.postRatingSummary.star_5++;
               }
       
               this.userReview.review=this.review;
@@ -167,13 +191,16 @@ export class UserRatingPage {
               
       
               console.log(this.userRatingSummary);
-              this.afDatabase.object('ratings/'+this.postUser).set(this.userRatingSummary).then(()=>{
-                this.afDatabase.list('review_history/'+this.postUser).push(this.userReview).then(()=>{
-                  loader.dismiss();
-                  this.interfac.presentToast('Review has been posted');
-                  this.navCtrl.pop();
-                })
-                
+            this.afDatabase.object('ratings_user/'+this.postUser).set(this.userRatingSummary).then(()=>{
+                this.afDatabase.object('ratings_post/'+this.postId).set(this.postRatingSummary).then(()=>{
+                    this.afDatabase.list('review_history_user/'+this.postUser).push(this.userReview).then(()=>{
+                        this.afDatabase.list('review_history_post/'+this.postUser).push(this.userReview).then(()=>{
+                        loader.dismiss();
+                        this.interfac.presentToast('Review has been posted');
+                        this.navCtrl.pop();
+                      })
+                    })
+                  });
               });
 
             }

@@ -43,7 +43,7 @@ export class PostPage {
   
     marker:any;
     myLocation ={} as Location;
-    batch=10;
+    batch=2;
   
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
@@ -93,7 +93,8 @@ async  loadPostList(){
                         }
                       }).subscribe(postResult=>{
 
-                      this.lastKey=postResult.keys[0];
+                        
+                      this.lastKey=postResult[0].$key;
                       this.post =postResult.reverse();
 
                       if(postResult.length==this.batch){
@@ -148,10 +149,10 @@ async  loadPostList(){
                       }
                     }
 
-                    if(postResult.keys[0]==this.lastKey){
+                    if(postResult[0].$key==this.lastKey){
                       this.dataFinished=true;
                     }else{
-                      this.lastKey=postResult.keys[0];
+                      this.lastKey=postResult[0].$key;
                     }
                     
                         infiniteScroll.complete();

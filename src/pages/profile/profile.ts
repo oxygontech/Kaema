@@ -22,6 +22,7 @@ import { MorePage } from '../more/more';
 import { ProfileStats } from '../../models/profile_stats';
 import { Notifications } from '../../models/notifications';
 import { EventLoggerProvider } from '../../providers/event-logger/event-logger';
+import { ViewRatingPage } from '../view-rating/view-rating';
 
 
 
@@ -63,7 +64,7 @@ export class ProfilePage {
   captureDataUrl: string;
   profileDetails:any;
   batch=100;
-
+  userRating : number; 
   
 
  /**
@@ -119,6 +120,7 @@ export class ProfilePage {
                    //this.loadPendingRequestList ();
                    this.loadSharedList ();
                    this.loadReceivedList ().then(()=>{
+                   this.getUserRating();
                     loader.dismiss()
                    })
                   
@@ -154,8 +156,26 @@ export class ProfilePage {
 
   }
 
+  getUserRating(){
+    console.log('ratings_user/'+this.user.uId);
+    this.afDatabase.object('ratings_user/'+this.user.uId).subscribe(ratingResult=>{
+      console.log(ratingResult);
+      if(ratingResult.length != 0 && ratingResult.ratings!=null){
+        this.userRating=(Math.round((ratingResult.stars/ratingResult.ratings)*10))/10;//getting result to once decimal place
+       
+       //this.userRating=ratingResult.stars/ratingResult.ratings;
+      }else{
+        this.userRating=0.0;
+      }
+           
+    })
 
+  }
 
+  showRating(){
+    this.navCtrl.push(ViewRatingPage,{postUser:this.user.uId});;
+    //this.navCtrl.push(UserRatingPage,{postUser:this.post.userId,postId:this.post.postId});
+  }
   //loading user related List
 
 

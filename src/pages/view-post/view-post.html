@@ -48,7 +48,7 @@
           <b>&nbsp; {{this.userRating}} </b>
        </ion-col>
 
-       <ion-col col-5 align='left' class='starRating' (click)='showRating()' *ngIf='this?.userRating==0'>    
+       <ion-col col-5 align='left' class='starRating'  *ngIf='this?.userRating==0'>    
           <b><ion-badge>Not rated</ion-badge></b>
        </ion-col>
 
@@ -60,7 +60,7 @@
    
    <ion-row>
       <ion-col col-1></ion-col>
-      <ion-col col-10 align='center'>
+      <ion-col col-10 align='center' text-wrap>
        {{this.post?.description}} 
        </ion-col>
        <ion-col col-1></ion-col>

@@ -130,9 +130,12 @@ export class ViewPostPage {
   }
 
   getUserRating(){
-    this.afDatabase.object('ratings/'+this.post.userId).subscribe(ratingResult=>{
-      if(ratingResult.length != 0 && ratingResult!=null){
+    console.log('ratings_user/'+this.tempPost.userId);
+    this.afDatabase.object('ratings_user/'+this.tempPost.userId).subscribe(ratingResult=>{
+      console.log(ratingResult);
+      if(ratingResult.length != 0 && ratingResult.ratings!=null){
         this.userRating=(Math.round((ratingResult.stars/ratingResult.ratings)*10))/10;//getting result to once decimal place
+       
        //this.userRating=ratingResult.stars/ratingResult.ratings;
       }else{
         this.userRating=0.0;
@@ -143,11 +146,20 @@ export class ViewPostPage {
   }
 
   rateUser(){
-    this.navCtrl.push(UserRatingPage,{postUser:this.post.userId});
+    this.afDatabase.list('review_history_post/'+this.post.postId,{
+      query :{orderByChild:'userId',
+               equalTo:this.user.uId}
+    }).subscribe(reviewResult=>{
+      if(!(reviewResult[0].star>0)){//checking if such an object exist,Allowing user rate if the user has not rating the sharing experience for this post
+        this.navCtrl.push(UserRatingPage,{postUser:this.post.userId,postId:this.post.postId});
+      }
+    
+    });
   }
 
   showRating(){
     this.navCtrl.push(ViewRatingPage,{postUser:this.post.userId});
+    //this.navCtrl.push(UserRatingPage,{postUser:this.post.userId,postId:this.post.postId});
   }
 
   ionViewDidEnter() {
