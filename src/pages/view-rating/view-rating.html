@@ -1,0 +1,169 @@
+<!--
+  Generated template for the ViewRatingPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color='primary'>
+    <ion-title>Ratings</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content >
+
+    <ion-grid>
+
+        <ion-row>
+          <ion-col col-12 align='center'>
+            <img  src= {{this.ratingUserProfile?.userPhotoURL}} class='profileImg'>
+        </ion-col>
+        </ion-row>
+
+
+
+        <ion-row>
+            <ion-col col-12 align='center'>
+              <div class='nameText'>{{this.ratingUserProfile?.firstName}}</div>
+          </ion-col>
+  
+  
+          </ion-row>
+       
+
+
+        <ion-row>
+
+        <ion-col col-12 align='center' *ngIf='this.userRating>0'>
+            <rating [(ngModel)]="userRating" 
+                      readOnly="true" 
+                      max="5" 
+                      emptyStarIconName="star-outline" 
+                      halfStarIconName="star-half" 
+                      starIconName="star" 
+                      nullable="false" >
+                    </rating> 
+                <b>{{this.userRating}} average from {{this.userRatingSummary.ratings}} reviews </b> 
+        </ion-col>
+
+        <ion-col col-12 align='center' *ngIf='this.userRating==0'>
+                <b>No Reviews available </b> 
+        </ion-col>
+
+
+        </ion-row>
+        
+      
+
+
+<ion-row  *ngIf='this.userRating>0'>
+  <ion-col col-1></ion-col>
+
+
+  <ion-col col-11>
+
+
+      <div class="row">
+          <div class="side">
+            <div>5 &nbsp;<ion-icon name='star'></ion-icon></div>
+          </div>
+          <div class="middle">
+            <div class="bar-container">
+              <div class="bar-5" [style.width.%]="((this.userRatingSummary.star_5/this.userRatingSummary.stars)*100)"></div>
+            </div>
+          </div>
+          <div class="side right">
+            <div>{{this.userRatingSummary.star_5}} </div>
+          </div>
+          <div class="side">
+            <div>4 &nbsp;<ion-icon name='star'></ion-icon></div>
+          </div>
+          <div class="middle">
+            <div class="bar-container">
+              <div class='bar-4' [style.width.%]="((this.userRatingSummary.star_4/this.userRatingSummary.stars)*100)"></div>
+            </div>
+          </div>
+          <div class="side right">
+            <div>{{this.userRatingSummary.star_4}} </div>
+          </div>
+          <div class="side">
+            <div>3 &nbsp;<ion-icon name='star'></ion-icon></div>
+          </div>
+          <div class="middle">
+            <div class="bar-container">
+              <div class="bar-3" [style.width.%]="((this.userRatingSummary.star_3/this.userRatingSummary.stars)*100)"></div>
+            </div>
+          </div>
+          <div class="side right">
+            <div>{{this.userRatingSummary.star_3}} </div>
+          </div>
+          <div class="side">
+            <div>2 &nbsp;<ion-icon name='star'></ion-icon></div>
+          </div>
+          <div class="middle">
+            <div class="bar-container">
+              <div class="bar-2" [style.width.%]="((this.userRatingSummary.star_2/this.userRatingSummary.stars)*100)"></div>
+            </div>
+          </div>
+          <div class="side right">
+            <div>{{this.userRatingSummary.star_2}} </div>
+          </div>
+          <div class="side">
+            <div>1 &nbsp;<ion-icon name='star'></ion-icon></div>
+          </div>
+          <div class="middle">
+            <div class="bar-container">
+              <div class="bar-1" [style.width.%]="((this.userRatingSummary.star_1/this.userRatingSummary.stars)*100)"></div>
+            </div>
+          </div>
+          <div class="side right">
+            <div>{{this.userRatingSummary.star_1}} </div>
+          </div>
+        </div>
+  </ion-col>
+</ion-row>
+
+
+
+</ion-grid>
+
+<ion-list>
+    <ion-item  *ngFor='let item of userReviews'>
+      <ion-grid>
+
+         <ion-row>
+             <ion-col col-2 ><img src = {{item.userProfile.userPhotoURL}} class='profileImgSmall'></ion-col>
+             <ion-col col-7 align='left'>
+               {{item.userProfile.firstName}}
+              <br/>
+              <ion-icon name="star" *ngIf='item.star>=1'></ion-icon>
+              <ion-icon name="star" *ngIf='item.star>=2'></ion-icon>
+              <ion-icon name="star" *ngIf='item.star>=3'></ion-icon>
+              <ion-icon name="star" *ngIf='item.star>=4'></ion-icon>
+              <ion-icon name="star" *ngIf='item.star>=5'></ion-icon>
+
+              </ion-col> 
+              <ion-col col-3>
+
+                <div class="time"  *ngIf='currentDate==item.reviewDate '>Today {{item.reviewTime||'' | date  : 'H:mm'}}</div>
+                <div class="time"  *ngIf='currentDate!=item.reviewDate '>{{item.reviewDate | date : 'MMM dd'}} {{item.reviewTime||'' | date  : 'H:mm'}}</div>
+             
+              </ion-col>
+        </ion-row>
+        <ion-row >
+            <ion-col col-10 ><span text-wrap>{{item.review}}</span></ion-col> 
+            <ion-col col-2 ></ion-col> 
+       </ion-row>
+      </ion-grid>
+
+    </ion-item>
+  </ion-list>
+
+    <ion-infinite-scroll (ionInfinite)="scrollDown($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
+</ion-content>

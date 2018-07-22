@@ -1,0 +1,103 @@
+page-view-rating {
+
+
+    ul {
+        padding: 0px;
+      
+        &.rating li {
+          padding: 5px 10px !important;
+          background: none;
+          color: #ffb400;
+      
+          ion-icon {
+            font-size: 30px;
+          }
+        }
+      }
+
+      .smallStar{
+
+        ion-icon {
+            font-size: 12px;
+          }
+      }
+
+      .profileImg{
+
+        border-radius: 50%;
+        height :100px;
+        width :100px;
+       
+      
+    }
+    .profileImgSmall{
+
+        border-radius: 50%;
+        height :30px;
+        width : 30px;
+      }
+
+    .nameText{
+        font-size: 12px;
+        margin-top: 2%;
+    }
+
+
+
+    .side {
+        float: left;
+        width: 15%;
+        margin-top:10px;
+        
+    }
+    
+    .middle {
+        margin-top:10px;
+        float: left;
+        width: 70%;
+    }
+    
+    /* Place text to the right */
+    .right {
+        text-align: center;
+    }
+    
+    /* Clear floats after the columns */
+    .row:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+    
+    /* The bar container */
+    .bar-container {
+        width: 95%;
+        background-color: #f1f1f1;
+        text-align: center;
+        color: white;
+    }
+    
+    /* Individual bars */
+    .bar-5 { height: 18px; background-color: #4CAF50;}
+    .bar-4 { height: 18px; background-color: #00FF00;}
+    .bar-3 { height: 18px; background-color: #FFFF66;}
+    .bar-2 { height: 18px; background-color: #ff9800;}
+    .bar-1 { height: 18px; background-color: #f44336;}
+    
+    /* Responsive layout - make the columns stack on top of each other instead of next to each other */
+    @media (max-width: 250px) {
+        .side, .middle {
+            width: 100%;
+        }
+        .right {
+            display: none;
+        }
+    }
+
+    .time {
+        color: #afafaf;
+        float: right;
+        font-size: small;
+    }
+     
+}

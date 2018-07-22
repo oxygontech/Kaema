@@ -317,6 +317,8 @@ export class AddPostPage {
       });
 
     
+    }else{
+      this.eventLogger.inputRejection('add_post');//analaytic data collection
     }
      
     }

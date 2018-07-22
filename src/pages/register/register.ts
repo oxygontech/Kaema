@@ -10,7 +10,7 @@ import { InterfaceProvider } from '../../providers/interface/interface';
 import { Storage } from '@ionic/storage';
 import { LeaderBoard } from '../../models/leader_board';
 import { ProfileStats } from '../../models/profile_stats';
-import { WebServiceProvider } from '../../providers/web-service/web-service';
+import { EventLoggerProvider } from '../../providers/event-logger/event-logger';
 /**
  * Generated class for the RegisterPage page.
  *
@@ -60,7 +60,7 @@ export class RegisterPage {
 
   constructor(private afAuth:AngularFireAuth,public navCtrl: NavController, 
     public navParams: NavParams,public interfac: InterfaceProvider,
-     private afDatabase:AngularFireDatabase,private storage: Storage ,private service :WebServiceProvider) {
+     private afDatabase:AngularFireDatabase,private storage: Storage  ,private eventLogger :EventLoggerProvider) {
 
                
             
@@ -95,7 +95,8 @@ export class RegisterPage {
     console.log(this.validate());
     this.loader=await this.interfac.presentLoadingDefault();
     this.loader.present();
-
+    this.email=this.email.trim();
+    
     if(this.validate()){
    
 
@@ -114,6 +115,7 @@ export class RegisterPage {
       
       //once user is created automatically sign in User 
 		            try{
+                  
 					  const loginResult=this.afAuth.auth.signInWithEmailAndPassword(this.email,this.password);
 					  if(loginResult){
 
@@ -169,6 +171,7 @@ export class RegisterPage {
       }
   }catch(e){
 //handling exceptions and displaing to user through a toast
+this.eventLogger.inputRejection('registration');
      this.loader.dismiss();
      this.interfac.presentToast(e.message);
      console.error(e);

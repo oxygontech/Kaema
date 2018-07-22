@@ -1,0 +1,38 @@
+page-user-rating {
+
+    ul {
+        padding: 0px;
+      
+        &.rating li {
+          padding: 5px 10px !important;
+          background: none;
+          color: #ffb400;
+      
+          ion-icon {
+            font-size: 30px;
+          }
+        }
+      }
+
+
+      .profileImg{
+
+        border-radius: 50%;
+        height :100px;
+        width :100px;
+        margin-top: -5px;
+      
+    }
+
+      .ratingIntro{
+
+        font-size: 15px;
+        color:color($colors, primary, base)
+      }
+
+      #submitButton{
+        text-transform: none;
+        width:90%;
+        margin-left: 5%;
+    }
+}

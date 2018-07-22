@@ -63,6 +63,7 @@
     "firebase": "^4.7.0",
     "ionic-angular": "^3.9.2",
     "ionic-plugin-keyboard": "^2.2.1",
+    "ionic2-rating": "^1.2.2",
     "ionic2-super-tabs": "^4.1.5",
     "ionicons": "3.0.0",
     "ngx-qrcode2": "0.0.5",

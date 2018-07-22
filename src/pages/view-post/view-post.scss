@@ -27,7 +27,7 @@ page-view-post {
     
     .summaryButtons{
     
-        width :100%;
+        width :90%;
         color: #fff
     }    
     
@@ -45,6 +45,19 @@ page-view-post {
     #dmButton{
         background-color:#0adf38;
     }
+
+    .starIcon {
+          font-size: 30px;
+          padding: 5px 10px !important;
+          background: none;
+          color: #ffb400;
+        }
+      
+
+ .starRating{
+    font-size: 20px;
+    margin-top: 2%;
+ }
 
 }
 

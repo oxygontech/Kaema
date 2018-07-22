@@ -50,4 +50,15 @@ export class EventLoggerProvider {
       }
 
   }
+
+  inputRejection(pageName){
+    try{
+      this.firebaseAnalytics.logEvent('input_rejected', {page: pageName})
+         .then((res: any) => {console.log(res)})
+         .catch((error: any) => {console.error(error)});
+        }catch(error){
+  
+          console.log(error);
+        }
+  }
 }

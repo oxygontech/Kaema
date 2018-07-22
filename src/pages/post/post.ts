@@ -2,7 +2,7 @@ import { Component,ViewChild,ElementRef } from '@angular/core';
 import { IonicPage, NavController, NavParams  } from 'ionic-angular';
 
 
-import {AngularFireDatabase,FirebaseObjectObservable}  from 'angularfire2/database-deprecated';
+import {AngularFireDatabase}  from 'angularfire2/database-deprecated';
 import {AngularFireAuth} from 'angularfire2/auth';
 import { InterfaceProvider } from '../../providers/interface/interface';
 import { LocationServiceProvider } from '../../providers/location-service/location-service';
@@ -85,19 +85,19 @@ async  loadPostList(){
 
 
    let  postSubscription =  this.afDatabase.list('post',{
-                        query :{
-                          orderByChild:'status',
-                          equalTo:'Y',
+                        query :{orderByKey:true,
                           limitToLast:this.batch
                                                 
                         }
                       }).subscribe(postResult=>{
 
-                      this.lastKey=postResult.keys[0];
+                        
+                      this.lastKey=postResult[0].$key;
                       this.post =postResult.reverse();
 
                       if(postResult.length==this.batch){
                         this.dataFinished=false;
+                        
                       }else{
                         this.dataFinished=true;
                       }
@@ -129,9 +129,7 @@ async  loadPostList(){
    if(!this.dataFinished) {
 
    let postSubscription=await this.afDatabase.list('post',{
-                      query :{
-                        orderByChild:'status',
-                        equalTo:'Y',
+                      query :{orderByKey:true,
                         limitToLast:(this.batch+1),
                         endAt:this.lastKey
                                               
@@ -139,19 +137,21 @@ async  loadPostList(){
                     }).subscribe(postResult=>{
 
                     let i=0;
+                     
+                   
 
-                    for (let item of postResult.reverse() ){
-                      if(i!=0){//not the first element,Because first element has already been added to Post List
-                      this.post.push(item);
-                      }else{
-                        i++;
-                      }
-                    }
-
-                    if(postResult.keys[0]==this.lastKey){
+                    if(postResult[0].$key==this.lastKey){
                       this.dataFinished=true;
                     }else{
-                      this.lastKey=postResult.keys[0];
+                      this.lastKey=postResult[0].$key;
+                      postResult.reverse();
+                      for (let item of  postResult){
+                        if(i!=0){//not the first element,Because first element has already been added to Post List
+                        this.post.push(item);
+                        }else{
+                          i++;
+                        }
+                      }
                     }
                     
                         infiniteScroll.complete();

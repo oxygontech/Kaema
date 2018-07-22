@@ -69,22 +69,45 @@
 <!--User Stats Sections-->
  <ion-grid>
     <ion-row>
-        <ion-col col-3 align='center'>
+        <ion-col col-3 align='center' (click)='showRating()' *ngIf='this?.userRating>0' >
+                <h4><ion-icon name="star" class='starIcon'></ion-icon>{{this?.userRating}}</h4> 
          </ion-col>
 
+       <ion-col col-3 align='center'  *ngIf='this?.userRating==0'>   
+                <h4><b><ion-badge>Not rated</ion-badge></b></h4>
+        </ion-col>
 
       <ion-col col-3 align='center'>
-        <h4>{{this.profile_stat?.post}}</h4> Post's
+        <h4>{{this.profile_stat?.post}}</h4>
       </ion-col>
 
       <ion-col col-3 align='center'>
-          <h4>{{this.profile_stat?.share}}</h4> Shared
+          <h4>{{this.profile_stat?.share}}</h4> 
         </ion-col>
 
          <ion-col col-3 align='center'>
-            <h4>{{this.profile_stat?.receipt}}</h4>Receipts
+            <h4>{{this.profile_stat?.receipt}}</h4>
           </ion-col>
     </ion-row>
+
+
+    <ion-row>
+           <ion-col col-3 align='center' >   
+               Rating
+            </ion-col>
+    
+          <ion-col col-3 align='center'>
+               Post's
+          </ion-col>
+    
+          <ion-col col-3 align='center'>
+               Shared
+            </ion-col>
+    
+             <ion-col col-3 align='center'>
+                Receipts
+              </ion-col>
+        </ion-row>
 
   </ion-grid>
 
@@ -97,13 +120,13 @@
             <ion-icon name="apps"></ion-icon> 
         </ion-segment-button>
 
-        <ion-segment-button value="myRequest">
+        <!--ion-segment-button value="myRequest">
                 <ion-icon name="list"></ion-icon>
         </ion-segment-button>
 
         <ion-segment-button value="pendingRequest">
             <ion-icon name="contacts"></ion-icon>
-        </ion-segment-button>
+        </ion-segment-button-->
 
         <ion-segment-button value="shared">
             <ion-icon name="basket"></ion-icon>    
@@ -171,7 +194,7 @@
 </div>
 
 
-  <div *ngSwitchCase="'myRequest'">
+  <!--div *ngSwitchCase="'myRequest'">
      
         <ion-grid>
                 <ion-row>
@@ -217,9 +240,6 @@
             
                    
             
-                  <!-- <ion-row>
-                      <ion-col col-12>{{item.description}}</ion-col>
-                  </ion-row>-->
             
             
                     </ion-grid>
@@ -293,7 +313,7 @@
                             </ion-row>
                    </ion-grid>
             </ion-item>
-          </ion-list>
+          </ion-list->
 
           <div *ngIf='pendingRequest?.length==0'>
                 <ion-grid>
@@ -306,7 +326,7 @@
                 </ion-row>
             </ion-grid>
         </div>
-  </div> 
+  </div--> 
 
 
 
