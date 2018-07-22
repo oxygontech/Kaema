@@ -136,7 +136,7 @@
 
          <ion-row>
              <ion-col col-2 ><img src = {{item.userProfile.userPhotoURL}} class='profileImgSmall'></ion-col>
-             <ion-col col-10 align='left'>
+             <ion-col col-7 align='left'>
                {{item.userProfile.firstName}}
               <br/>
               <ion-icon name="star" *ngIf='item.star>=1'></ion-icon>
@@ -146,6 +146,12 @@
               <ion-icon name="star" *ngIf='item.star>=5'></ion-icon>
 
               </ion-col> 
+              <ion-col col-3>
+
+                <div class="time"  *ngIf='currentDate==item.reviewDate '>Today {{item.reviewTime||'' | date  : 'H:mm'}}</div>
+                <div class="time"  *ngIf='currentDate!=item.reviewDate '>{{item.reviewDate | date : 'MMM dd'}} {{item.reviewTime||'' | date  : 'H:mm'}}</div>
+             
+              </ion-col>
         </ion-row>
         <ion-row >
             <ion-col col-10 ><span text-wrap>{{item.review}}</span></ion-col> 

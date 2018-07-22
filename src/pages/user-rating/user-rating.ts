@@ -188,13 +188,14 @@ export class UserRatingPage {
               this.userReview.review=this.review;
               this.userReview.star=this.rate;
               this.userReview.userId=this.user.uId;
-              
+              this.userReview.reviewDate=(new Date()).toDateString();
+              this.userReview.reviewTime=(new Date()).toString();
       
               console.log(this.userRatingSummary);
             this.afDatabase.object('ratings_user/'+this.postUser).set(this.userRatingSummary).then(()=>{
                 this.afDatabase.object('ratings_post/'+this.postId).set(this.postRatingSummary).then(()=>{
                     this.afDatabase.list('review_history_user/'+this.postUser).push(this.userReview).then(()=>{
-                        this.afDatabase.list('review_history_post/'+this.postUser).push(this.userReview).then(()=>{
+                        this.afDatabase.list('review_history_post/'+this.postId).push(this.userReview).then(()=>{
                         loader.dismiss();
                         this.interfac.presentToast('Review has been posted');
                         this.navCtrl.pop();

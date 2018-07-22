@@ -26,10 +26,12 @@ export class ViewRatingPage {
   dataFinished=false;
   lastKey:any;
   userReviews=[];
+  currentDate :String;
 
 
   constructor(public navCtrl: NavController, public navParams: NavParams,private afDatabase : AngularFireDatabase) {
 
+    this.currentDate=(new Date()).toDateString();
     this.getUserRating();
   }
 
@@ -69,7 +71,7 @@ export class ViewRatingPage {
 //loading reviews entered by other User
   async  loadReviews(){
 
-    let tempReviewArr=[];
+  
     let  reviewSubscription =  this.afDatabase.list('review_history_user/'+this.ratingUser,{
                          query :{orderByKey:true,
                            limitToLast:this.batch}
@@ -77,7 +79,7 @@ export class ViewRatingPage {
  
                        
                        this.lastKey=reviewResult[0].$key;
-                       tempReviewArr =reviewResult.reverse();
+                       reviewResult.reverse();
  
                        if(reviewResult.length==this.batch){
                          this.dataFinished=false;
@@ -86,9 +88,8 @@ export class ViewRatingPage {
                        }
 
                       let i=0;
-                      console.log('initial');
-                      console.log(tempReviewArr);
-                      for(let item of tempReviewArr)  {
+
+                      for(let item of reviewResult)  {
                         let  profileSubscription =  this.afDatabase.object('profile/'+item.userId).subscribe(profileResult=>{
                              
                                let tempReview ={} as userReview;
@@ -96,6 +97,8 @@ export class ViewRatingPage {
                                tempReview.star=item.star;
                                tempReview.review=item.review;
                                tempReview.userProfile=profileResult;
+                               tempReview.reviewDate=item.reviewDate;
+                               tempReview.reviewTime=item.reviewTime;
 
                                this.userReviews.push(tempReview);
                                profileSubscription.unsubscribe();
@@ -114,7 +117,7 @@ export class ViewRatingPage {
 
     if(!this.dataFinished) {
       
-      let tempReviewArr=[];
+      
       let  reviewSubscription =  this.afDatabase.list('review_history_user/'+this.ratingUser,{
         query :{
           orderByKey:true,
@@ -127,42 +130,45 @@ export class ViewRatingPage {
                      let i=0;
 
                        
-                       tempReviewArr =reviewResult.reverse();
- 
-                       console.log('scroll');
-                       console.log(tempReviewArr);
-                     for (let item of tempReviewArr){
-                       if(i!=0){//not the first element,Because first element has already been added to Post List
-                        let  profileSubscription =  this.afDatabase.object('profile/'+item.userId).subscribe(profileResult=>{
-                             
-                          
-                          let tempReview ={} as userReview;
-                          tempReview.userId=item.userId;
-                          tempReview.star=item.star;
-                          tempReview.review=item.review;
-                          tempReview.userProfile=profileResult;
-
-                          
-                          this.userReviews.push(tempReview);
-                          profileSubscription.unsubscribe();
-                          i++;
-                      });
-
-                      if(reviewResult[0].$key==this.lastKey){
+                      console.log(reviewResult);
+                       if(reviewResult[0].$key==this.lastKey){
                         this.dataFinished=true;
+                       console.log('Data finish'+reviewResult[0].$key+' Last key '+this.lastKey);
                       }else{
+
+                        
                         this.lastKey=reviewResult[0].$key;
+                        reviewResult.reverse();
+                        for (let item of reviewResult){
+                          if(i!=0){//not the first element,Because first element has already been added to Post List
+                           let  profileSubscription =  this.afDatabase.object('profile/'+item.userId).subscribe(profileResult=>{
+                                
+                             
+                             let tempReview ={} as userReview;
+                             tempReview.userId=item.userId;
+                             tempReview.star=item.star;
+                             tempReview.review=item.review;
+                             tempReview.userProfile=profileResult;
+                             tempReview.reviewDate=item.reviewDate;
+                             tempReview.reviewTime=item.reviewTime;
+                             
+                             this.userReviews.push(tempReview);
+                             profileSubscription.unsubscribe();
+                             i++;
+                         });
+                          }else{
+                            i++;
+                          }
+                        }
+                        
+
                       }
-
-
-                       }else{
-                         i++;
-                       }
-                     }
+                       
+                      infiniteScroll.complete();
+                      reviewSubscription.unsubscribe(); //removing realtime link to firebase
  
                      
-                         infiniteScroll.complete();
-                         reviewSubscription.unsubscribe(); //removing realtime link to firebase
+                        
                          });
  
                         

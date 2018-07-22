@@ -20,6 +20,8 @@ export interface userReview{
     star   :number;
     userId : string;
     userProfile :Profile
+    reviewDate :String;
+    reviewTime :String;
      
  
  }

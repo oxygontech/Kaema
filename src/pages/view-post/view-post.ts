@@ -111,8 +111,7 @@ export class ViewPostPage {
                 loader.dismiss();
                 });
                this.webService.sharePost().then(dataset=>{
-                 
-                  
+                
                });
 
             });
@@ -150,12 +149,14 @@ export class ViewPostPage {
       query :{orderByChild:'userId',
                equalTo:this.user.uId}
     }).subscribe(reviewResult=>{
-      if(!(reviewResult[0].star>0)){//checking if such an object exist,Allowing user rate if the user has not rating the sharing experience for this post
+      if(!(reviewResult.length != 0 && reviewResult[0].star!=null)){//checking if such an object exist,Allowing user rate if the user has not rating the sharing experience for this post
         this.navCtrl.push(UserRatingPage,{postUser:this.post.userId,postId:this.post.postId});
       }
     
     });
   }
+
+  
 
   showRating(){
     this.navCtrl.push(ViewRatingPage,{postUser:this.post.userId});
@@ -179,7 +180,7 @@ export class ViewPostPage {
     //getting post id from values passed when opening this page
     if(this.navParams.get('post')!=null){
       this.tempPost=this.navParams.get('post');
-      
+      this.post=this.navParams.get('post');
 
      await this.afDatabase.object('post/'+this.tempPost.postId).subscribe(result=>{
         this.post=result;
