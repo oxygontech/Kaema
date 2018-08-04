@@ -10,7 +10,7 @@ import firebase from 'firebase/app';
 import { Storage } from '@ionic/storage';
 import { User } from '../../models/user';
 
-import { GooglePlus } from '@ionic-native/google-plus';
+//import { GooglePlus } from '@ionic-native/google-plus';
 
 
 /**
@@ -53,7 +53,7 @@ export class LoginPage {
 
   constructor(private afAuth:AngularFireAuth,public navCtrl: NavController, public navParams: NavParams,
              public interfac: InterfaceProvider,public menuCtrl: MenuController,
-             private storage: Storage, private gplus: GooglePlus,private platform: Platform ) {
+             private storage: Storage,private platform: Platform ) {
   }
 
  /* ionViewWillEnter() {
@@ -69,7 +69,7 @@ export class LoginPage {
   register(){this.navCtrl.push(RegisterPage); }
 
 
-async googleLogin() {
+/*async googleLogin() {
   
 
   if (this.platform.is('cordova')) {
@@ -80,7 +80,7 @@ async googleLogin() {
     this.social_login('google');
     
   }
-}
+}*/
 //Social Login functionality,Currently does not work on Mobile device
 async social_login(socialType){
 
@@ -128,7 +128,7 @@ try{
 }
 
 
-async social_login_native(){
+/*async social_login_native(){
 
   let loader=this.interfac.presentLoadingDefault();
   try {
@@ -151,7 +151,7 @@ async social_login_native(){
   }
 
 
-}
+}*/
 
 //Email login functonality
  async  login (){

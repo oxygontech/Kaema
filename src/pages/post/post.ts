@@ -48,7 +48,7 @@ export class PostPage {
   batchCount=0;
   currentLocation : any;
   nearPostMsg='Scanning for nearby Post';
-  minDistance=2;
+  minDistance=5;
   noPostMsg='Sorry! No Post within a '+this.minDistance+'km radius';
   noLocMsg='Please turn on location setting\'s for the best experience';
     /// Active filter rules
