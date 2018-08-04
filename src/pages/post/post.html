@@ -64,8 +64,22 @@
 
             </ion-refresher-content>
           </ion-refresher>
+              <div class='sorryTxt'  *ngIf='filteredLessPost?.length==0'>
+                   <ion-grid>
+                     <ion-row *ngIf='this.nearPostMsg=="Scanning for nearby Post"'>
+                        <ion-col col-8 align='right'> {{this.nearPostMsg}}</ion-col>
+                        <ion-col col-4 align='left'><ion-img *ngIf='this.nearPostMsg=="Scanning for nearby Post"' class='loadingImg' width="80" height="80" src="assets/img/loader.gif"></ion-img></ion-col>
+                     </ion-row>
+                     
+
+                     <ion-row *ngIf='this.nearPostMsg!="Scanning for nearby Post"'>
+                      <ion-col col-12 align='center'> {{this.nearPostMsg}}</ion-col>
+                    </ion-row>
+                   
+                  </ion-grid>   
+             </div>
               <ion-list>
-                  <ion-item  *ngFor='let item of post'>
+                  <ion-item  *ngFor='let item of filteredLessPost'>
                     <ion-grid>
                        <ion-row>
                            <ion-col col-12 class='postHeader'>{{item.subject}}</ion-col>
@@ -77,19 +91,13 @@
                      </ion-row>
               
                      <ion-row>
-                        <ion-col col-6 align='left'><ion-badge>Views  {{item?.views}}</ion-badge></ion-col>
-                        <ion-col col-6 align='right'><ion-badge>Shares {{item.shares}}</ion-badge></ion-col>
+                        <ion-col col-4 align='left'><ion-badge>Views  {{item?.views}}</ion-badge></ion-col>
+                        <ion-col col-4 align='center' *ngIf='item?.distance'><ion-badge> {{item?.distance}} Km</ion-badge></ion-col>
+                        <ion-col col-4 align='center' *ngIf='!item?.distance'><ion-badge></ion-badge></ion-col>
+                        <ion-col col-4 align='right'><ion-badge>Shares {{item?.shares}}</ion-badge></ion-col>
                         
                     </ion-row>
               
-
-                    <!--
-                     <ion-row>
-                       
-                       
-                        <ion-col col-8 align='left'>{{item.description}}</ion-col>
-                        <ion-col col-4></ion-col>
-                    </ion-row>-->
 
                     <ion-row *ngIf=item.userProfile>
                         <ion-col col-3 align='left'>
@@ -105,6 +113,44 @@
 
                     </ion-grid>
                   </ion-item>
+
+
+                  <ion-item  *ngFor='let item of filteredGreaterPost'>
+                      <ion-grid>
+                         <ion-row>
+                             <ion-col col-12 class='postHeader'>{{item.subject}}</ion-col>
+                        </ion-row>
+  
+  
+                        <ion-row>
+                            <ion-col col-12 align='center'> <img (click)='viewPost(item)'  src= '{{item.imageURL}}' class='mainPostImg'></ion-col>
+                       </ion-row>
+                
+                       <ion-row>
+                          <ion-col col-4 align='left'><ion-badge>Views  {{item?.views}}</ion-badge></ion-col>
+                          <ion-col col-4 align='center' *ngIf='item?.distance'><ion-badge> {{item?.distance}} Km</ion-badge></ion-col>
+                          <ion-col col-4 align='center' *ngIf='!item?.distance'><ion-badge></ion-badge></ion-col>
+                          <ion-col col-4 align='right'><ion-badge>Shares {{item?.shares}}</ion-badge></ion-col>
+                          
+                      </ion-row>
+                
+  
+                      <ion-row *ngIf=item.userProfile>
+                          <ion-col col-3 align='left'>
+                            <img   src= {{item.userProfile.userPhotoURL}} class='postProfileImg'>
+                         </ion-col>
+                     
+                           <ion-col col-9 align='left' class='postProfileName'>
+                             {{item.userProfile.firstName}}
+                            </ion-col> 
+                      </ion-row>     
+                
+                      
+  
+                      </ion-grid>
+                    </ion-item>
+
+
                 </ion-list>
 
                   <ion-infinite-scroll (ionInfinite)="scrollDown($event)">
