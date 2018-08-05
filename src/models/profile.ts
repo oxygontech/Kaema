@@ -1,3 +1,5 @@
+import { Location } from '../models/location';
+
 export interface Profile{
     
     username:string;
@@ -8,6 +10,7 @@ export interface Profile{
     bio:string;
     website:string;
     phoneNumber:string;
+    location:Location;
     
 
 }

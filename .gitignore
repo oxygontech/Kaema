@@ -41,3 +41,4 @@ src/app/app.config.ts
 src/app/app.firebase.config.ts
 src/index.html
 google-services.json
+documentation/

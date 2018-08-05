@@ -189,7 +189,7 @@ export class ViewPostPage {
         this.locationImage='https://maps.googleapis.com/maps/api/staticmap?zoom=15&size=600x300&maptype=roadmap'+
         '&markers=color:red%7Clabel:C%7C'+this.post.location.latitude+','+this.post.location.longitude+
         '&key='+MAP_API_KEY;
-  
+  console.log(this.locationImage);
         this.qrImage=this.post.postId;
         this.servesRemaning=+this.post.servings-(+this.post.shares);
 
@@ -262,6 +262,11 @@ export class ViewPostPage {
             
             //updating user statistics
              this.afDatabase.object('post/'+this.post.postId).update({shares:+this.post.shares});
+
+           //updating the status as F if servings are finished
+             if(this.post.shares==this.post.servings){
+              this.afDatabase.object('post/'+this.post.postId).update({shares:"F"}); 
+             }
 
               this.profile_stats_share.share++;
               this.afDatabase.object('profile_stats/'+this.post.userId).update({share: this.profile_stats_share.share});

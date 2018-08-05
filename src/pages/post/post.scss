@@ -55,5 +55,20 @@ page-post {
                 }
             }
         }
+
+       
+
+          .sorryTxt{
+           
+            outline: 0;
+            border: 0;
+            color: black;
+            text-align: center;
+            color: color($colors, primary, base);
+          }
+
+          .loadingImg{
+              margin-top: -25%;
+          }
 }
         
