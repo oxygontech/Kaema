@@ -90,8 +90,8 @@
 
                       <ion-row>
                           <ion-col col-12 align='center'> 
-                             <ion-slides>
-                                 <ion-slide *ngFor='let image of item.imageArray'>
+                             <ion-slides pager="true">
+                                 <ion-slide *ngFor='let image of item.imageArray' >
                                      <img (click)='viewPost(item)'  src= '{{image.img}}' class='mainPostImg'>
                                  </ion-slide>
                              </ion-slides>
@@ -132,8 +132,8 @@
   
                         <ion-row>
                              <ion-col col-12 align='center'> 
-                                <ion-slides>
-                                    <ion-slide *ngFor='let image of item.imageArray'>
+                                <ion-slides pager="true" >
+                                    <ion-slide *ngFor='let image of item.imageArray' >
                                         <img (click)='viewPost(item)'  src= '{{image.img}}' class='mainPostImg'>
                                     </ion-slide>
                                 </ion-slides>
