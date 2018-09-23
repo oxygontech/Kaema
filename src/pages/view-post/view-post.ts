@@ -247,7 +247,7 @@ export class ViewPostPage {
         notification.readStatus='N';
         notification.userId=this.post.userId;
         notification.date=(new Date()).toDateString();
-
+        notification.notify_status='N';
 
         receivedNotification.title='Food Received ';
         receivedNotification.message='You received '+this.post.subject+' from '+this.post.userProfile.firstName;
@@ -256,6 +256,7 @@ export class ViewPostPage {
         receivedNotification.readStatus='N';
         receivedNotification.userId=this.shared.receivedUser;
         receivedNotification.date= (new Date()).toDateString();
+        receivedNotification.notify_status='N';
 
             this.afDatabase.list('shared').push(this.shared).then(result=>{//saving the share to firebase
 
@@ -265,7 +266,7 @@ export class ViewPostPage {
 
            //updating the status as F if servings are finished
              if(this.post.shares==this.post.servings){
-              this.afDatabase.object('post/'+this.post.postId).update({shares:"F"}); 
+              this.afDatabase.object('post/'+this.post.postId).update({status:"F"}); 
              }
 
               this.profile_stats_share.share++;
@@ -277,6 +278,10 @@ export class ViewPostPage {
               this.afDatabase.list('notifications/'+notification.userId).push(notification).then(()=>{
 
                   this.afDatabase.list('notifications/'+receivedNotification.userId).push(receivedNotification).then(()=>{
+                   
+                  this.webService.shareNotifications(this.post.userId);
+                  this.webService.shareNotifications(this.shared.receivedUser);
+
                   loader.dismiss();
                   this.interfac.presentToast('Scan Sucessfull, you  have receipted this Post');
                   this.navCtrl.pop();

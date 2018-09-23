@@ -155,27 +155,43 @@
 
 <ion-list>
     <ion-item  *ngFor='let item of mypost'>
-      <ion-grid>
-         <ion-row>
-             <ion-col col-12><b><h2>{{item.subject}}</h2></b></ion-col>
-        </ion-row>
+      
+      <ion-grid >
+            <ion-row >
+                
+                <ion-col col-3> <img class='circularPostImg' (click)='viewPost(item)' src= '{{item.imageURL}}' ></ion-col>
+                <ion-col col-8 (click)='viewPost(item)'>
+                          <ion-grid>
+                              
+                            <ion-row>
+                               <ion-col col-10><h3>{{item.subject}}</h3></ion-col>
+                               
+                             
+                            </ion-row> 
 
-        <ion-row>
-            <ion-col col-12> <img  (click)='viewPost(item)' src= '{{item.imageURL}}' class='postImg'></ion-col>
-       </ion-row>
+                               <ion-row>
+                                    <ion-col col-5 align='left'><ion-badge>View {{item?.views}}</ion-badge></ion-col>
+                                    <ion-col col-5 align='left'><ion-badge>Shares {{item?.shares}}</ion-badge></ion-col>
 
-       <ion-row>
-          <ion-col col-6 align='left'><ion-badge>View {{item?.views}}</ion-badge></ion-col>
-          <ion-col col-6 align='right'><ion-badge>Shares {{item?.shares}}</ion-badge></ion-col>
-          
-      </ion-row>
+                                    <ion-col col-2 align='right' *ngIf='item?.status=="Y"'><ion-badge color='secondary'>Active</ion-badge></ion-col>
+                                    <ion-col col-2 align='right' *ngIf='item?.status=="D"'><ion-badge color='danger'>Deleted</ion-badge></ion-col>
+                                    <ion-col col-2 align='right' *ngIf='item?.status=="F"'><ion-badge color='primary'>Finished</ion-badge></ion-col>
+                               
+                                </ion-row>
+                            </ion-grid>
+                </ion-col>
+              
 
-      <!-- <ion-row>
-          <ion-col col-12>{{item.description}}</ion-col>
-      </ion-row>-->
+                <ion-col col-1 align='right' (click)='presentPopover($event,item)'>
+                        <ion-icon name="more"></ion-icon>
+                </ion-col>
+           
+            </ion-row>
+    
+        </ion-grid>
 
 
-      </ion-grid>
+
     </ion-item>
   </ion-list>
   

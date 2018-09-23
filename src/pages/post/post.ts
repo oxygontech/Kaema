@@ -17,6 +17,7 @@ import * as _ from 'lodash';
 import { User } from '../../models/user';
 import { Diagnostic } from '@ionic-native/diagnostic';
 import { Platform } from 'ionic-angular';
+import { CloudMessagingProvider } from '../../providers/cloud-messaging/cloud-messaging';
 //import { CloudMessagingProvider } from '../../providers/cloud-messaging/cloud-messaging';
 
 /**
@@ -65,8 +66,8 @@ export class PostPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,
               private afDatabase : AngularFireDatabase , private afAuth:AngularFireAuth,
                public interfac: InterfaceProvider,public locationService:LocationServiceProvider,
-               private eventLogger :EventLoggerProvider,private diagnostic: Diagnostic,public plt: Platform/*,
-  private messageProvider:CloudMessagingProvider*/) {
+               private eventLogger :EventLoggerProvider,private diagnostic: Diagnostic,public plt: Platform,
+  private messageProvider:CloudMessagingProvider) {
 
     this.viewType='list';
     //this.loadPostList();
@@ -88,16 +89,17 @@ export class PostPage {
 
   });
 
-    /*this.messageProvider.getToken().then(()=>{
-
-      console.log('Token received');
+    
+    this.messageProvider.getToken().then(()=>{
           // Listen to incoming messages
           this.messageProvider.listenToNotifications().subscribe(msg => {
             // show a toast
-           let toastMsg=this.interfac.presentToast(msg.body)
+          this.interfac.presentToast(msg.body)
           })
 
-    })*/
+    }).catch(error=>{
+      interfac.presentToast(error.message);
+    })
     
 
   }
@@ -160,6 +162,7 @@ if (!this.plt.is('core')) {
 
       if(this.filteredGreaterPost.length==0 && this.filteredLessPost.length==0){
         this.filteredGreaterPost=this.filteredPost;
+       // this.filteredLessPost=this.filteredPost;
         this.nearPostMsg=this.noLocMsg;
       }
 
@@ -209,7 +212,10 @@ async  loadPostList(){
                         }
                       }).subscribe(async postResult=>{      
 
-                        
+                  if(postResult.length>0)   {
+
+                  
+
                       this.lastKey=postResult[0].$key;
                       postResult.reverse();
                       this.post=[];
@@ -243,6 +249,9 @@ async  loadPostList(){
                     }else{
                       this.nearPostMsg=this.noPostMsg;
                     }
+                  }
+                  this.nearPostMsg=this.noPostMsg;
+
                       loader.dismiss(); 
                       postSubscription.unsubscribe();//removing realtime link to firebase
                       });

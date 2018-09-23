@@ -10,7 +10,7 @@ export interface Post{
     shares :number;
     views :number;
     daysAvailable:string;
-    imageURL:string;
+    imageURL:any;
     location:Location;
     pickUpTime:string;
     postType:string;

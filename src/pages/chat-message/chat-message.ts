@@ -10,6 +10,7 @@ import { ChatMessage } from '../../models/chat_message';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {AngularFireDatabase}  from 'angularfire2/database-deprecated';
 import { Content } from 'ionic-angular';
+import { WebServiceProvider } from '../../providers/web-service/web-service';
 /**
  * Generated class for the ChatMessagePage page.
  *
@@ -46,7 +47,7 @@ export class ChatMessagePage {
   @ViewChild(Content) messagesContent;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,private afDatabase : AngularFireDatabase,
-              private afAuth:AngularFireAuth,public interfac: InterfaceProvider) {
+              private afAuth:AngularFireAuth,public interfac: InterfaceProvider,private webService:WebServiceProvider) {
 
      this.messageData.text='';
      this.currentDate=(new Date()).toDateString();
@@ -198,12 +199,13 @@ export class ChatMessagePage {
            this.messageData.readStatus='N';
            this.messageData.sendDate=(new Date()).toDateString();
            this.messageData.sendTime=(new Date()).toString();
+           this.messageData.notify_status='N';
            this.scrollToBottom();
 
            this.messageText='';
           //await this.messages.push(this.messageData);
           await this.afDatabase.list('chat_messages/'+this.chatId).push(this.messageData).then(()=>{
-            
+            this.webService.chatNotifications(this.chatId,this.otherUser,this.profile.firstName);
             this.afDatabase.object('chat/'+this.chatId).update({lastMessage : this.messageData.text,lastMessageUser:this.user.uId}).then(()=>{
               
              });

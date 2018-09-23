@@ -121,15 +121,40 @@
       <ion-grid  class='black_shade'>
           <ion-row>
                   
-              <ion-col col-6>
+              <ion-col align='left' col-12>
                 Photo
               </ion-col>
             
 
-              <ion-col col-6 align='right'>
-                <img class='uploadimg' (click)="uploadImage()" src= {{this.imageURL}} >
-              </ion-col>
 
+              <!--ion-col col-6 align='right'>
+                <img class='uploadimg' (click)="uploadImage()" src= {{this.imageURL}} >
+              </ion-col-->
+
+            </ion-row>
+
+            <ion-row>
+                <ion-col col-12 >
+                    <div>
+                        <div class="images-wrapper">
+
+                          <div class="image-wrapper" *ngFor="let image of this.displayImgUrl">
+                            <ion-icon class="remove-image" name="close" (click)="removeImage(image)"></ion-icon>
+                            <div class="image" [style.background-image]="image">
+                              <img src= {{image}} class='uploadImg' alt=""/>
+                            </div>
+                          </div>
+
+                          <div class="image-wrapper" (click)="uploadImage()">
+                              <div class="image" [style.background-image]="image">
+                                <img src= {{this.imageURL}} class='uploadAddImg' alt=""/>
+                              </div>
+                          </div>
+
+
+                        </div>
+                      </div>
+                  </ion-col>
             </ion-row>
 
       </ion-grid>

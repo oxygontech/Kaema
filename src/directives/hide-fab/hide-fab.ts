@@ -12,22 +12,22 @@ export class HideFabDirective {
   private threshold: number = 10;
  
   constructor(public element:ElementRef,public renderer:Renderer) {
-    console.log('Hello HideFabDirective Directive');
+    //console.log('Hello HideFabDirective Directive');
   }
  
   ngAfterViewInit() {
-    console.log("All Transtition set");
+    //console.log("All Transtition set");
     this.fabRef = this.element.nativeElement.getElementsByClassName("fab")[0];
     this.renderer.setElementStyle(this.fabRef, 'webkitTransition', 'transform 500ms,top 500ms');
   }
  
   handleScroll(event: Content) {
     if (event.scrollTop - this.storedScroll > this.threshold) {
-      console.log("Scrolling down");
+      //console.log("Scrolling down");
         this.renderer.setElementStyle(this.fabRef, 'top', '60px');
         this.renderer.setElementStyle(this.fabRef, 'webkitTransform', 'scale3d(0,0,0)');
     } else if (event.scrollTop - this.storedScroll < 0) {
-      console.log("Scrolling up");
+      //console.log("Scrolling up");
         this.renderer.setElementStyle(this.fabRef, 'top', '0');
         this.renderer.setElementStyle(this.fabRef, 'webkitTransform', 'scale3d(1,1,1)');
     }

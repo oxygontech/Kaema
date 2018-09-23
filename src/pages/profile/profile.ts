@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 
 
 import { LoginPage } from '../login/login';
@@ -24,7 +24,8 @@ import { Notifications } from '../../models/notifications';
 import { EventLoggerProvider } from '../../providers/event-logger/event-logger';
 import { ViewRatingPage } from '../view-rating/view-rating';
 
-
+import { PopoverController } from 'ionic-angular';
+import { SocialSharing } from '@ionic-native/social-sharing';
 
 /**
  * Generated class for the ProfilePage page.
@@ -87,7 +88,8 @@ export class ProfilePage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
        private afDatabase : AngularFireDatabase ,private afAuth:AngularFireAuth,public interfac: InterfaceProvider,
-      public camera :Camera,private storage: Storage,private alertCtrl:AlertController,private eventLogger :EventLoggerProvider) {
+      public camera :Camera,private storage: Storage,private alertCtrl:AlertController,
+      private eventLogger :EventLoggerProvider,public popoverCtrl: PopoverController) {
 
         
         let loader= this.interfac.presentLoadingDefault();
@@ -416,5 +418,95 @@ approveOrDecline(requestObj,updateStatus){
 
 }
 
+presentPopover(myEvent,post) {
+  let popover = this.popoverCtrl.create(PopoverPage,{post:post,parent:this});
+  popover.present({
+    ev: myEvent
+  });
+}
+
 
 }
+
+
+@Component({
+  template: `
+    <ion-list>
+      <ion-list-header>Post Options</ion-list-header>
+      <button ion-item (click)="delete()">Delete</button>
+      <button ion-item (click)="activate()">Activate</button>
+    </ion-list>
+  `
+})
+export class PopoverPage {
+
+  post :any;
+  parentPage :any;
+  constructor(public viewCtrl: ViewController,public navParams: NavParams,
+              private afDatabase : AngularFireDatabase,public interfac: InterfaceProvider,
+              private socialSharing: SocialSharing) {
+
+    if(this.navParams.get('post')!=null){
+       this.post=this.navParams.get('post');
+      
+    }
+
+    if( this.navParams.get('parent')!=null ){
+      this.parentPage=this.navParams.get('parent')
+    }
+  }
+
+  close() {
+    this.viewCtrl.dismiss();
+  }
+
+  delete() {
+    if(this.post!=null && this.post.status=='Y'){
+      this.afDatabase.object('post/'+this.post.postId).update({status:'D'});
+
+      if( this.parentPage!=null )
+      this.parentPage.loadPostList();
+
+      this.interfac.presentToast('The post has been deleted');
+      this.viewCtrl.dismiss();
+    }else if(this.post!=null && this.post.status!='Y'){
+      this.interfac.presentToast('The post cannot be deleted because it is not active');
+      this.viewCtrl.dismiss();
+    }else{
+      this.interfac.presentToast('An error occured');
+      this.viewCtrl.dismiss();
+    }
+    
+  }
+
+
+  activate() {
+    if(this.post!=null && this.post.status=='D'){
+      this.afDatabase.object('post/'+this.post.postId).update({status:'Y'});
+
+      if( this.parentPage!=null )
+      this.parentPage.loadPostList();
+
+      this.interfac.presentToast('The post has been activated');
+      this.viewCtrl.dismiss();
+    }else if(this.post!=null && this.post.status=='F'){
+      this.interfac.presentToast('The post cannot be activated,because there are no servings left');
+      this.viewCtrl.dismiss();
+    }else if(this.post!=null && this.post.status!='D'){
+      this.interfac.presentToast('The post cannot be activated,because it\'s already active');
+      this.viewCtrl.dismiss();
+    }else{
+      this.interfac.presentToast('An error occured');
+      this.viewCtrl.dismiss();
+    }
+    
+  }
+
+    shareSheetShare() {
+      this.socialSharing.share(this.post.subject, this.post.description, this.post.imageURL, "").then(() => {
+        console.log("shareSheetShare: Success");
+      }).catch(error => {
+        console.error(error);
+      });
+    }
+  }

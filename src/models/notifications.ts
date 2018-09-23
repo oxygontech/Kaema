@@ -12,5 +12,6 @@ export interface Notifications{
     userId :string;
     date :string;
     readStatus:string;
+    notify_status:string;
 
 }

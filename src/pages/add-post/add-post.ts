@@ -9,7 +9,6 @@ import { LoginPage } from '../login/login';
 import { MapViewPage } from '../map-view/map-view';
 
 
-
 import {AngularFireDatabase,FirebaseListObservable}  from 'angularfire2/database-deprecated';
 import {AngularFireAuth} from 'angularfire2/auth';
 
@@ -48,6 +47,8 @@ export class AddPostPage {
   locationImage:String;
 
   profile_stats={} as ProfileStats;
+  displayImgUrl =[];
+
 
   uploadImageOptions = [
     {
@@ -143,7 +144,7 @@ export class AddPostPage {
                  //this.servings_list.push({key:6,value:'More'});
 
                  loader.dismiss();
-
+                 
 /*this.afDatabase.object('admin_data/Servings').subscribe(result=>{
 
 
@@ -205,6 +206,7 @@ export class AddPostPage {
   actionSheet.present();
  }
 
+
 //using camera/gallery to upload image
   captureImage(imageOption){
     
@@ -213,7 +215,7 @@ export class AddPostPage {
       //based on options selected camera or gallery variable is selceted
       if(imageOption=='select'){
         this.eventLogger.buttonClickLogger('gallery_image');//analaytic data collection
-        imageType=this.camera.PictureSourceType.PHOTOLIBRARY;
+        imageType=this.camera.PictureSourceType.SAVEDPHOTOALBUM;
       }else{
         this.eventLogger.buttonClickLogger('camera_image');//analaytic data collection
         imageType=this.camera.PictureSourceType.CAMERA;
@@ -236,8 +238,9 @@ export class AddPostPage {
       this.camera.getPicture(cameraOptions).then((imageData) => {
         // imageData is either a base64 encoded string or a file URI
         // If it's base64:
-        this.imageURL = 'data:image/jpeg;base64,' + imageData;
+        //this.imageURL = 'data:image/jpeg;base64,' + imageData;
         this.isImageUploaded=true;
+        this.displayImgUrl.push('data:image/jpeg;base64,' + imageData);
         
       }, (err) => {
         // Handle error
@@ -275,12 +278,23 @@ export class AddPostPage {
 
     }
 
+    
+      
+    removeImage(image){
+      const index: number = this.displayImgUrl.indexOf(image);
+        if (index !== -1) { 
+            this.displayImgUrl.splice(index, 1); 
+
+            if(this.displayImgUrl.length==0){
+              this.isImageUploaded=false;
+            }
+        } else{
+          this.isImageUploaded=false;
+        }
+    }
+
     //saving the post data to firebase
     async savePost(){
-
-      
-  
-  
 
       if(this.validateInputs()){//check validity of inputs
 
@@ -302,9 +316,35 @@ export class AddPostPage {
       let postKey=postedRef.key;//getting the unique key generated
 
       //uploading image to firebase using provider firebase service
-      let uploadImage=await this.fireImageService.saveImage(postKey,'post/'+postKey,this.imageURL);
-      this.afDatabase.object('post/'+postKey).update({imageURL:uploadImage,postId:postKey})
+      let imgArray =[];
+      let displayImage :any;
+      let i=0;
+      let j=0;
+
+
       
+
+        for(let img of this.displayImgUrl ){
+
+               let uploadImage= await this.fireImageService.saveImage(postKey+'_'+i,'post/'+postKey,img)
+               i++;
+
+                    imgArray.push({img:uploadImage });
+
+                    if(j==0){
+                    displayImage=uploadImage;
+                    this.afDatabase.object('post/'+postKey).update({imageURL:displayImage})
+                    j++;
+                    }
+                    this.afDatabase.object('post/'+postKey).update({imageArray:imgArray,postId:postKey})
+                    
+                   
+          
+        }
+       
+         
+      
+     
 
       //updating user statistics
       this.profile_stats.post++;
@@ -326,7 +366,7 @@ export class AddPostPage {
 //loading maps page so that user can select the location
     setLocation(){
 
-     // this.navCtrl.push(MapViewPage);
+      //this.navCtrl.push(MapViewPage);
 
       this.diagnostic.isLocationEnabled().then(
         (isAvailable) => {

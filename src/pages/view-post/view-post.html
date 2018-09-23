@@ -66,14 +66,18 @@
        <ion-col col-1></ion-col>
    </ion-row> 
 
-   <ion-row>
-      <ion-col col-5 align='left'><ion-badge>Avaliable for {{this.post.daysAvailable}} Days</ion-badge></ion-col>
+   <ion-row *ngIf='this.post.status=="Y"'>
+      <ion-col col-5 align='left'><ion-badge>Available for {{this.post.daysAvailable}} Days</ion-badge></ion-col>
       <ion-col col-3 align='left'>
           <ion-badge *ngIf='servesRemaning>0'>{{this.servesRemaning}} Servings</ion-badge>
           <ion-badge *ngIf='servesRemaning<=0' color='danger'>{{this.servesRemaning}} Servings</ion-badge>
         </ion-col>
       <ion-col col-2 align='left'><ion-badge>Type : {{this.post.postType}}</ion-badge></ion-col>
       <ion-col col-2 ></ion-col>
+  </ion-row>
+
+  <ion-row *ngIf='this.post.status!="Y"'>
+    <ion-col col-12 align='left'><ion-badge color='danger'>Not Available</ion-badge></ion-col>
   </ion-row>
 
 
@@ -95,7 +99,7 @@
             </button>
       </ion-col>
 
-      <ion-col col-10 *ngIf='this.post?.userId==this.user?.uId' >
+      <ion-col col-10 align='center' *ngIf='this.post?.userId==this.user?.uId' >
            
           <button id='scanButton' class='summaryButtons' (click)='showQr()' *ngIf='showQrCode==false' ion-button icon-start>
               <ion-icon name="arrow-down"></ion-icon>

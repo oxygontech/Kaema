@@ -69,7 +69,62 @@ export class WebServiceProvider {
   }
 
 
+  async chatNotifications(chatMessageId,userId,name){
+
+    /*this.http.post('https://kaema.azurewebsites.net/service?userId='+this.user.uId)
+    .map(res => res.json())
+    .subscribe(data => {
+     console.log(data);
+    });*/
+
+
+    var headers = new Headers();
+    headers.append("Accept", 'application/json');
+    headers.append('Content-Type', 'application/json' );
+    let options = new RequestOptions({ headers: headers });
+    //console.log(chatMessageId);
+    let postParams = {
+      userId: userId,
+      chatMessage:chatMessageId,
+      userName:name
+    }
+    
+    await this.http.post(SERVICE_URL+"/chat_notify", postParams, options)
+      .subscribe(data => {
+        console.log(data['_body']);
+        return data;
+       }, error => {
+        console.log(error);// Error getting the data
+      });
+  }
    
+
+  async shareNotifications(userId){
+
+    /*this.http.post('https://kaema.azurewebsites.net/service?userId='+this.user.uId)
+    .map(res => res.json())
+    .subscribe(data => {
+     console.log(data);
+    });*/
+
+
+    var headers = new Headers();
+    headers.append("Accept", 'application/json');
+    headers.append('Content-Type', 'application/json' );
+    let options = new RequestOptions({ headers: headers });
+ 
+    let postParams = {
+      userId: userId
+    }
+    
+    await this.http.post(SERVICE_URL+"/notify", postParams, options)
+      .subscribe(data => {
+        console.log(data['_body']);
+        return data;
+       }, error => {
+        console.log(error);// Error getting the data
+      });
+  }
 
 
 }

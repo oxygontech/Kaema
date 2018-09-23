@@ -16,6 +16,8 @@ import { AlertController } from 'ionic-angular';
 import {AngularFireDatabase,FirebaseObjectObservable}  from 'angularfire2/database-deprecated';
 import { ChatPage } from '../chat/chat';
 import { User } from '../../models/user';
+import { CloudMessagingProvider } from '../../providers/cloud-messaging/cloud-messaging';
+import { InterfaceProvider } from '../../providers/interface/interface';
 
 
 
@@ -46,7 +48,8 @@ export class HomePage {
 
 
   constructor(public navCtrl: NavController, public navParams: NavParams,private afDatabase : AngularFireDatabase ,
-              private afAuth:AngularFireAuth,private storage: Storage,private alertCtrl:AlertController) {
+              private afAuth:AngularFireAuth,private storage: Storage,private alertCtrl:AlertController,
+              private messageProvider:CloudMessagingProvider,public interfac: InterfaceProvider) {
 
                 try{this.afAuth.authState.subscribe(result=>{
                   if(!result.uid){
@@ -56,6 +59,17 @@ export class HomePage {
               }catch(error){
                 this.navCtrl.setRoot(LoginPage);
               }
+
+           /*   this.messageProvider.getToken().then(()=>{
+                // Listen to incoming messages
+                this.messageProvider.listenToNotifications().subscribe(msg => {
+                  // show a toast
+                this.interfac.presentToast(msg.body)
+                })
+      
+          }).catch(error=>{
+            interfac.presentToast(error.message);
+          })*/
      
       }
 

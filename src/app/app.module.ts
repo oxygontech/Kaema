@@ -16,7 +16,7 @@ import {MonitorPage} from '../pages/monitor/monitor';
 import {MorePage} from '../pages/more/more';
 import {PostPage  } from "../pages/post/post";
 import {NotificationPage} from "../pages/notification/notification";
-import {ProfilePage} from "../pages/profile/profile";
+import {ProfilePage,PopoverPage} from "../pages/profile/profile";
 import {ImageViewPage} from "../pages/image-view/image-view";
 import { AddPostPage } from '../pages/add-post/add-post';
 import { MapViewPage } from '../pages/map-view/map-view';
@@ -43,6 +43,7 @@ import { FirebaseDatabaseServiceProvider } from '../providers/firebase-database-
 import { NgxQRCodeModule } from 'ngx-qrcode2';
 import {  HttpModule } from '@angular/http';
 import { WebServiceProvider } from '../providers/web-service/web-service';
+import { CloudMessagingProvider } from '../providers/cloud-messaging/cloud-messaging';
 import { FirebaseAnalytics } from '@ionic-native/firebase-analytics';
 
 import { GooglePlus } from '@ionic-native/google-plus';
@@ -51,7 +52,8 @@ import { HideFabDirective } from '../directives/hide-fab/hide-fab';
 import { Diagnostic } from '@ionic-native/diagnostic';
 
 import { Ionic2RatingModule } from 'ionic2-rating';
-
+import { Firebase } from '@ionic-native/firebase';
+import { SocialSharing } from '@ionic-native/social-sharing';
 
 
 @NgModule({
@@ -77,7 +79,8 @@ import { Ionic2RatingModule } from 'ionic2-rating';
     ChatMessagePage,
     HideFabDirective,
     UserRatingPage,
-    ViewRatingPage
+    ViewRatingPage,
+    PopoverPage
   ],
   imports: [
     BrowserModule,
@@ -113,7 +116,8 @@ import { Ionic2RatingModule } from 'ionic2-rating';
     ChatPage,
     ChatMessagePage,
     UserRatingPage,
-    ViewRatingPage
+    ViewRatingPage,
+    PopoverPage
   ],
   providers: [
     StatusBar,
@@ -131,7 +135,10 @@ import { Ionic2RatingModule } from 'ionic2-rating';
     GooglePlus,
     FirebaseAnalytics,
     EventLoggerProvider,
-    Diagnostic
+    Diagnostic,
+    Firebase,
+    CloudMessagingProvider,
+    SocialSharing
   ]
 })
 export class AppModule { }

@@ -7,4 +7,5 @@ export interface ChatMessage{
     sendDate   :String;
     sendTime   :String;
     readStatus :String;
+    notify_status:string;
 }

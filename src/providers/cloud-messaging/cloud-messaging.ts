@@ -1,6 +1,6 @@
-/*
+
 import { Injectable } from '@angular/core';
-//import { Firebase } from '@ionic-native/firebase';
+import { Firebase } from '@ionic-native/firebase';
 import { Platform } from 'ionic-angular';
 import {AngularFireDatabase}  from 'angularfire2/database-deprecated';
 import {AngularFireAuth} from 'angularfire2/auth';
@@ -10,7 +10,7 @@ import {AngularFireAuth} from 'angularfire2/auth';
   See https://angular.io/guide/dependency-injection for more info on providers
   and Angular DI.
 */
-/*
+
 @Injectable()
 export class CloudMessagingProvider {
 
@@ -27,13 +27,14 @@ export class CloudMessagingProvider {
   async getToken() { 
 
     let token;
-    console.log('Platform '+this.platform.is('android'));
-    await this.firebaseNative.grantPermission();
-  
-    if (this.platform.is('android')) {
+    //console.log('Platform '+this.platform.is('android'));
+    try {
+    
+   if (this.platform.is('android')) {
 
       await this.firebaseNative.getToken().then(tokenResult=>{
         token=tokenResult;
+        //console.log('Token '+tokenResult);
      }).catch(error=>console.log('token error'+error))
       
     } 
@@ -51,31 +52,40 @@ export class CloudMessagingProvider {
   
       console.log('Token '+token);
       return  this.saveTokenToFirebase(token)
+    }catch(error){
+      console.log(error);
+    } 
   }
 
   // Save the token to firestore
   private async saveTokenToFirebase(token) {
 
     if (!token) return;
-    let deviceRef=this.afDatabase.list(`device`);
+    let deviceRef=this.afDatabase.object('device/'+token);
 
    await this.afAuth.authState.subscribe(userResult=>{
       if(userResult.uid){
-        console.log('Message Provider '+userResult.uid);
+        //console.log('Message Provider '+userResult.uid);
         const deviceData = { 
           token,
           userId: userResult.uid,
          }
-        console.log(deviceData);
-        return deviceRef.push(deviceData);
+        //console.log(deviceData);
+       
+      try{
+        deviceRef.set(deviceData).then(result=>{
+          //console.log(result);
+          return result;
+        })
+
+      } catch(error){
+        //console.log(error);
+        return error;
+      }
             
           }
       });
   
-    
-
- 
-
 
   }
 
@@ -85,4 +95,4 @@ export class CloudMessagingProvider {
     return this.firebaseNative.onNotificationOpen()
   }
 
-}*/
+}

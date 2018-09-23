@@ -64,6 +64,7 @@
 
             </ion-refresher-content>
           </ion-refresher>
+          
               <div class='sorryTxt'  *ngIf='filteredLessPost?.length==0'>
                    <ion-grid>
                      <ion-row *ngIf='this.nearPostMsg=="Scanning for nearby Post"'>
@@ -79,6 +80,7 @@
                   </ion-grid>   
              </div>
               <ion-list>
+
                   <ion-item  *ngFor='let item of filteredLessPost'>
                     <ion-grid>
                        <ion-row>
@@ -87,8 +89,14 @@
 
 
                       <ion-row>
-                          <ion-col col-12 align='center'> <img (click)='viewPost(item)'  src= '{{item.imageURL}}' class='mainPostImg'></ion-col>
-                     </ion-row>
+                          <ion-col col-12 align='center'> 
+                             <ion-slides>
+                                 <ion-slide *ngFor='let image of item.imageArray'>
+                                     <img (click)='viewPost(item)'  src= '{{image.img}}' class='mainPostImg'>
+                                 </ion-slide>
+                             </ion-slides>
+                         </ion-col>
+                       </ion-row>
               
                      <ion-row>
                         <ion-col col-4 align='left'><ion-badge>Views  {{item?.views}}</ion-badge></ion-col>
@@ -123,8 +131,14 @@
   
   
                         <ion-row>
-                            <ion-col col-12 align='center'> <img (click)='viewPost(item)'  src= '{{item.imageURL}}' class='mainPostImg'></ion-col>
-                       </ion-row>
+                             <ion-col col-12 align='center'> 
+                                <ion-slides>
+                                    <ion-slide *ngFor='let image of item.imageArray'>
+                                        <img (click)='viewPost(item)'  src= '{{image.img}}' class='mainPostImg'>
+                                    </ion-slide>
+                                </ion-slides>
+                            </ion-col>
+                          </ion-row>
                 
                        <ion-row>
                           <ion-col col-4 align='left'><ion-badge>Views  {{item?.views}}</ion-badge></ion-col>
